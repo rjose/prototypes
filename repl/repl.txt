@@ -1,0 +1,34 @@
+REPL with status
+================
+Rino Jose <rjose@linkedin.com>
+v0.1, May 13, 2013: Initial version
+
+Overview
+--------
+We want to set up some threads in this app. One thread should be the main
+thread. This should wait for all the other threads. Another thread should be the
+repl. This should look and service requests. We should handle keyboard
+interrupts. C-c should cancel out of whatever command is executiong. C-d should
+exit the entire app.
+
+We should be able to simulate http and web socket requests. We should have a
+command that queries the number of threads and gets info on the number of active
+connections. We'll just mock this out here. Another prototype will explore that.
+
+Risk
+----
+The risk we're looking at here is making sure I know how to use pthreads
+properly. I guess I'll study an example from the pthreads book and make sure I
+know what I'm doing.
+
+To explore some testability, it would be nice if we could script the behavior of
+the app. This might be a follow-on prototype.
+
+Steps
+-----
+. From the main thread, create a REPL thread and join to it
+. Allocate some thread structures to point to active threads. Keep these in
+  sync.
+. Add some repl commands for simulating a request.
+. Add a repl command for reporting on the app status
+. Handle keyboard interrupts
