@@ -1,7 +1,7 @@
 Prototype: REPL with status
 ===========================
 Rino Jose <rjose@linkedin.com>
-v0.3, May 14, 2013: Added proto2
+v0.4, May 14, 2013: Added proto3
 
 Overview
 --------
@@ -31,11 +31,20 @@ Questions
 
 Steps
 -----
-. link:https://github.com/rjose/prototypes/tree/1480c5c61f503c66e3d6cd688e82b3b455eaf234[From the main thread, create a REPL thread and join to it]
-.
-link:https://github.com/rjose/prototypes/tree/aed0cff283ff824fd2e7497f3640c48a6686581b[REPL thread can handle some commands]
-. Add some repl commands for simulating a request.
+. link:https://github.com/rjose/prototypes/tree/1480c5c61f503c66e3d6cd688e82b3b455eaf234[From the main thread, create a REPL thread and join to it] [X]
+. link:https://github.com/rjose/prototypes/tree/aed0cff283ff824fd2e7497f3640c48a6686581b[REPL thread can handle some commands][X][X]
+. Add some repl commands for simulating an http request (thread unsafe) [X][X][X]
+. Refactor into modules
+. Add some repl commands for simulating an http request (thread safe)
+. Add some repl commands for simulating a websockets request.
 . Add a repl command for reporting on the app status
+. Use Objective-C objects instead of C structs
+
+Proto3
+~~~~~~
+What we'll do here is add a command for simulating an HTTP request. This
+should start a new thread that hangs out for 5 seconds, and then exits. We'll
+want to maintain a count of these.
 
 Coding Errors
 -------------
@@ -45,4 +54,14 @@ Coding Errors
     *** Missed an argument (thread attributes) to pthread_create
 
 * Proto2 (clean)
+
+* Proto3
+  ** Pass 1
+    *** Syntax error declaring array of pointers (C syntax error)
+    *** Needed -std=c99 flag to declare index in for loop
+    *** Forgot to declare a variable
+    *** Forgot to include unistd.h for sleep
+    *** Forgot nmemb argument for calloc
+    *** Runtime: crash after second or third request is done: Not checking for
+        null before accessing structure.
 
