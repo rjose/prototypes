@@ -31,9 +31,9 @@ Questions
 
 Steps
 -----
-. link:https://github.com/rjose/prototypes/tree/1480c5c61f503c66e3d6cd688e82b3b455eaf234[From the main thread, create a REPL thread and join to it] [X]
-. link:https://github.com/rjose/prototypes/tree/aed0cff283ff824fd2e7497f3640c48a6686581b[REPL thread can handle some commands][X][X]
-. Add some repl commands for simulating an http request (thread unsafe) [X][X][X]
+. link:https://github.com/rjose/prototypes/tree/1480c5[From the main thread, create a REPL thread and join to it] [X]
+. link:https://github.com/rjose/prototypes/tree/aed0cf[REPL thread can handle some commands][X][X]
+. link:https://github.com/rjose/prototypes/tree/0841ad[some repl commands for simulating an http request (thread unsafe)] [X][X][X]
 . Refactor into modules
 . Add some repl commands for simulating an http request (thread safe)
 . Add some repl commands for simulating a websockets request.
