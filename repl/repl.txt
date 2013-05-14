@@ -1,7 +1,7 @@
 Prototype: REPL with status
 ===========================
 Rino Jose <rjose@linkedin.com>
-v0.2, May 14, 2013: Added coding errors
+v0.3, May 14, 2013: Added proto2
 
 Overview
 --------
@@ -24,18 +24,25 @@ know what I'm doing.
 To explore some testability, it would be nice if we could script the behavior of
 the app. This might be a follow-on prototype.
 
+Questions
+~~~~~~~~~
+- How do we create a pthread_t dynamically?
+- How do signals and threads interact?
+
 Steps
 -----
-. From the main thread, create a REPL thread and join to it
-. Allocate some thread structures to point to active threads. Keep these in
-  sync.
+. link:https://github.com/rjose/prototypes/tree/1480c5c61f503c66e3d6cd688e82b3b455eaf234[From the main thread, create a REPL thread and join to it]
+.
+link:https://github.com/rjose/prototypes/tree/aed0cff283ff824fd2e7497f3640c48a6686581b[REPL thread can handle some commands]
 . Add some repl commands for simulating a request.
 . Add a repl command for reporting on the app status
-. Handle keyboard interrupts
 
 Coding Errors
 -------------
-- Proto1
-  - Pass 1
-    - Did not include header for *exit*
-    - Missed an argument (thread attributes) to pthread_create
+* Proto1
+  ** Pass 1
+    *** Did not include header for *exit*
+    *** Missed an argument (thread attributes) to pthread_create
+
+* Proto2 (clean)
+
