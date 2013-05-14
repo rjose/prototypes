@@ -1,7 +1,7 @@
-REPL with status
-================
+Prototype: REPL with status
+===========================
 Rino Jose <rjose@linkedin.com>
-v0.1, May 13, 2013: Initial version
+v0.2, May 14, 2013: Added coding errors
 
 Overview
 --------
@@ -32,3 +32,10 @@ Steps
 . Add some repl commands for simulating a request.
 . Add a repl command for reporting on the app status
 . Handle keyboard interrupts
+
+Coding Errors
+-------------
+- Proto1
+  - Pass 1
+    - Did not include header for *exit*
+    - Missed an argument (thread attributes) to pthread_create
