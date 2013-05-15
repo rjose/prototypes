@@ -26,7 +26,6 @@ the app. This might be a follow-on prototype.
 
 Questions
 ~~~~~~~~~
-- How do we create a pthread_t dynamically?
 - How do signals and threads interact?
 
 Steps
@@ -44,7 +43,13 @@ Proto3
 ~~~~~~
 What we'll do here is add a command for simulating an HTTP request. This
 should start a new thread that hangs out for 5 seconds, and then exits. We'll
-want to maintain a count of these.
+maintain an array of these thread requests.
+
+Proto4
+~~~~~~
+In this prototype, I just want to start breaking stuff into their own files.
+We should have all request threads be in one file. The repl should also be in
+its own file. The repl will include everything else.
 
 Coding Errors
 -------------
@@ -65,3 +70,7 @@ Coding Errors
     *** Runtime: crash after second or third request is done: Not checking for
         null before accessing structure.
 
+Thoughts
+--------
+We should try checking code in before we debug it so we can identify the
+errors that we fix afterwards.
