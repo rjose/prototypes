@@ -88,8 +88,24 @@ so it's an Objective-C class. We should use an NSDictionary to store the
 request threads. We'll just have a counter that increases for each thread. We
 need to set up an auto release pool.
 
+* Pass 1
+  ** Forgot to delete static declarations.
+  ** Undefined references to NSMutableDictionary, NSNumber, NSObject,
+     NSAutoreleasePool
+  ** Forgot to store key in RequestThread so it could be used in the cleanup
+     handler
+  ** Got errors passing argument "from distinct Objective-C type". Used
+     valueForKey instead of objectForKey.
+
+* Pass 2
+  ** Used self.key instead of self->key
+  ** Did not finish cleaning up removing of thread
+
+
 Coding Errors
 -------------
+TODO: Move these under each prototype
+
 * Proto1
   ** Pass 1
     *** Did not include header for *exit*

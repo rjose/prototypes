@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #import "request_threads.h"
 
+static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static NSMutableDictionary *g_threads = nil;
 
 @implementation RequestThread
@@ -14,42 +15,34 @@ static NSMutableDictionary *g_threads = nil;
 	}
 }
 
+// TODO: Free g_threads at some point
+
+- (id) initWithKey:(int) aKey
+{
+	self = [super init];
+	if (self) {
+		self->key = aKey;
+	}
+	return self;
+}
+
 - (pthread_t*) pthread_id
 {
 	return &thread_id;
 }
 @end
 
-/**
-  * Just something to hold a request thread ID. We'll convert this to an
-  * Objective-C class in an upcoming prototype
- */
-typedef struct request_thread_tag {
-	pthread_t thread_id;
-} request_thread_t;
-
 
 
 // Use this to refactor functions that set up request threads
 typedef void *simulated_handler_t(void *arg);
 
-/**
- * This stores all active request threads.
- */
-static request_thread_t *g_request_threads[3];
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 /**
  * Module functions for keeping track of our request threads. These are
  * low-level functions that assume the mutex is held before they are called.
  */
-static int get_free_slot();
-static void store_thread(int slot, request_thread_t *request);
-static int get_thread_slot(pthread_t* thread);
-static request_thread_t *remove_thread(int slot);
-static int get_num_thread_slots();
 static int simulate_request(simulated_handler_t handler);
-static int is_slot_invalid(int slot);
 
 
 /**
@@ -58,22 +51,17 @@ static int is_slot_invalid(int slot);
  *
  * Needs to hold the mutex.
  */
-static void cleanup_request_thread(void *arg)
+static void cleanup_request_thread(void *new_thread)
 {
 	pthread_t self_id = pthread_self();
+	RequestThread *request_thread = (RequestThread*) new_thread;
 
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
-	int slot = get_thread_slot(&self_id);
-	request_thread_t *my_request = remove_thread(slot);
+	[g_threads removeObjectForKey:[NSNumber numberWithInt:request_thread->key]];
 	pthread_mutex_unlock(&mutex);
 
-	if (my_request == NULL) {
-		fprintf(stderr, "Error removing request thread\n");
-		exit(1);
-	}
-
-	free(my_request);
+	// TODO: Check that the memory is freed properly
 }
 
 /**
@@ -81,9 +69,10 @@ static void cleanup_request_thread(void *arg)
  * want something that works for a while and then completes for the purposes of
  * testing thread management.
  */
-static void *simulated_http_handler(void *arg)
+// TODO: Document new_thread
+static void *simulated_http_handler(void *new_thread)
 {
-	pthread_cleanup_push(cleanup_request_thread, NULL);
+	pthread_cleanup_push(cleanup_request_thread, new_thread);
 	printf("Starting request\n");
 	sleep(5);
 	printf("Finishing request\n");
@@ -105,9 +94,9 @@ int simulate_http_request()
 	return simulate_request(simulated_http_handler);
 }
 
-static void *simulated_websocket_handler(void *arg)
+static void *simulated_websocket_handler(void *new_thread)
 {
-	pthread_cleanup_push(cleanup_request_thread, NULL);
+	pthread_cleanup_push(cleanup_request_thread, new_thread);
 	printf("Starting connection\n");
 	while(1) {
 		// Pretend that we're having a conversation
@@ -135,7 +124,7 @@ static int simulate_request(simulated_handler_t handler)
 	int status;
 	int result = next_thread_key;
 
-	RequestThread *new_thread = [[RequestThread alloc] init];
+	RequestThread *new_thread = [[RequestThread alloc] initWithKey:next_thread_key++];
 	
 	if (!new_thread) {
 		fprintf(stderr, "Problem allocating memory\n");
@@ -146,7 +135,7 @@ static int simulate_request(simulated_handler_t handler)
 
 
 	// This line is the only one that needs to be parameterized
-	status = pthread_create([new_thread pthread_id], NULL, handler, NULL);
+	status = pthread_create([new_thread pthread_id], NULL, handler, new_thread);
 	if (status != 0) {
 		fprintf(stderr, "Problem creating new_thread\n");
 		[new_thread release];
@@ -161,7 +150,8 @@ static int simulate_request(simulated_handler_t handler)
 	}
 
 	/* Everything good, so store the request thread */
-	[g_threads setValue:new_thread forKey:[NSNumber numberWithInt:next_thread_key++]]; 
+	[g_threads setObject:new_thread forKey:[NSNumber numberWithInt:new_thread->key]]; 
+	[new_thread release]; // g_threads owns it now
 
 exit:
 	/* Mutex is locked upfront, so need to unlock it before exit */
@@ -178,7 +168,7 @@ int kill_thread(int key)
 {
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
-	RequestThread *request_thread = [g_threads valueForKey:[NSNumber numberWithInt:key]];
+	RequestThread *request_thread = [g_threads objectForKey:[NSNumber numberWithInt:key]];
 	pthread_mutex_unlock(&mutex);
 
 	if (!request_thread) {

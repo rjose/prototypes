@@ -6,10 +6,13 @@
 {
 @public
 	pthread_t thread_id;
+	// TODO: Make this into an NSNumber and then add an accessor
+	int key;
 }
 
 + (void) initialize;
 
+- (id) initWithKey:(int) aKey;
 - (pthread_t*) pthread_id;
 @end
 
