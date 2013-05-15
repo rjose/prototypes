@@ -1,7 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#import "request_threads.h"
+#import "request_thread.h"
 
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static NSMutableDictionary *g_threads = nil;
@@ -17,13 +17,18 @@ static NSMutableDictionary *g_threads = nil;
 
 // TODO: Free g_threads at some point
 
-- (id) initWithKey:(int) aKey
+- (id) initWithKey:(NSNumber*) aKey
 {
 	self = [super init];
 	if (self) {
 		self->key = aKey;
 	}
 	return self;
+}
+
+- (NSNumber*) key
+{
+	return key;
 }
 
 - (pthread_t*) pthread_id
@@ -58,7 +63,7 @@ static void cleanup_request_thread(void *new_thread)
 
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
-	[g_threads removeObjectForKey:[NSNumber numberWithInt:request_thread->key]];
+	[g_threads removeObjectForKey:[request_thread key]];
 	pthread_mutex_unlock(&mutex);
 
 	// TODO: Check that the memory is freed properly
@@ -124,7 +129,8 @@ static int simulate_request(simulated_handler_t handler)
 	int status;
 	int result = next_thread_key;
 
-	RequestThread *new_thread = [[RequestThread alloc] initWithKey:next_thread_key++];
+	RequestThread *new_thread = [[RequestThread alloc]
+		initWithKey:[NSNumber numberWithInt:next_thread_key++]];
 	
 	if (!new_thread) {
 		fprintf(stderr, "Problem allocating memory\n");
@@ -150,7 +156,7 @@ static int simulate_request(simulated_handler_t handler)
 	}
 
 	/* Everything good, so store the request thread */
-	[g_threads setObject:new_thread forKey:[NSNumber numberWithInt:new_thread->key]]; 
+	[g_threads setObject:new_thread forKey:[new_thread key]]; 
 	[new_thread release]; // g_threads owns it now
 
 exit:

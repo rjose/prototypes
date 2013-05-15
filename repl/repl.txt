@@ -103,6 +103,14 @@ need to set up an auto release pool.
   ** Used self.key instead of self->key
   ** Did not finish cleaning up removing of thread
 
+Proto 9
+~~~~~~~
+We'll start by renaming request_threads to request_thread. Next, we'll use
+NSNumber for the key in RequestThread and add an accessor for it. After that,
+we'll clean up g_threads. After that we'll make the static methods for
+simulating requests into class methods.
+
+* Pass 1 (clean)
 
 Coding Errors
 -------------

@@ -1,18 +1,17 @@
-// TODO: Rename this file to request_thread.h
 #import <Foundation/Foundation.h>
 #include <pthread.h>
 
 @interface RequestThread : NSObject
 {
-@public
+@private
 	pthread_t thread_id;
-	// TODO: Make this into an NSNumber and then add an accessor
-	int key;
+	NSNumber* key;
 }
 
 + (void) initialize;
 
-- (id) initWithKey:(int) aKey;
+- (id) initWithKey:(NSNumber*) aKey;
+- (NSNumber*) key;
 - (pthread_t*) pthread_id;
 @end
 
