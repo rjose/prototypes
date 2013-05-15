@@ -37,7 +37,8 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/0841ad[some repl commands for
   simulating an http request (thread unsafe)] [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/7b2628[Refactor into modules] [X][X]
-. Add some repl commands for simulating an http request (thread safe) [X]
+. link:https://github.com/rjose/prototypes/tree/499eb0[Add some repl commands
+  for simulating an http request (thread safe)] [X]
 . Add some repl commands for simulating a websockets request.
 . Use Objective-C objects instead of C structs
 
