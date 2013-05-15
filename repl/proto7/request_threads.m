@@ -11,6 +11,11 @@ typedef struct request_thread_tag {
 	pthread_t thread_id;
 } request_thread_t;
 
+
+
+// Use this to refactor functions that set up request threads
+typedef void *simulated_handler_t(void *arg);
+
 /**
  * This stores all active request threads.
  */
@@ -26,6 +31,7 @@ static void store_thread(int slot, request_thread_t *request);
 static int get_thread_slot(pthread_t* thread);
 static request_thread_t *remove_thread(int slot);
 static int get_num_thread_slots();
+static int simulate_request(simulated_handler_t handler);
 
 
 /**
@@ -78,39 +84,7 @@ static void *simulated_http_handler(void *arg)
  */
 int simulate_http_request()
 {
-	/* Most of the function is a critical region */
-	pthread_mutex_lock(&mutex);
-
-	int status;
-	int result = 0;
-	int slot = get_free_slot();
-	if (slot < 0) {
-		result = -1;
-		goto exit;
-	}
-	result = slot;
-
-	request_thread_t *new_thread = calloc(1, sizeof(request_thread_t));
-	if (new_thread == NULL) {
-		fprintf(stderr, "Problem allocating memory\n");
-		result = -1;
-		goto exit;
-	}
-	status = pthread_create(&new_thread->thread_id, NULL, simulated_http_handler, NULL);
-	if (status != 0) {
-		fprintf(stderr, "Problem creating new_thread\n");
-		free(new_thread);
-		result = -1;
-		goto exit;
-	}
-
-	/* Everything good, so store the request thread */
-	store_thread(slot, new_thread);
-
-exit:
-	/* Mutex is locked upfront, so need to unlock it before exit */
-	pthread_mutex_unlock(&mutex);
-	return result;
+	return simulate_request(simulated_http_handler);
 }
 
 static void *simulated_websocket_handler(void *arg)
@@ -131,9 +105,8 @@ static void *simulated_websocket_handler(void *arg)
 	return NULL;
 }
 
-// TODO: Refactor to pull common pieces out of simulate_websocket_request and
-// simulate_http_request
-int simulate_websocket_request()
+
+static int simulate_request(simulated_handler_t handler)
 {
 	/* Most of the function is a critical region */
 	pthread_mutex_lock(&mutex);
@@ -153,8 +126,9 @@ int simulate_websocket_request()
 		result = -1;
 		goto exit;
 	}
+
 	// This line is the only one that needs to be parameterized
-	status = pthread_create(&new_thread->thread_id, NULL, simulated_websocket_handler, NULL);
+	status = pthread_create(&new_thread->thread_id, NULL, handler, NULL);
 	if (status != 0) {
 		fprintf(stderr, "Problem creating new_thread\n");
 		free(new_thread);
@@ -169,6 +143,11 @@ exit:
 	/* Mutex is locked upfront, so need to unlock it before exit */
 	pthread_mutex_unlock(&mutex);
 	return result;
+}
+
+int simulate_websocket_request()
+{
+	return simulate_request(simulated_websocket_handler);
 }
 
 /**

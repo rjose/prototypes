@@ -41,6 +41,7 @@ Steps
   for simulating an http request (thread safe)] [X]
 . link:https://github.com/rjose/prototypes/tree/b2b03a[Add some repl commands for
   simulating a websockets request] [X][X][X][X]
+. Refactor [][][]
 . Use Objective-C objects instead of C structs [][]
 
 Proto3
@@ -72,6 +73,13 @@ function we need to call to indicate this? Should check in prototype as soon
 as I make a copy so I'll know what I've changed.
 
 We need to make sure that once the threads are killed that their slot is free.
+
+Proto7
+~~~~~~
+This one is all about refactoring the code. I want to clean it up (all the
+duplication) before I go on. Ideally, I'd have a test suite to exercise this. 
+
+Let's start by refactoring the handlers first.
 
 Coding Errors
 -------------
@@ -129,6 +137,8 @@ Coding Errors
     *** Runtime: Should give user feedback when thread is killed
     *** Runtime: Change wording of simulating requests to not imply that it
         was done if it wasn't.
+
+* Proto7 (refactor simulated handler) (clean)
 
 Thoughts
 --------
