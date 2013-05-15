@@ -1,9 +1,25 @@
-#include <pthread.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#import "request_threads.h"
 
-// TODO: Rename this file to request
+static NSMutableDictionary *g_threads = nil;
+
+@implementation RequestThread
+
++ (void) initialize
+{
+	if (g_threads == nil) {
+		g_threads = [[NSMutableDictionary alloc] init];
+	}
+}
+
+- (pthread_t*) pthread_id
+{
+	return &thread_id;
+}
+@end
+
 /**
   * Just something to hold a request thread ID. We'll convert this to an
   * Objective-C class in an upcoming prototype
@@ -113,33 +129,39 @@ static int simulate_request(simulated_handler_t handler)
 	/* Most of the function is a critical region */
 	pthread_mutex_lock(&mutex);
 
-	int status;
-	int result = 0;
-	int slot = get_free_slot();
-	if (slot < 0) {
-		result = -1;
-		goto exit;
-	}
-	result = slot;
+	/* Used as a key into the g_threads dictionary */
+	static int next_thread_key = 0;
 
-	request_thread_t *new_thread = calloc(1, sizeof(request_thread_t));
-	if (new_thread == NULL) {
+	int status;
+	int result = next_thread_key;
+
+	RequestThread *new_thread = [[RequestThread alloc] init];
+	
+	if (!new_thread) {
 		fprintf(stderr, "Problem allocating memory\n");
 		result = -1;
 		goto exit;
 	}
 
+
+
 	// This line is the only one that needs to be parameterized
-	status = pthread_create(&new_thread->thread_id, NULL, handler, NULL);
+	status = pthread_create([new_thread pthread_id], NULL, handler, NULL);
 	if (status != 0) {
 		fprintf(stderr, "Problem creating new_thread\n");
-		free(new_thread);
+		[new_thread release];
+		result = -1;
+		goto exit;
+	}
+
+	if (!g_threads) {
+		fprintf(stderr, "g_threads was not initialized!\n");
 		result = -1;
 		goto exit;
 	}
 
 	/* Everything good, so store the request thread */
-	store_thread(slot, new_thread);
+	[g_threads setValue:new_thread forKey:[NSNumber numberWithInt:next_thread_key++]]; 
 
 exit:
 	/* Mutex is locked upfront, so need to unlock it before exit */
@@ -152,36 +174,29 @@ int simulate_websocket_request()
 	return simulate_request(simulated_websocket_handler);
 }
 
-/**
- * Kills thread at slot. Returns 0 on success; -1 otherwise. The cleanup of
- * the thread slot should happen via the cleanup handler.
- */
-int kill_thread(int slot)
+int kill_thread(int key)
 {
-	if (is_slot_invalid(slot))
-		return -1;
-
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
-	request_thread_t *request_thread = g_request_threads[slot];
+	RequestThread *request_thread = [g_threads valueForKey:[NSNumber numberWithInt:key]];
 	pthread_mutex_unlock(&mutex);
 
-	if (request_thread == NULL) {
+	if (!request_thread) {
 		return -1;
 	}
 
 	/* Detach so we don't have to wait for the thread to finish */
-	if (pthread_detach(request_thread->thread_id) != 0) {
-		fprintf(stderr, "Problem detaching thread at slot: %d\n", slot);
+	if (pthread_detach(*[request_thread pthread_id]) != 0) {
+		fprintf(stderr, "Problem detaching thread at key: %d\n", key);
 		return -1;
 	}
 
-	if (pthread_cancel(request_thread->thread_id) != 0) {
-		fprintf(stderr, "Problem canceling thread at slot: %d\n", slot);
+	if (pthread_cancel(*[request_thread pthread_id]) != 0) {
+		fprintf(stderr, "Problem canceling thread at key: %d\n", key);
 		return -1;
 	}
 
-	return slot;
+	return key;
 }
 
 /******************************************************************************
@@ -190,77 +205,5 @@ int kill_thread(int slot)
 
 int get_num_active_requests()
 {
-	int result = 0;
-	int num_slots = get_num_thread_slots();
-
-	for (int i=0; i < num_slots; i++) {
-		if (g_request_threads[i] != NULL)
-			result++;
-	}
-	return result;
-}
-
-// Returns 1 if slot is out of range; 0 otherwise.
-static int is_slot_invalid(int slot)
-{
-	if (slot < 0 || slot >= get_num_thread_slots()) {
-		fprintf(stderr, "Slot out of range: %d\n", slot);
-		return 1;
-	}
-	return 0;
-}
-
-
-
-static int get_num_thread_slots()
-{
-	return sizeof(g_request_threads)/sizeof(g_request_threads[0]);
-}
-
-// Returns index of next available slot; -1 if there isn't one
-static int get_free_slot()
-{
-	int num_slots = get_num_thread_slots();
-
-	for (int i=0; i < num_slots; i++) {
-		if (g_request_threads[i] == NULL) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-// Returns index where thread was stored; -1 if couldn't be found.
-static int get_thread_slot(pthread_t* thread)
-{
-	int num_slots = get_num_thread_slots();
-
-	for (int i=0; i < num_slots; i++) {
-		if (g_request_threads[i] != NULL &&
-		    pthread_equal(*thread, g_request_threads[i]->thread_id)) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-// Stores a thread in one of our slots
-static void store_thread(int slot, request_thread_t *request)
-{
-	if (is_slot_invalid(slot))
-		return;
-
-	g_request_threads[slot] = request;
-}
-
-// Returns thread at slot and nulls out slot. If error, returns NULL.
-static request_thread_t *remove_thread(int slot)
-{
-	if (is_slot_invalid(slot))
-		return NULL;
-
-	request_thread_t *result = g_request_threads[slot];
-	g_request_threads[slot] = NULL;
-
-	return result;
+	return (int) ([g_threads count]);
 }

@@ -42,7 +42,7 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/b2b03a[Add some repl commands for
   simulating a websockets request] [X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
-. Use Objective-C objects instead of C structs [][]
+. Use Objective-C objects instead of C structs [X][X][][][]
 
 Proto3
 ~~~~~~
@@ -80,6 +80,13 @@ This one is all about refactoring the code. I want to clean it up (all the
 duplication) before I go on. Ideally, I'd have a test suite to exercise this. 
 
 Let's start by refactoring the handlers first.
+
+Proto 8
+~~~~~~~
+We want to replace the struct that holds the pthread_t for the request thread
+so it's an Objective-C class. We should use an NSDictionary to store the
+request threads. We'll just have a counter that increases for each thread. We
+need to set up an auto release pool.
 
 Coding Errors
 -------------
