@@ -69,6 +69,14 @@ Coding Errors
     *** Forgot nmemb argument for calloc
     *** Runtime: crash after second or third request is done: Not checking for
         null before accessing structure.
+* Proto4
+  ** Pass 1
+    *** Undefined reference to repl_routine (sources not ordered properly in
+        Makefile)
+    *** Rearranged code in request_threads.m but did not order dependencies
+        correctly
+    *** Used makefile variable $< incorrectly
+    *** Forgot to define request_thread_t in request_threads.h
 
 Thoughts
 --------

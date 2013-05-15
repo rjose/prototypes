@@ -33,7 +33,7 @@ void *repl_routine(void *arg)
 
 			case 'r':
 				printf("Simulate handling of HTTP request\n");
-				if (simulate_http_request() == NULL) {
+				if (simulate_http_request() < 0) {
 					fprintf(stderr, "Too many request threads\n");
 				}
 				break;

@@ -3,6 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+  * Just something to hold a request thread ID. We'll convert this to an
+  * Objective-C class in an upcoming prototype
+ */
+typedef struct request_thread_tag {
+	pthread_t thread_id;
+} request_thread_t;
+
 // TODO: Guard this with a mutex
 /**
  * This stores all active request threads.
@@ -17,13 +25,6 @@ static void store_thread(int slot, request_thread_t *request);
 static int get_thread_slot(pthread_t* thread);
 static request_thread_t *remove_thread(int slot);
 
-/**
-  * Just something to hold a request thread ID. We'll convert this to an
-  * Objective-C class in an upcoming prototype
- */
-typedef struct request_thread_tag {
-	pthread_t thread_id;
-} request_thread_t;
 
 /**
  * When a thread completes or is canceled, it needs to remove itself from
@@ -63,31 +64,33 @@ static void *simulated_http_handler(void *arg)
  * This just spins up a thread to simulate the handling of an HTTP request. The
  * thread sleeps for a while and then returns. Each thread takes up a slot in
  * *g_request_threads*
+ *
+ * If thread was created, returns 0; otherwise, returns -1.
  */
-request_thread_t *simulate_http_request()
+int simulate_http_request()
 {
 	int status;
 	// TODO: Lock mutex here
 	int slot = get_free_slot();
 	if (slot < 0)
-		return NULL;
+		return -1;
 
 	request_thread_t *new_thread = calloc(1, sizeof(request_thread_t));
 	if (new_thread == NULL) {
 		fprintf(stderr, "Problem allocating memory\n");
-		return NULL;
+		return -1;
 	}
 	status = pthread_create(&new_thread->thread_id, NULL, simulated_http_handler, NULL);
 	if (status != 0) {
 		fprintf(stderr, "Problem creating new_thread\n");
 		free(new_thread);
-		return NULL;
+		return -1;
 	}
 
 	store_thread(slot, new_thread);
 	// TODO: Unlock mutex
 
-	return new_thread;
+	return 0;
 }
 
 

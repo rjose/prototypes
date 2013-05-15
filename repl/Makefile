@@ -1,4 +1,6 @@
-proto4.out: proto4
+proto4.out: request_threads.m repl.m proto4.m 
+	gcc -g -std=c99 -o $@ $^ -pthread -lobjc
+
 
 proto3.out: proto3.m
 	gcc -g -std=c99 -o proto3.out proto3.m -pthread -lobjc
