@@ -42,7 +42,9 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/b2b03a[Add some repl commands for
   simulating a websockets request] [X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
-. Use Objective-C objects instead of C structs [X][X][][][]
+. link:https://github.com/rjose/prototypes/tree/da9eef[Use Objective-C
+  objects instead of C structs] [X][X][X][X]
+. Refactor to clean up Objective-C usage
 
 Proto3
 ~~~~~~
