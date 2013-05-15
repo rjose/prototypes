@@ -32,6 +32,7 @@ static int get_thread_slot(pthread_t* thread);
 static request_thread_t *remove_thread(int slot);
 static int get_num_thread_slots();
 static int simulate_request(simulated_handler_t handler);
+static int is_slot_invalid(int slot);
 
 
 /**
@@ -156,11 +157,8 @@ int simulate_websocket_request()
  */
 int kill_thread(int slot)
 {
-	// TODO: Refactor to pull this out into its own function
-	if (slot < 0 || slot >= get_num_thread_slots()) {
-		fprintf(stderr, "Slot out of range: %d\n", slot);
+	if (is_slot_invalid(slot))
 		return -1;
-	}
 
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
@@ -201,6 +199,18 @@ int get_num_active_requests()
 	return result;
 }
 
+// Returns 1 if slot is out of range; 0 otherwise.
+static int is_slot_invalid(int slot)
+{
+	if (slot < 0 || slot >= get_num_thread_slots()) {
+		fprintf(stderr, "Slot out of range: %d\n", slot);
+		return 1;
+	}
+	return 0;
+}
+
+
+
 static int get_num_thread_slots()
 {
 	return sizeof(g_request_threads)/sizeof(g_request_threads[0]);
@@ -236,23 +246,20 @@ static int get_thread_slot(pthread_t* thread)
 // Stores a thread in one of our slots
 static void store_thread(int slot, request_thread_t *request)
 {
-	if (slot < 0 || slot >= get_num_thread_slots()) {
-		fprintf(stderr, "Slot out of range: %d\n", slot);
+	if (is_slot_invalid(slot))
 		return;
-	}
+
 	g_request_threads[slot] = request;
 }
 
 // Returns thread at slot and nulls out slot. If error, returns NULL.
 static request_thread_t *remove_thread(int slot)
 {
-	if (slot < 0 || slot >= get_num_thread_slots()) {
-		fprintf(stderr, "Slot out of range: %d\n", slot);
+	if (is_slot_invalid(slot))
 		return NULL;
-	}
+
 	request_thread_t *result = g_request_threads[slot];
 	g_request_threads[slot] = NULL;
 
 	return result;
 }
-
