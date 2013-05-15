@@ -39,8 +39,8 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/7b2628[Refactor into modules] [X][X]
 . link:https://github.com/rjose/prototypes/tree/499eb0[Add some repl commands
   for simulating an http request (thread safe)] [X]
-. Add some repl commands for simulating a websockets request.
-. Use Objective-C objects instead of C structs
+. Add some repl commands for simulating a websockets request. [X][X][X][X]
+. Use Objective-C objects instead of C structs [][]
 
 Proto3
 ~~~~~~
@@ -58,6 +58,20 @@ Proto5
 ~~~~~~
 I'm going to create a static mutex to guard the request threads array. Need to
 automate the routines I use to exercise this.
+
+Proto6
+~~~~~~
+This one will be different because we'll be adding threads that won't finish
+until we kill them. We need a repl command to add them and to kill them. We
+need to scan the command again in the repl and pull out the thread slot. We
+need a new function that can kill a thread in a slot and NULL its slot out.
+
+We need to make sure our socket threads can be canceled. Is there some
+function we need to call to indicate this? Should check in prototype as soon
+as I make a copy so I'll know what I've changed.
+
+We need to make sure that once the threads are killed that their slot is free.
+After all prototypes are done, I should write a checklist for myself.
 
 Coding Errors
 -------------
@@ -87,6 +101,34 @@ Coding Errors
     *** Forgot to define request_thread_t in request_threads.h
 
 * Proto5 (clean)
+
+* Proto6
+  ** Pass 1
+    *** Forgot to put static function ahead of use (get_num_thread_slots). I
+        should just declare all static functions at the top of the file.
+    *** Returned without value (checking number of slots). Should have
+        refactored to pull this check out as a separate function first.
+    *** Pulled out code from loop, but missed local variables (like slot and
+        line_buffer)
+    *** When pulling code out of loop, forgot to declare its return value and
+        hook up.
+
+  ** Pass 2
+    *** Did not change declaration of handle_command after changing
+        implementation
+    *** Pulled out code from loop, but missed local variables (like status). I
+        should've fixed this in Pass 1.
+    *** Runtime: Shouldn't print connection started for websocket if no slot.
+        Forgot a return from the command handler function.
+    *** Runtime: Function for scanning command didn't work. Didn't bring local
+        variable across (line_buffer).
+    *** Runtime: Killing thread gave me a request out of range. Didn't allow
+        cleanup to happen via pthread cleanup handler.
+
+  ** Pass 3
+    *** Runtime: Should give user feedback when thread is killed
+    *** Runtime: Change wording of simulating requests to not imply that it
+        was done if it wasn't.
 
 Thoughts
 --------

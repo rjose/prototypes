@@ -2,11 +2,11 @@
 #include <pthread.h>
 #import "request_threads.h"
 
-static void handle_command(char command);
+static int handle_command(char command);
+static char g_line_buffer[80];
 
 void *repl_routine(void *arg)
 {
-	char line_buffer[80];
 	char command;
 	int status;
 	int quit = 0;
@@ -17,19 +17,19 @@ void *repl_routine(void *arg)
 		printf("> ");
 
 		// Read input
-		if (fgets(line_buffer, sizeof(line_buffer), stdin) == NULL) {
+		if (fgets(g_line_buffer, sizeof(g_line_buffer), stdin) == NULL) {
 			printf("EOF\n");
 			fprintf(stderr, "Got an EOF. Shutting down...\n");
 			break;
 		}
-		if (status = sscanf(line_buffer, "%c", &command) < 1) {
+		if (status = sscanf(g_line_buffer, "%c", &command) < 1) {
 			// If run into trouble, try again
 			fprintf(stderr, "Trouble scanning line. status: %d\n", status);
 			continue;
 		}
 
 		// Eval
-		handle_command(command);
+		quit = handle_command(command);
 
 	}
 
@@ -40,8 +40,10 @@ void *repl_routine(void *arg)
 /**
  * Returns 1 if should quit; 0 otherwise.
  */
-static void handle_command(char command)
+static int handle_command(char command)
 {
+	int slot;
+
 	// Do something with input
 	switch(command) {
 		// Status
@@ -51,7 +53,6 @@ static void handle_command(char command)
 
 		// Simulate http request
 		case 'r':
-			printf("Simulate handling of HTTP request\n");
 			if (simulate_http_request() < 0) {
 				fprintf(stderr, "Too many request threads\n");
 			}
@@ -59,23 +60,25 @@ static void handle_command(char command)
 
 		// Simulate websocket request
 		case 'w':
-			printf("Simulate handling of websocket request\n");
 			if ( (slot = simulate_websocket_request() ) < 0) {
 				fprintf(stderr, "Too many request threads\n");
+				return 0;
 			}
 			printf("Websocket connection started at: %d\n", slot);
 			break;
 
 		// Kill a request thread
 	       case 'k':
-			if (status = sscanf(line_buffer, "k %d", &slot) < 1) {
-				fprintf(stderr, "k <integer>\n");
+			if (sscanf(g_line_buffer, "k %d", &slot) < 1) {
+				fprintf(stderr, "Usage: k <integer>\n");
 				return 0;
 			}
 			if (kill_thread(slot) < 0) {
 				fprintf(stderr, "Problem killing thread at slot %d\n",
 						slot);
+				return 0;
 			}
+			printf("Killed request thread at slot: %d\n", slot);
 			break;
 
 		// Quit program

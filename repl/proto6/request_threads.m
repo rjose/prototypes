@@ -25,6 +25,7 @@ static int get_free_slot();
 static void store_thread(int slot, request_thread_t *request);
 static int get_thread_slot(pthread_t* thread);
 static request_thread_t *remove_thread(int slot);
+static int get_num_thread_slots();
 
 
 /**
@@ -171,21 +172,20 @@ exit:
 }
 
 /**
- * Kills thread at slot and then nulls out the slot. Returns 0 on success; -1
- * otherwise.
+ * Kills thread at slot. Returns 0 on success; -1 otherwise. The cleanup of
+ * the thread slot should happen via the cleanup handler.
  */
 int kill_thread(int slot)
 {
 	// TODO: Refactor to pull this out into its own function
 	if (slot < 0 || slot >= get_num_thread_slots()) {
 		fprintf(stderr, "Slot out of range: %d\n", slot);
-		return;
+		return -1;
 	}
 
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
 	request_thread_t *request_thread = g_request_threads[slot];
-	g_request_threads[slot] = NULL;
 	pthread_mutex_unlock(&mutex);
 
 	if (request_thread == NULL) {
