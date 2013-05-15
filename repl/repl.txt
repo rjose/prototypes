@@ -30,13 +30,15 @@ Questions
 
 Steps
 -----
-. link:https://github.com/rjose/prototypes/tree/1480c5[From the main thread, create a REPL thread and join to it] [X]
-. link:https://github.com/rjose/prototypes/tree/aed0cf[REPL thread can handle some commands][X][X]
-. link:https://github.com/rjose/prototypes/tree/0841ad[some repl commands for simulating an http request (thread unsafe)] [X][X][X]
-. Refactor into modules [X]
-. Add some repl commands for simulating an http request (thread safe)
+. link:https://github.com/rjose/prototypes/tree/1480c5[From the main thread,
+  create a REPL thread and join to it] [X]
+. link:https://github.com/rjose/prototypes/tree/aed0cf[REPL thread can handle
+  some commands][X][X]
+. link:https://github.com/rjose/prototypes/tree/0841ad[some repl commands for
+  simulating an http request (thread unsafe)] [X][X][X]
+. link:https://github.com/rjose/prototypes/tree/7b2628[Refactor into modules] [X][X]
+. Add some repl commands for simulating an http request (thread safe) [X]
 . Add some repl commands for simulating a websockets request.
-. Add a repl command for reporting on the app status
 . Use Objective-C objects instead of C structs
 
 Proto3
@@ -50,6 +52,11 @@ Proto4
 In this prototype, I just want to start breaking stuff into their own files.
 We should have all request threads be in one file. The repl should also be in
 its own file. The repl will include everything else.
+
+Proto5
+~~~~~~
+I'm going to create a static mutex to guard the request threads array. Need to
+automate the routines I use to exercise this.
 
 Coding Errors
 -------------
@@ -77,6 +84,8 @@ Coding Errors
         correctly
     *** Used makefile variable $< incorrectly
     *** Forgot to define request_thread_t in request_threads.h
+
+* Proto5 (clean)
 
 Thoughts
 --------
