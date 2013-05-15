@@ -17,6 +17,7 @@ int main(int argc, char *argv[])
 
 	// Create REPL thread
 	pthread_t repl_thread_id;
+	// TODO: Rename repl_routine to repl_thread
 	status = pthread_create(&repl_thread_id, NULL, repl_routine, NULL);
 	if (status != 0)
 		err_abort(status, "Create thread");

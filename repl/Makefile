@@ -1,3 +1,5 @@
+proto4.out: proto4
+
 proto3.out: proto3.m
 	gcc -g -std=c99 -o proto3.out proto3.m -pthread -lobjc
 
