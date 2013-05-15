@@ -41,7 +41,7 @@ Steps
   for simulating an http request (thread safe)] [X]
 . link:https://github.com/rjose/prototypes/tree/b2b03a[Add some repl commands for
   simulating a websockets request] [X][X][X][X]
-. Refactor [][][]
+. link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
 . Use Objective-C objects instead of C structs [][]
 
 Proto3
