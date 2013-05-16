@@ -8,10 +8,11 @@
 	NSNumber* key;
 }
 
-+ (void) initialize;
++ (void) allocateStaticVariables;
 + (int) getNumActiveRequests;
 + (int) simulateHttpRequest;
 + (int) simulateWebsocketRequest;
++ (void) releaseStaticVariables;
 
 // Returns old key if successful; -1 otherwise.
 + (int) killThread:(int) key;

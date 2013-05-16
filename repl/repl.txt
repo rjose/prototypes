@@ -44,7 +44,7 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
 . link:https://github.com/rjose/prototypes/tree/da9eef[Use Objective-C
   objects instead of C structs] [X][X][X][X]
-. Refactor to clean up Objective-C usage [X][][]
+. Refactor to clean up Objective-C usage [X][X][X][X]
 
 Proto3
 ~~~~~~
@@ -103,12 +103,20 @@ need to set up an auto release pool.
   ** Used self.key instead of self->key
   ** Did not finish cleaning up removing of thread
 
+* Pass 3
+  ** Forgot closing brace on a function
+  ** Forgot to save file
+  ** Runtime: Seg fault when quitting.
+
+
 Proto 9
 ~~~~~~~
 We'll start by renaming request_threads to request_thread. Next, we'll use
-NSNumber for the key in RequestThread and add an accessor for it. After that,
-we'll clean up g_threads. After that we'll make the static methods for
-simulating requests into class methods.
+NSNumber for the key in RequestThread and add an accessor for it. After that
+we'll make the static methods for simulating requests into class methods.
+After that, we'll clean up g_threads. The last bit of cleanup will be to
+cancel all active requests when quitting. I also want to document some of the
+functions before we close out.
 
 * Pass 1 (clean)
 * Pass 2

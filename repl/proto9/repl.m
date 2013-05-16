@@ -10,7 +10,9 @@ void *repl_routine(void *arg)
 	char command;
 	int status;
 	int quit = 0;
-	int slot;
+
+	/* Need to allocate static variables for RequestThread */
+	[RequestThread allocateStaticVariables];
 
 	while (!quit) {
 		// Prompt
@@ -22,7 +24,7 @@ void *repl_routine(void *arg)
 			fprintf(stderr, "Got an EOF. Shutting down...\n");
 			break;
 		}
-		if (status = sscanf(g_line_buffer, "%c", &command) < 1) {
+		if ((status = sscanf(g_line_buffer, "%c", &command)) < 1) {
 			// If run into trouble, try again
 			fprintf(stderr, "Trouble scanning line. status: %d\n", status);
 			continue;
@@ -33,7 +35,8 @@ void *repl_routine(void *arg)
 
 	}
 
-	// TODO: Clean up all threads
+	/* Don't forget to release static variables! */
+	[RequestThread releaseStaticVariables];
 	return NULL;
 }
 

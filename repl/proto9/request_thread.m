@@ -22,7 +22,7 @@ static void cleanup_request_thread(void *new_thread);
  **/
 @implementation RequestThread
 
-+ (void) initialize
++ (void) allocateStaticVariables
 {
 	if (g_threads == nil) {
 		g_threads = [[NSMutableDictionary alloc] init];
@@ -37,7 +37,6 @@ static void cleanup_request_thread(void *new_thread);
 	return (int) ([g_threads count]);
 }
 
-// TODO: Free g_threads at some point
 
 /**
  * This just spins up a thread to simulate the handling of an HTTP request. The
@@ -56,6 +55,7 @@ static void cleanup_request_thread(void *new_thread);
 {
 	return simulate_request(simulated_websocket_handler);
 }
+
 
 + (int) killThread:(int) key
 {
@@ -82,7 +82,10 @@ static void cleanup_request_thread(void *new_thread);
 	return key;
 }
 
-
++ (void) releaseStaticVariables
+{
+	[g_threads release];
+}
 
 - (id) initWithKey:(NSNumber*) aKey
 {
@@ -111,29 +114,28 @@ static void cleanup_request_thread(void *new_thread);
 
 /**
  * When a thread completes or is canceled, it needs to remove itself from
- * *g_request_threads*.
+ * *g_request_threads*. The *new_thread* argument is the RequestThread that
+ * will be cleaning up when it's done.
  *
  * Needs to hold the mutex.
  */
 static void cleanup_request_thread(void *new_thread)
 {
-	pthread_t self_id = pthread_self();
 	RequestThread *request_thread = (RequestThread*) new_thread;
 
 	/* Critical region */
 	pthread_mutex_lock(&mutex);
 	[g_threads removeObjectForKey:[request_thread key]];
 	pthread_mutex_unlock(&mutex);
-
-	// TODO: Check that the memory is freed properly
 }
 
 /**
  * Simulates the behavior of an HTTP request from a timing perspective. We just
  * want something that works for a while and then completes for the purposes of
- * testing thread management.
+ * testing thread management. The *new_thread* argument is the newly created
+ * RequestThread. We pass this to the cleanup handler so it can remove the
+ * RequestThread when we're done.
  */
-// TODO: Document new_thread
 static void *simulated_http_handler(void *new_thread)
 {
 	pthread_cleanup_push(cleanup_request_thread, new_thread);
@@ -145,6 +147,10 @@ static void *simulated_http_handler(void *new_thread)
 }
 
 
+/**
+ * This spins up a thread that pretends to have a long-lived websocket
+ * connection.
+ */
 static void *simulated_websocket_handler(void *new_thread)
 {
 	pthread_cleanup_push(cleanup_request_thread, new_thread);
@@ -157,13 +163,18 @@ static void *simulated_websocket_handler(void *new_thread)
 		pthread_testcancel();
 	}
 
-	// I don't think we ever get here. I should verify this.
+	// We should never get here.
 	fprintf(stderr, "We shouldn't get here\n");
 	pthread_cleanup_pop(1);
 	return NULL;
 }
 
 
+/**
+ * This is used to simulate http and websocket requests. It creates the
+ * threads and stores the thread ID in a RequestThread which is then stored in
+ * g_threads to keep track of which requests are active.
+ */
 static int simulate_request(simulated_handler_t handler)
 {
 	/* Most of the function is a critical region */
@@ -183,9 +194,7 @@ static int simulate_request(simulated_handler_t handler)
 		result = -1;
 		goto exit;
 	}
-
-
-
+	
 	// This line is the only one that needs to be parameterized
 	status = pthread_create([new_thread pthread_id], NULL, handler, new_thread);
 	if (status != 0) {
@@ -203,7 +212,7 @@ static int simulate_request(simulated_handler_t handler)
 
 	/* Everything good, so store the request thread */
 	[g_threads setObject:new_thread forKey:[new_thread key]]; 
-	[new_thread release]; // g_threads owns it now
+	[new_thread release]; /* g_threads owns it now, so can release */
 
 exit:
 	/* Mutex is locked upfront, so need to unlock it before exit */
