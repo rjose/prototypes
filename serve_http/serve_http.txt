@@ -1,0 +1,27 @@
+Serve HTTP Request
+==================
+Rino Jose <rjose@linkedin.com>
+v0.1, May 16, 2013: Initial version
+
+Overview
+--------
+In any tool that I put together, we _will_ need to have a web interface, even if
+it's read-only. There has to be some way for other people to see what's going on
+in the tool. Ultimately, the architecture for a productionized tool will have
+its own web server components. What I want to figure out in this prototype is
+how to handle a basic GET request and serve a page.
+
+Risk
+----
+The risk here is that I'm not sure how all of the HTTP protocol steps work. I
+want to figure out how to establish a TCP connection with a client and start
+sending data over it. We'll start with a simple echo and then move up to a point
+where we can connect with curl and then a browser.
+
+Protos
+------
+. Echo data to telnet
+. Display an HTTP request from curl
+. Parse HTTP request into headers and a body
+. Respond with headers and an empty body
+. Respond with a page
