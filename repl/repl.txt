@@ -190,6 +190,7 @@ segfaulting when using some of the NSDictionary functions.
 
 Stats
 -----
+.Errors
 [options="header",width="75%"]
 |====
 | Category | Description |Count
@@ -205,6 +206,15 @@ dependencies | 11
 info in object that was needed later | 3
 | Usability sloppiness |poor feedback from operations | 2
 | Editor sloppiness |forgot to save file | 1
+|====
+
+.Effort
+[options="header",width="75%"]
+|====
+| Type | Pomodoros (20 min) | Effort (h) | Duration (d)
+| Average daily effort | 8.5 | 3 | 1
+| Max daily effort | 13 | 4.25 | 1
+| Total effort | 23 | 7.5 | 3.5
 |====
 
 
