@@ -48,19 +48,19 @@ static int handle_command(char command)
 	switch(command) {
 		// Status
 		case 's':
-			printf("Num active requests: %d\n", get_num_active_requests());
+			printf("Num active requests: %d\n", [RequestThread getNumActiveRequests]);
 			break;
 
 		// Simulate http request
 		case 'r':
-			if (simulate_http_request() < 0) {
+			if ([RequestThread simulateHttpRequest] < 0) {
 				fprintf(stderr, "Too many request threads\n");
 			}
 			break;
 
 		// Simulate websocket request
 		case 'w':
-			if ( (slot = simulate_websocket_request() ) < 0) {
+			if ( (slot = [RequestThread simulateWebsocketRequest] ) < 0) {
 				fprintf(stderr, "Too many request threads\n");
 				return 0;
 			}
@@ -73,7 +73,7 @@ static int handle_command(char command)
 				fprintf(stderr, "Usage: k <integer>\n");
 				return 0;
 			}
-			if (kill_thread(slot) < 0) {
+			if ([RequestThread killThread:slot] < 0) {
 				fprintf(stderr, "Problem killing thread at slot %d\n",
 						slot);
 				return 0;

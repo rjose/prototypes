@@ -44,7 +44,7 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
 . link:https://github.com/rjose/prototypes/tree/da9eef[Use Objective-C
   objects instead of C structs] [X][X][X][X]
-. Refactor to clean up Objective-C usage
+. Refactor to clean up Objective-C usage [X][][]
 
 Proto3
 ~~~~~~
@@ -111,6 +111,12 @@ we'll clean up g_threads. After that we'll make the static methods for
 simulating requests into class methods.
 
 * Pass 1 (clean)
+* Pass 2
+  ** Forgot to remove C style declarations after copying to Objective-C class
+     declaration.
+  ** Missed semicolon after copying implementation signature and pasting as
+     declaration.
+
 
 Coding Errors
 -------------

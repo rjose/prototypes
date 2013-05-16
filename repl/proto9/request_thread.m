@@ -3,9 +3,23 @@
 #include <stdlib.h>
 #import "request_thread.h"
 
+/* Module-level dictionary for keeping track of active request threads */
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static NSMutableDictionary *g_threads = nil;
 
+/*
+ * Module functions for keeping track of our request threads. These are
+ * low-level functions that assume the mutex is held before they are called.
+ */
+typedef void *simulated_handler_t(void *arg);
+static int simulate_request(simulated_handler_t handler);
+static void *simulated_http_handler(void *new_thread);
+static void *simulated_websocket_handler(void *new_thread);
+static void cleanup_request_thread(void *new_thread);
+
+/*******************************************************************************
+ ** RequestThread Implementation
+ **/
 @implementation RequestThread
 
 + (void) initialize
@@ -15,7 +29,60 @@ static NSMutableDictionary *g_threads = nil;
 	}
 }
 
++ (int) getNumActiveRequests
+{
+	if (!g_threads)
+		return 0;
+
+	return (int) ([g_threads count]);
+}
+
 // TODO: Free g_threads at some point
+
+/**
+ * This just spins up a thread to simulate the handling of an HTTP request. The
+ * thread sleeps for a while and then returns. Each thread takes up a slot in
+ * *g_request_threads*
+ *
+ * If thread was created, returns the slot; otherwise, returns -1.
+ *
+ */
++ (int) simulateHttpRequest
+{
+	return simulate_request(simulated_http_handler);
+}
+
++ (int) simulateWebsocketRequest
+{
+	return simulate_request(simulated_websocket_handler);
+}
+
++ (int) killThread:(int) key
+{
+	/* Critical region */
+	pthread_mutex_lock(&mutex);
+	RequestThread *request_thread = [g_threads objectForKey:[NSNumber numberWithInt:key]];
+	pthread_mutex_unlock(&mutex);
+
+	if (!request_thread) {
+		return -1;
+	}
+
+	/* Detach so we don't have to wait for the thread to finish */
+	if (pthread_detach(*[request_thread pthread_id]) != 0) {
+		fprintf(stderr, "Problem detaching thread at key: %d\n", key);
+		return -1;
+	}
+
+	if (pthread_cancel(*[request_thread pthread_id]) != 0) {
+		fprintf(stderr, "Problem canceling thread at key: %d\n", key);
+		return -1;
+	}
+
+	return key;
+}
+
+
 
 - (id) initWithKey:(NSNumber*) aKey
 {
@@ -38,17 +105,9 @@ static NSMutableDictionary *g_threads = nil;
 @end
 
 
-
-// Use this to refactor functions that set up request threads
-typedef void *simulated_handler_t(void *arg);
-
-
-/**
- * Module functions for keeping track of our request threads. These are
- * low-level functions that assume the mutex is held before they are called.
- */
-static int simulate_request(simulated_handler_t handler);
-
+/*******************************************************************************
+ ** Internal methods
+ **/
 
 /**
  * When a thread completes or is canceled, it needs to remove itself from
@@ -85,19 +144,6 @@ static void *simulated_http_handler(void *new_thread)
 	return NULL;
 }
 
-/**
- * This just spins up a thread to simulate the handling of an HTTP request. The
- * thread sleeps for a while and then returns. Each thread takes up a slot in
- * *g_request_threads*
- *
- * If thread was created, returns the slot; otherwise, returns -1.
- *
- * Needs to hold the mutex.
- */
-int simulate_http_request()
-{
-	return simulate_request(simulated_http_handler);
-}
 
 static void *simulated_websocket_handler(void *new_thread)
 {
@@ -163,43 +209,4 @@ exit:
 	/* Mutex is locked upfront, so need to unlock it before exit */
 	pthread_mutex_unlock(&mutex);
 	return result;
-}
-
-int simulate_websocket_request()
-{
-	return simulate_request(simulated_websocket_handler);
-}
-
-int kill_thread(int key)
-{
-	/* Critical region */
-	pthread_mutex_lock(&mutex);
-	RequestThread *request_thread = [g_threads objectForKey:[NSNumber numberWithInt:key]];
-	pthread_mutex_unlock(&mutex);
-
-	if (!request_thread) {
-		return -1;
-	}
-
-	/* Detach so we don't have to wait for the thread to finish */
-	if (pthread_detach(*[request_thread pthread_id]) != 0) {
-		fprintf(stderr, "Problem detaching thread at key: %d\n", key);
-		return -1;
-	}
-
-	if (pthread_cancel(*[request_thread pthread_id]) != 0) {
-		fprintf(stderr, "Problem canceling thread at key: %d\n", key);
-		return -1;
-	}
-
-	return key;
-}
-
-/******************************************************************************
- * These functions are for managing the thread slots.
- */
-
-int get_num_active_requests()
-{
-	return (int) ([g_threads count]);
 }
