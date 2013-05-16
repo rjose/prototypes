@@ -1,7 +1,7 @@
 Prototype: REPL with status
 ===========================
 Rino Jose <rjose@linkedin.com>
-v0.4, May 14, 2013: Added proto3
+v1.0, May 16, 2013: Finishing up prototype
 
 Overview
 --------
@@ -24,12 +24,9 @@ know what I'm doing.
 To explore some testability, it would be nice if we could script the behavior of
 the app. This might be a follow-on prototype.
 
-Questions
-~~~~~~~~~
-- How do signals and threads interact?
 
-Steps
------
+Protos
+------
 . link:https://github.com/rjose/prototypes/tree/1480c5[From the main thread,
   create a REPL thread and join to it] [X]
 . link:https://github.com/rjose/prototypes/tree/aed0cf[REPL thread can handle
@@ -44,7 +41,18 @@ Steps
 . link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
 . link:https://github.com/rjose/prototypes/tree/da9eef[Use Objective-C
   objects instead of C structs] [X][X][X][X]
-. Refactor to clean up Objective-C usage [X][X][X][X]
+. link:https://github.com/rjose/prototypes/tree/01c71d[Refactor to clean up
+  Objective-C usage] [X][X][X][X][X]
+
+Proto1
+~~~~~~
+* Pass 1
+   ** Did not include header for *exit*
+   ** Missed an argument (thread attributes) to pthread_create
+
+Proto2
+~~~~~~
+* Pass 1 (clean)
 
 Proto3
 ~~~~~~
@@ -52,16 +60,37 @@ What we'll do here is add a command for simulating an HTTP request. This
 should start a new thread that hangs out for 5 seconds, and then exits. We'll
 maintain an array of these thread requests.
 
+* Pass 1
+   ** Syntax error declaring array of pointers (C syntax error)
+   ** Needed -std=c99 flag to declare index in for loop
+   ** Forgot to declare a variable
+   ** Forgot to include unistd.h for sleep
+   ** Forgot nmemb argument for calloc
+   ** Runtime: crash after second or third request is done: Not checking for
+      null before accessing structure.
+
 Proto4
 ~~~~~~
 In this prototype, I just want to start breaking stuff into their own files.
 We should have all request threads be in one file. The repl should also be in
 its own file. The repl will include everything else.
 
+* Pass 1
+    ** Undefined reference to repl_routine (sources not ordered properly in
+       Makefile)
+    ** Rearranged code in request_threads.m but did not order dependencies
+       correctly
+    ** Used makefile variable $< incorrectly
+    ** Forgot to define request_thread_t in request_threads.h
+
+
 Proto5
 ~~~~~~
 I'm going to create a static mutex to guard the request threads array. Need to
 automate the routines I use to exercise this.
+
+* Pass 1 (clean)
+
 
 Proto6
 ~~~~~~
@@ -76,12 +105,41 @@ as I make a copy so I'll know what I've changed.
 
 We need to make sure that once the threads are killed that their slot is free.
 
+* Pass 1
+    ** Forgot to put static function ahead of use (get_num_thread_slots). I
+       should just declare all static functions at the top of the file.
+    ** Returned without value (checking number of slots). Should have
+       refactored to pull this check out as a separate function first.
+    ** Pulled out code from loop, but missed local variables (like slot and
+       line_buffer)
+    ** When pulling code out of loop, forgot to declare its return value and
+       hook up.
+
+* Pass 2
+    ** Did not change declaration of handle_command after changing
+       implementation
+    ** Pulled out code from loop, but missed local variables (like status). I
+       should've fixed this in Pass 1.
+    ** Runtime: Shouldn't print connection started for websocket if no slot.
+       Forgot a return from the command handler function.
+    ** Runtime: Function for scanning command didn't work. Didn't bring local
+       variable across (line_buffer).
+    ** Runtime: Killing thread gave me a request out of range. Didn't allow
+       cleanup to happen via pthread cleanup handler.
+
+* Pass 3
+    ** Runtime: Should give user feedback when thread is killed
+    ** Runtime: Change wording of simulating requests to not imply that it
+       was done if it wasn't.
+
 Proto7
 ~~~~~~
 This one is all about refactoring the code. I want to clean it up (all the
 duplication) before I go on. Ideally, I'd have a test suite to exercise this. 
 
 Let's start by refactoring the handlers first.
+
+* Pass 1 (refactor simulated handler) (clean)
 
 Proto 8
 ~~~~~~~
@@ -118,6 +176,9 @@ After that, we'll clean up g_threads. The last bit of cleanup will be to
 cancel all active requests when quitting. I also want to document some of the
 functions before we close out.
 
+Most of the extra time spent here was trying to understand what was
+segfaulting when using some of the NSDictionary functions. 
+
 * Pass 1 (clean)
 * Pass 2
   ** Forgot to remove C style declarations after copying to Objective-C class
@@ -126,67 +187,41 @@ functions before we close out.
      declaration.
 
 
-Coding Errors
--------------
-TODO: Move these under each prototype
 
-* Proto1
-  ** Pass 1
-    *** Did not include header for *exit*
-    *** Missed an argument (thread attributes) to pthread_create
+Stats
+-----
+[options="header",width="75%"]
+|====
+| Category | Description |Count
+| Refactor sloppiness | extract code but missed local vars, extract code but
+forgot return value, delete functions but not declarations, missed semicolon
+after pasting declaration, rearranged code but didn't account for
+dependencies | 11
+| Language sloppiness | variable declaration, null checking, missed
+  declarations | 6
+| API sloppiness | missed headers, missed argument, wrong function called | 5
+| Build sloppiness | flags, make vars, missed libraries | 5
+| Logic sloppiness |triggered cleanup handlers multiple times, didn't store
+info in object that was needed later | 3
+| Usability sloppiness |poor feedback from operations | 2
+| Editor sloppiness |forgot to save file | 1
+|====
 
-* Proto2 (clean)
 
-* Proto3
-  ** Pass 1
-    *** Syntax error declaring array of pointers (C syntax error)
-    *** Needed -std=c99 flag to declare index in for loop
-    *** Forgot to declare a variable
-    *** Forgot to include unistd.h for sleep
-    *** Forgot nmemb argument for calloc
-    *** Runtime: crash after second or third request is done: Not checking for
-        null before accessing structure.
-* Proto4
-  ** Pass 1
-    *** Undefined reference to repl_routine (sources not ordered properly in
-        Makefile)
-    *** Rearranged code in request_threads.m but did not order dependencies
-        correctly
-    *** Used makefile variable $< incorrectly
-    *** Forgot to define request_thread_t in request_threads.h
 
-* Proto5 (clean)
-
-* Proto6
-  ** Pass 1
-    *** Forgot to put static function ahead of use (get_num_thread_slots). I
-        should just declare all static functions at the top of the file.
-    *** Returned without value (checking number of slots). Should have
-        refactored to pull this check out as a separate function first.
-    *** Pulled out code from loop, but missed local variables (like slot and
-        line_buffer)
-    *** When pulling code out of loop, forgot to declare its return value and
-        hook up.
-
-  ** Pass 2
-    *** Did not change declaration of handle_command after changing
-        implementation
-    *** Pulled out code from loop, but missed local variables (like status). I
-        should've fixed this in Pass 1.
-    *** Runtime: Shouldn't print connection started for websocket if no slot.
-        Forgot a return from the command handler function.
-    *** Runtime: Function for scanning command didn't work. Didn't bring local
-        variable across (line_buffer).
-    *** Runtime: Killing thread gave me a request out of range. Didn't allow
-        cleanup to happen via pthread cleanup handler.
-
-  ** Pass 3
-    *** Runtime: Should give user feedback when thread is killed
-    *** Runtime: Change wording of simulating requests to not imply that it
-        was done if it wasn't.
-
-* Proto7 (refactor simulated handler) (clean)
-
-Thoughts
---------
-After all prototypes are done, I should write a checklist for myself.
+Checklist for next time
+-----------------------
+* Check for NULL before accessing pointer
+* When rearranging code, ensure prereqs are handled
+* Declare static functions at top of module
+* Check man page for includes for a function
+* Check man page for function API to ensure calling with correct args
+* Check API doc for function that you're not sure of
+* When pulling code out, check local variable references
+* When pulling code out of loop, check if return value needs to be used
+* When renaming functions, search for all uses to make sure they're handled
+* When opening a brace, close it (especially note if copy/paste)
+* When moving code to Objective-C, ensure syntax changes are done
+* Think through the data needed to complete a scenario (e.g., cleaning up a
+  thread)
+* Think about the feedback the user needs when using the system
