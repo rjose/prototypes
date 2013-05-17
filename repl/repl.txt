@@ -43,6 +43,7 @@ Protos
   objects instead of C structs] [X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/01c71d[Refactor to clean up
   Objective-C usage] [X][X][X][X][X]
+. Use GNUstep makefiles to build  
 
 Proto1
 ~~~~~~

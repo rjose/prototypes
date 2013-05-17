@@ -1,0 +1,52 @@
+# Created by newuser for 4.3.17
+
+setopt auto_cd
+setopt extended_glob
+setopt PROMPT_SUBST
+
+# Pushd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushd_silent
+DIRSTACKSIZE=50
+
+# History
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.history
+setopt share_history
+
+alias ll='ls -l'
+
+
+export CLICOLOR=1
+export LSCOLORS="Exfxcxdxbxegedabagacad"
+
+CDPATH=~
+
+# Autocomplete
+autoload -U compinit
+compinit
+
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format %F{white}%d%f
+
+PROMPT='%% '
+RPROMPT='%~'
+
+export PATH=/usr/local/bin:$PATH:~/bin
+
+# Library paths
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/local/lib/squeak/4.10.2-2602
+
+# Set up GNUstep
+. /usr/local/GNUstep/System/Library/Makefiles/GNUstep.sh
+
+# Aliases
+alias geeknote='python ~/build/geeknote/geeknote.py'
+
+export TERM=xterm-256color
+
+echo
+fortune
+echo
