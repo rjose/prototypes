@@ -236,3 +236,10 @@ Checklist for next time
 * Think through the data needed to complete a scenario (e.g., cleaning up a
   thread)
 * Think about the feedback the user needs when using the system
+
+Notes
+-----
+* I had to edit /usr/include/GNUstepBase/GSConfig.h to set
+  BASE_NATIVE_OBJC_EXCEPTIONS to 1
+* Also need to source /usr/lib64/GNUstep/Makefiles/GNUstep.sh in order for
+  makefiles to work properly
