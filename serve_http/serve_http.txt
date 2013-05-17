@@ -1,7 +1,7 @@
 Serve HTTP Request
 ==================
 Rino Jose <rjose@linkedin.com>
-v0.1, May 16, 2013: Initial version
+v0.2, May 17, 2013: Got a simple echo working
 
 Overview
 --------
@@ -20,8 +20,22 @@ where we can connect with curl and then a browser.
 
 Protos
 ------
-. Echo data to telnet
+. Echo data to telnet [X][X][]
 . Display an HTTP request from curl
 . Parse HTTP request into headers and a body
 . Respond with headers and an empty body
 . Respond with a page
+
+Proto1
+~~~~~~
+We'll start by pulling over the echo server code from the Stevens book.
+
+* Pass 1
+  ** errno, EINTR undeclared. Need to include errno
+  ** ':' instead of ';'
+  ** INADDR_ANY, LISTENQ undeclared. Had to include netinet/in.h and define
+     LISTENQ
+
+* Pass 2
+  ** bzero undeclared. Needed to include strings.h
+  ** Runtime: can't connect. Forgot to apply *htons* to port.
