@@ -1,0 +1,2 @@
+# Set up GNUstep
+. /usr/local/GNUstep/System/Library/Makefiles/GNUstep.sh
