@@ -18,13 +18,14 @@ want to figure out how to establish a TCP connection with a client and start
 sending data over it. We'll start with a simple echo and then move up to a point
 where we can connect with curl and then a browser.
 
+
 Protos
 ------
 . Echo data to telnet [X][X][]
-. Display an HTTP request from curl
-. Parse HTTP request into headers and a body
-. Respond with headers and an empty body
-. Respond with a page
+. Parse HTTP request into headers and a body [][][]
+. Respond with headers and an empty body [][]
+. Respond with a page [][]
+. Convert to threaded version [][][][]
 
 Proto1
 ~~~~~~

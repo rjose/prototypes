@@ -83,7 +83,10 @@ int main()
 	}
 
 	// Check for error here
-	listen(listenfd, LISTENQ);
+	if (listen(listenfd, LISTENQ) < 0) {
+		fprintf(stderr, "Problem listening: %d\n", errno);
+		exit(1);
+	}
 
 	while (1) {
 		clilen = sizeof(cliaddr);
