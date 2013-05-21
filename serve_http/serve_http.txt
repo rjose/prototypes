@@ -21,8 +21,9 @@ where we can connect with curl and then a browser.
 
 Protos
 ------
-. Echo data to telnet [X][X][]
-. Parse HTTP request into headers and a body [][][]
+. link:https://github.com/rjose/prototypes/tree/2fed7a[Echo data to
+  telnet] [X][X][]
+. Parse HTTP request into headers and a body [][][][]
 . Respond with headers and an empty body [][]
 . Respond with a page [][]
 . Convert to threaded version [][][][]
@@ -40,3 +41,36 @@ We'll start by pulling over the echo server code from the Stevens book.
 * Pass 2
   ** bzero undeclared. Needed to include strings.h
   ** Runtime: can't connect. Forgot to apply *htons* to port.
+
+Proto2
+~~~~~~
+I need to do some simple string matching. Will sscanf be enough here? I wonder
+if there's a library for parsing HTTP requests. We could use something like
+link:http://www.complang.org/ragel/[Ragel] for doing more sophisticated
+parsing. Let's start by handling what curl throws at us:
+
+----
+GET / HTTP/1.1
+User-Agent: curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.12.9.0
+zlib/1.2.3 libidn/1.18 libssh2/1.2.2
+Host: localhost:8888
+Accept: */*
+----
+
+We'll start with just using sscanf on each of these lines
+
+* Pass 1
+  ** Runtime: segfault. %as doesn't work with the compiler I'm using.
+
+To parse headers, I'll figure out the the length of the string. Then I'll scan
+through it to find the first ':'. This will give me the header name. If I find
+a space or no ':', we'll return -1. I'll allocate enough space to hold the
+header name (and the \0) without the colon. Next, I'll scan to the first
+non-whitespace character and then allocate memory to hold from that point to
+the end and then copy the header value there. We'll point the header_name and
+header_value arguments to those values respectively. The caller is responsible
+for freeing memory. I'm assuming that we'll only see tabs and spaces as
+whitespace.
+
+I'm going to abandon proto2 and go simpler with the parsing. I'll just check
+it in for reference.
