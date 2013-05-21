@@ -23,7 +23,7 @@ Protos
 ------
 . link:https://github.com/rjose/prototypes/tree/2fed7a[Echo data to
   telnet] [X][X][]
-. Parse HTTP request into headers and a body [][][][]
+. Parse HTTP request into headers [X][X][][]
 . Respond with headers and an empty body [][]
 . Respond with a page [][]
 . Convert to threaded version [][][][]
@@ -74,3 +74,24 @@ whitespace.
 
 I'm going to abandon proto2 and go simpler with the parsing. I'll just check
 it in for reference.
+
+Proto3
+~~~~~
+Let's make this even simpler. I'll start copying from the input line into the
+field_name until we fill the field name or until we find the first ':'
+character. If we reach the end of the field but didn't find a ':', we'll
+return -1; otherwise, we'll return the length. We have to remember to add the
+'\0' character at the end.
+
+To store the value, we'll just copy from the line starting at the first
+non-blank character after the field name ':'. We'll go at most the length of
+the destination buffer.
+
+* Pass 1
+  ** Passed address of char array instead of a pointer
+  ** Forgot ',' after auto linebreak
+  ** Runtime: Invalid pointer. Advancing index too many times. Advancing
+pointer into memory without keeping track of it.
+
+* Pass 2
+  ** Syntax error declaraing static array
