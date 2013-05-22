@@ -23,8 +23,8 @@ Protos
 ------
 . link:https://github.com/rjose/prototypes/tree/2fed7a[Echo data to
   telnet] [X][X][]
-. Parse HTTP request into headers [X][X][][]
-. Respond with headers and a body [X][][]
+. link:https://github.com/rjose/prototypes/tree/984fd3[Parse HTTP request into headers] [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/0f61b1[Respond with headers and a body] [X][X][]
 
 Proto1
 ~~~~~~
