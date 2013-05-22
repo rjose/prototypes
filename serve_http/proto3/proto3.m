@@ -5,6 +5,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <errno.h>
+#include <err.h>
 #include <strings.h>
 #include <string.h>
 
@@ -57,11 +58,8 @@ again:
 
 		if (n < 0 && errno == EINTR)
 			goto again;
-		else if (n < 0) {
-			fprintf(stderr, "Read error\n");
-			exit(1);
-		}
-
+		else if (n < 0)
+			err(1, "str_echo read error");
 	}
 }
 
@@ -81,16 +79,12 @@ int proto_echo()
 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 	servaddr.sin_port = htons(8888);
 
-	if (bind(listenfd, (SA*) &servaddr, sizeof(servaddr)) < 0) {
-		fprintf(stderr, "Problem binding: %d\n", errno);
-		exit(1);
-	}
+	if (bind(listenfd, (SA*) &servaddr, sizeof(servaddr)) < 0)
+		err(1, "Problem binding to socket");
 
 	// Check for error here
-	if (listen(listenfd, LISTENQ) < 0) {
-		fprintf(stderr, "Problem listening: %d\n", errno);
-		exit(1);
-	}
+	if (listen(listenfd, LISTENQ) < 0)
+		err(1, "Problem listening to socket");
 
 	while (1) {
 		clilen = sizeof(cliaddr);
@@ -134,7 +128,7 @@ int parse_header(const char *line, char **field, char **value)
 		index++;
 	}
 	if (!found_colon) {
-		fprintf(stderr, "Couldn't find ':' for header: %s\n", line);
+		warnx("Couldn't find ':' for header: %s", line);
 		return -1;
 	}
 
@@ -176,7 +170,7 @@ int main()
 	int i;
 	for (i=0; i < 3; i++) {
 		if (parse_header(headers[i], &field, &value) < 0)
-			exit(1);
+			errx(1, "Problem parsing headers");
 		printf("Field: %s, Value: %s\n", field, value);
 		free(field);
 		free(value);
