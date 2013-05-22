@@ -1,7 +1,7 @@
 Serve HTTP Request
 ==================
 Rino Jose <rjose@linkedin.com>
-v0.2, May 17, 2013: Got a simple echo working
+v1.0, May 22, 2013: Finished prototype
 
 Overview
 --------
@@ -25,7 +25,7 @@ Protos
   telnet] [X][X][]
 . link:https://github.com/rjose/prototypes/tree/984fd3[Parse HTTP request into headers] [X][X][][]
 . link:https://github.com/rjose/prototypes/tree/0f61b1[Respond with headers and a body] [X][X][]
-. Use NSString for sending responses [][]
+. link:https://github.com/rjose/prototypes/tree/477624[Use NSString for sending responses] [X][]
 
 Proto1
 ~~~~~~
@@ -116,3 +116,26 @@ of char arrays to send headers and the body.
 
 * Pass 1
   ** Forgot to include ':' in Objective-C call
+
+
+
+Stats
+-----
+.Errors
+[options="header",width="75%"]
+|====
+| Category | Description |Count
+| Language sloppiness | array declaration, obj-c call syntax | 7
+| Typos | | 2
+| API sloppiness | missed headers, missed argument, wrong function called | 6
+| Logic error | pointer advancing | 1
+|====
+
+.Effort
+[options="header",width="75%"]
+|====
+| Type | Pomodoros (20 min) | Effort (h) | Duration (d)
+| Average daily effort | 2 | 0.5 | 1
+| Max daily effort | 4 | 1.25 | 1
+| Total effort | 7 | 2.5 | 3.5
+|====
