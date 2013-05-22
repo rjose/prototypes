@@ -25,6 +25,7 @@ Protos
   telnet] [X][X][]
 . link:https://github.com/rjose/prototypes/tree/984fd3[Parse HTTP request into headers] [X][X][][]
 . link:https://github.com/rjose/prototypes/tree/0f61b1[Respond with headers and a body] [X][X][]
+. Use NSString for sending responses [][]
 
 Proto1
 ~~~~~~
@@ -107,3 +108,11 @@ Let's create a tcp_io.c file and put stuff there.
 OK, now we'll look for an empty line and then write a response.
 
 * Pass 2 (clean)
+
+Proto5
+~~~~~~
+This one should be pretty straightforward. Just want to use NSString instead
+of char arrays to send headers and the body.
+
+* Pass 1
+  ** Forgot to include ':' in Objective-C call
