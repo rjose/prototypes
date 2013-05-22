@@ -148,6 +148,9 @@ int parse_header(const char *line, char **field, char **value)
 }
 
 
+/*
+ * This just exercises the parsing of HTTP headers. Nothing too fancy.
+ */
 int main()
 {
 	/* NOTE: assuming that the request has been parsed into lines */
