@@ -24,9 +24,7 @@ Protos
 . link:https://github.com/rjose/prototypes/tree/2fed7a[Echo data to
   telnet] [X][X][]
 . Parse HTTP request into headers [X][X][][]
-. Respond with headers and an empty body [][]
-. Respond with a page [][]
-. Convert to threaded version [][][][]
+. Respond with headers and a body [][][]
 
 Proto1
 ~~~~~~
@@ -95,3 +93,13 @@ pointer into memory without keeping track of it.
 
 * Pass 2
   ** Syntax error declaraing static array
+
+Proto4
+~~~~~~
+We're going to split out functionality into files. I want a readline function
+and a write function. We'll still fork a process for each request, though.
+Let's create a tcp_io.c file and put stuff there.
+
+* Pass 1
+  * GNUStep Makefile error: Used OBJC_FILES instead of C_FILES for c files
+  * Forgot to include headers after moving functions
