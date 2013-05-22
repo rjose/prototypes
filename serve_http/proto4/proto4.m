@@ -22,10 +22,18 @@ handle_http_request(int connfd)
 {
 	char buf[MAXLINE];
 
-	/* TODO: Should have a timeout here */
 	while (readline(connfd, buf, MAXLINE) > 0) {
+		if (strcmp(buf, "\r\n") == 0)
+			break;
 		printf("Got: '%s'\n", buf);
 	}
+
+	/* Just send a basic response */
+	Writen(connfd, "HTTP/1.1 200 OK\r\n", 17);
+	Writen(connfd, "Content-Length: 28\r\n", 20);
+	Writen(connfd, "Content-Type: text/html\r\n", 25);
+	Writen(connfd, "\r\n", 2);
+	Writen(connfd, "<html><body>Hi</body></html>\r\n", 30);
 }
 
 /*
