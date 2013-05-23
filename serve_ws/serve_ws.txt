@@ -78,8 +78,8 @@ what the frame looks like:
 
 Prototypes
 ----------
-. Construct a handshake response [X][X][X]
-. Construct a simple frame [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
+. link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
 . Establish a websocket connection [X][][][][][]
   ** Reading spec [X][X][X]
 . Receive data across a websocket
