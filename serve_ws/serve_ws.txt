@@ -100,8 +100,7 @@ how to do this.
   ** Forgot pointer cast for SHA1
   ** Runtime: Empty string. Needed to use NSData instead of NSString.
 
-
-Hmmm. Couldn't get this to work. Let's try with a shell script.
+Let's clean up and not use so many NSStrings.
 
 Proto 2: Construct a simple frame
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
