@@ -1,0 +1,125 @@
+Serve WebSocket
+===============
+Rino Jose <rjose@linkedin.com>
+v0.2, May 23, 2013: Read websocket spec and revised prototypes
+
+Overview
+--------
+This will be similar to the serve_http prototype, but we'll want to establish a
+connection and then send an update. The easiest way to do this might be to do
+the HTTP handshake, sleep for a little bit, then send an update. I'm not sure
+how the browser responds to these updates. I'll have to do a little research
+here.
+
+NOTE: We'll focus mainly on the wire protocol for messaging using websockets.
+There's also a client websocket API in Javascript. We'll look at that in
+another prototype.
+
+A websocket session starts with a handshake after which websocket messages can
+be exchanged. A message is composed of frames, each of which has a type (like
+textual data, binary data, control). Control frames are used to do things like
+terminate the connection.
+
+.Handshake
+The initial websocket handshake involves a normal HTTP request from a client
+but with some additional headers:
+
+----
+	GET /chat HTTP/1.1
+        Host: server.example.com
+        Upgrade: websocket
+        Connection: Upgrade
+        Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+        Sec-WebSocket-Protocol: chat, superchat
+        Sec-WebSocket-Version: 13
+        Origin: http://example.com
+----
+
+The server responds with a normal HTTP response but with some additional
+headers:
+
+----
+        HTTP/1.1 101 Switching Protocols
+        Upgrade: websocket
+        Connection: Upgrade
+        Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+        Sec-WebSocket-Protocol: chat
+----
+
+To compute *Sec-WebSocket-Accept*, the server takes the value of *Sec-WebSocket-Key* and
+concatenates the GUID *258EAFA5-E914-47DA-95CA-C5AB0DC85B11*. It takes the
+SHA-1 hash of this and the base64 encodes it.
+
+.Frames
+This may be a little tricky to implement see
+link:http://tools.ietf.org/html/rfc6455[RFC6455] for details. I'll just copy
+what the frame looks like:
+
+----
+      0                   1                   2                   3
+      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+     +-+-+-+-+-------+-+-------------+-------------------------------+
+     |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+     |I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+     |N|V|V|V|       |S|             |   (if payload len==126/127)   |
+     | |1|2|3|       |K|             |                               |
+     +-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+     |     Extended payload length continued, if payload len == 127  |
+     + - - - - - - - - - - - - - - - +-------------------------------+
+     |                               |Masking-key, if MASK set to 1  |
+     +-------------------------------+-------------------------------+
+     | Masking-key (continued)       |          Payload Data         |
+     +-------------------------------- - - - - - - - - - - - - - - - +
+     :                     Payload Data continued ...                :
+     + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+     |                     Payload Data continued ...                |
+     +---------------------------------------------------------------+
+----
+
+Prototypes
+----------
+. Construct a handshake response [][][]
+. Construct a simple frame [][][][]
+. Establish a websocket connection [X][][][][][]
+  ** Reading spec [X][X][X]
+. Receive data across a websocket
+. Send data to client across websocket
+. Serve a page that has web sockets
+
+Proto 1: Construct handshake response
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The first step is to just see if we can generate the response key from a
+request Sec-WebSocket-Key of *dGhlIHNhbXBsZSBub25jZQ==*. This will mainly be
+an exercise in using GNUStep libraries. It will also check my understanding of
+how to do this.
+
+Proto 2: Construct a simple frame
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We'll just code up the guts of this.
+The link:http://tools.ietf.org/html/rfc6455[RFC6455] has some examples that we
+can check against.
+
+
+Proto 3: Establish connection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We need to parse a web socket request and generate a response. We should be
+able to do this without having a network connection -- just test the logic of
+establishing a connection. This should also flesh out how we model requests
+and responses.
+
+
+Proto 4: Receive data
+~~~~~~~~~~~~~~~~~~~~~
+
+Proto 5: Send data
+~~~~~~~~~~~~~~~~~~
+
+Proto 6: Serve a page with websockets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We need to create a page with some javascript to make a connection with our
+server and exchange info.
+
+
+References
+----------
+- link:http://tools.ietf.org/html/rfc6455[WebSocket Protocol: RFC6455]
