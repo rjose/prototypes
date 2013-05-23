@@ -78,8 +78,8 @@ what the frame looks like:
 
 Prototypes
 ----------
-. Construct a handshake response [X][][]
-. Construct a simple frame [][][][]
+. Construct a handshake response [X][X][X]
+. Construct a simple frame [X][X][][]
 . Establish a websocket connection [X][][][][][]
   ** Reading spec [X][X][X]
 . Receive data across a websocket
@@ -107,6 +107,12 @@ Proto 2: Construct a simple frame
 We'll just code up the guts of this.
 The link:http://tools.ietf.org/html/rfc6455[RFC6455] has some examples that we
 can check against.
+
+We'll start with a single frame "hello". I'm going to break the example frame
+down to see if I understand where the bits come from. 
+
+* Pass 1
+  ** Passed integer to *warn* by mistake
 
 
 Proto 3: Establish connection
