@@ -13,7 +13,6 @@
 #include <unistd.h>
 
 #import <Foundation/Foundation.h>
-#import <Foundation/NSString.h>
 #import <GNUstepBase/GSMime.h>
 
 
