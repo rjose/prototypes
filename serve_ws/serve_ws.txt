@@ -1,7 +1,7 @@
 Serve WebSocket
 ===============
 Rino Jose <rjose@linkedin.com>
-v0.2, May 23, 2013: Read websocket spec and revised prototypes
+v0.3, May 24, 2013: Prototype 3 is done
 
 Overview
 --------
@@ -79,7 +79,7 @@ Prototypes
 ----------
 . link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
-. Establish a websocket connection [X][X][X][][][]
+. link:https://github.com/rjose/prototypes/tree/38ef3d[Establish a websocket connection] [X][X][X][X][][]
   ** Reading spec [X][X][X]
 . Receive data across a websocket
 . Send data to client across websocket
