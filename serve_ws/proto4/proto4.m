@@ -17,6 +17,7 @@
 
 #import "HttpRequest.h"
 #import "HttpResponse.h"
+#import "WSFrame.h"
 
 
 /*
@@ -28,17 +29,6 @@
 #define SHORT_MESSAGE_LEN 125
 static char m_wsMagicString[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
-/* Byte 0 of frame */
-#define WS_FRAME_FIN 0x80
-#define WS_FRAME_OP_CONT 0x00
-#define WS_FRAME_OP_TEXT 0x01
-#define WS_FRAME_OP_BIN 0x02
-#define WS_FRAME_OP_CLOSE 0x08
-#define WS_FRAME_OP_PING 0x09
-#define WS_FRAME_OP_PONG 0x0A
-
-/* Byte 1 of frame */
-#define WS_FRAME_MASK 0x80
 
 /*
  * Implementation
@@ -80,6 +70,7 @@ construct_frame(char *dst, const char *body, size_t max_len)
 	return 0;
 }
 
+// TODO: Move this to HttpResponse
 /* 
  * The key comes from Sec-WebSocket-Accept.
  */
@@ -109,7 +100,7 @@ static HttpResponse *get_websocket_response(HttpRequest *request)
 	/* Check for Upgrade: websocket in request */
 	NSString *upgradeHeader = [request getHeader:@"upgrade"];
 	if ([upgradeHeader compare:@"websocket"] != NSOrderedSame) {
-		warn("Upgrade is '%@' not websocket", upgradeHeader);
+		warn("Upgrade is '%s' not websocket", [upgradeHeader cString]);
 		return nil;
 	}
 
@@ -144,27 +135,19 @@ int main()
 	/* Set up autorelease pool for Objective-C memory management */
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
-	HttpRequest *request = [[HttpRequest alloc] initWithMethod:@"GET" andUri:@"/"];
-	[request addHeader:@"Host" withValue:@"server.example.com"];
-	[request addHeader:@"Upgrade" withValue:@"websocket"];
-	[request addHeader:@"Connection" withValue:@"Upgrade"];
-	[request addHeader:@"Sec-WebSocket-Key" withValue:@"dGhlIHNhbXBsZSBub25jZQ=="];
-	[request addHeader:@"Sec-WebSocket-Protocol" withValue:@"chat"];
-	[request addHeader:@"Origin" withValue:@"http://example.com"];
-	[request autorelease];
+	char wsFrame[] = {0x81, 0x05, 0x48, 0x65, 0x6c, 0x6c, 0x6f};
+	NSData *frameData = [NSData dataWithBytes:wsFrame length:sizeof(wsFrame)];
 
-	HttpResponse *response = get_websocket_response(request);
-	if (response == nil)
-		err(1, "Response is unexpectedly nil");
+	WSFrame *frame = [[WSFrame alloc] init];
+	[[frame data] appendData:frameData];
 
-	/* Check response */
-	NSString *expected = @"s3pPLMBiTxaQ9kYGzzhZRbK+xOo=";
-	if ([[response getHeaderForField:@"sec-websocket-accept"] compare:
-			expected] == NSOrderedSame)
+	NSString *bodyText = [frame getBodyText];
+	if (bodyText != nil && [bodyText compare:@"Hello"] == NSOrderedSame)
 		NSLog(@"Match!");
 	else
 		NSLog(@"You LOSE!");
 
+	[frame release];
 	[pool release];
 	return 0;
 }
