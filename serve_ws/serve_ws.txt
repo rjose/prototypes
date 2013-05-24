@@ -82,7 +82,7 @@ NOTE: Start by reading spec [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
 . link:https://github.com/rjose/prototypes/tree/38ef3d[Establish a websocket connection] [X][X][X][X][][]
-. Receive data across a websocket [X][][][][]
+. Receive data across a websocket [X][X][][][]
 . Send data to client across websocket
 . Serve a page that has web sockets
 
@@ -176,6 +176,14 @@ reasonable. For now, let's just stick with a WSFrame.
 
 .Pass 1
 * Used %@ in a C string
+
+Alright, the next step is to parse the frame. We should be able to construct
+an NSString by copying from the data in NSData directly. We'll need to know
+where the start of the data is. The length should be part of the WSFrame.
+
+.Pass 2
+* Forgot to remove paren that I wasn't using anymore 
+* Runtime: data isn't long enough. Forgot to initialize object data!
 
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~

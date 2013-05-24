@@ -139,7 +139,7 @@ int main()
 	NSData *frameData = [NSData dataWithBytes:wsFrame length:sizeof(wsFrame)];
 
 	WSFrame *frame = [[WSFrame alloc] init];
-	[[frame data] appendData:frameData];
+	[frame appendData:frameData];
 
 	NSString *bodyText = [frame getBodyText];
 	if (bodyText != nil && [bodyText compare:@"Hello"] == NSOrderedSame)
