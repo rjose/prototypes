@@ -46,8 +46,7 @@ headers:
         Sec-WebSocket-Protocol: chat
 ----
 
-To compute *Sec-WebSocket-Accept*, the server takes the value of *Sec-WebSocket-Key* and
-concatenates the GUID *258EAFA5-E914-47DA-95CA-C5AB0DC85B11*. It takes the
+To compute *Sec-WebSocket-Accept*, the server takes the value of *Sec-WebSocket-Key* and concatenates the GUID *258EAFA5-E914-47DA-95CA-C5AB0DC85B11*. It takes the
 SHA-1 hash of this and the base64 encodes it.
 
 .Frames
@@ -80,7 +79,7 @@ Prototypes
 ----------
 . link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
-. Establish a websocket connection [X][][][][][]
+. Establish a websocket connection [X][X][X][][][]
   ** Reading spec [X][X][X]
 . Receive data across a websocket
 . Send data to client across websocket
@@ -122,6 +121,37 @@ able to do this without having a network connection -- just test the logic of
 establishing a connection. This should also flesh out how we model requests
 and responses.
 
+We need to collect all parts of a request and put it into one object. We could
+do this as a structure or we could do this using Objective-C. I guess
+properly, this should be an object that we can pass around. Let's call this an
+HttpRequest and put it into http_request.[hm]. In real use, we'll grab the
+request line and the headers during a connection and then add them to
+HttpRequest. In our prototype, we'll add these manually.
+
+We should have a function that constructs a WebSocket response if it makes
+sense, otherwise returns nil. The web socket response should be a regular HTTP
+response but with some additional headers.
+
+Here are the steps:
+- Create HttpRequest
+- Create HttpResponse
+- Write a get_websocket_response function
+
+* Pass 1
+  ** Copied over HttpRequest interface. Editor sloppiness.
+  ** Missed semi colon
+  ** Syntax error declaring class
+
+Alright, what we'll do next is to copy the code for computing the accept value
+from proto1 and then fill out the HttpResponse with it. I'd also like the
+HttpResponse to generate the body of the response. (There must be a way to get
+at the underlying C-string. I'll have to figure it out.)
+
+* Pass 2
+  ** Forgot semicolon
+  ** Didn't rename all targets in makefile (missing reference to SHA1)
+  ** Runtime error: Response is nil. Logic error (checked against 'header'
+instead of 'websocket'
 
 Proto 4: Receive data
 ~~~~~~~~~~~~~~~~~~~~~
