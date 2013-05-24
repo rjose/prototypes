@@ -185,6 +185,17 @@ where the start of the data is. The length should be part of the WSFrame.
 * Forgot to remove paren that I wasn't using anymore 
 * Runtime: data isn't long enough. Forgot to initialize object data!
 
+OK, the next step is to accept connections. We'll start with one of our
+serve_http prototypes (Proto5). We'll need to hook up the construction of an
+HttpRequest and the creation of an HttpResponse. We'll have to maintain a
+little bit of state to know if we're doing the handshake, waiting for
+messages, etc. We should be able to use the WebSockets protocol states. The
+states we should use are CONNECTING, OPEN, CLOSING, and CLOSED. All of this
+should happen in one of the forked processes.
+
+Actually, before we do anything, let's start moving some functions around so
+they're in the right classes.
+
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~
 
