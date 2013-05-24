@@ -77,10 +77,11 @@ what the frame looks like:
 
 Prototypes
 ----------
+NOTE: Start by reading spec [X][X][X]
+
 . link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
 . link:https://github.com/rjose/prototypes/tree/38ef3d[Establish a websocket connection] [X][X][X][X][][]
-  ** Reading spec [X][X][X]
 . Receive data across a websocket
 . Send data to client across websocket
 . Serve a page that has web sockets
@@ -92,12 +93,12 @@ request Sec-WebSocket-Key of *dGhlIHNhbXBsZSBub25jZQ==*. This will mainly be
 an exercise in using GNUStep libraries. It will also check my understanding of
 how to do this.
 
-* Pass 1
-  ** NSString may not respond to appendString. Needed to use NSMutableString
-  ** GSMimeDocument undeclared. Mistyped include file
-  ** Improper API call to getCString
-  ** Forgot pointer cast for SHA1
-  ** Runtime: Empty string. Needed to use NSData instead of NSString.
+.Pass 1
+  * NSString may not respond to appendString. Needed to use NSMutableString
+  * GSMimeDocument undeclared. Mistyped include file
+  * Improper API call to getCString
+  * Forgot pointer cast for SHA1
+  * Runtime: Empty string. Needed to use NSData instead of NSString.
 
 Let's clean up and not use so many NSStrings.
 
@@ -110,8 +111,8 @@ can check against.
 We'll start with a single frame "hello". I'm going to break the example frame
 down to see if I understand where the bits come from. 
 
-* Pass 1
-  ** Passed integer to *warn* by mistake
+.Pass 1
+  * Passed integer to *warn* by mistake
 
 
 Proto 3: Establish connection
@@ -133,28 +134,37 @@ sense, otherwise returns nil. The web socket response should be a regular HTTP
 response but with some additional headers.
 
 Here are the steps:
+
 - Create HttpRequest
 - Create HttpResponse
 - Write a get_websocket_response function
 
-* Pass 1
-  ** Copied over HttpRequest interface. Editor sloppiness.
-  ** Missed semi colon
-  ** Syntax error declaring class
+.Pass 1
+  * Copied over HttpRequest interface. Editor sloppiness.
+  * Missed semi colon
+  * Syntax error declaring class
 
 Alright, what we'll do next is to copy the code for computing the accept value
 from proto1 and then fill out the HttpResponse with it. I'd also like the
 HttpResponse to generate the body of the response. (There must be a way to get
 at the underlying C-string. I'll have to figure it out.)
 
-* Pass 2
-  ** Forgot semicolon
-  ** Didn't rename all targets in makefile (missing reference to SHA1)
-  ** Runtime error: Response is nil. Logic error (checked against 'header'
+.Pass 2
+  * Forgot semicolon
+  * Didn't rename all targets in makefile (missing reference to SHA1)
+  * Runtime error: Response is nil. Logic error (checked against 'header'
 instead of 'websocket'
 
 Proto 4: Receive data
 ~~~~~~~~~~~~~~~~~~~~~
+What I want to do in this prototype is to actually establish a websocket
+connection and print out any messages that are received over it. We'll need to
+copy the prototypes for establishing TCP connections. We'll also need to use
+functions from Proto3. One new part is parsing the web socket frame. We can
+start by assuming we don't have any fragmentation and no masking. We'll just
+look at the body length, allocate space for it, and the print it out. Since
+this part is new, let's see if we can parse out the example "Hello" message
+first. After that, I'll pull the rest of this together.
 
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~
