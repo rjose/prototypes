@@ -120,6 +120,11 @@ handle_websocket_request(int connfd)
 	if (response == nil)
 		errx(1, "Exiting handler thread because didn't get a WebSocket request");
 
+        warnx("Send response:\n%s", [[response toString] cString]);
+        // TODO: Write this back
+
+        warnx("TODO: Finish handling the request");
+
 	/* Listen for messages, looking for a CLOSE frame */
 	[request release];
 }

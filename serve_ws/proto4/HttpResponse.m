@@ -1,6 +1,7 @@
 #include <err.h>
 #include <openssl/sha.h>
 
+#import <Foundation/Foundation.h>
 #import <GNUstepBase/GSMime.h>
 
 #import "HttpRequest.h"
@@ -52,10 +53,28 @@ static NSString *calculate_websocket_accept(NSString *);
  */
 - (NSString*) toString
 {
-	// TODO: Implement
-	return nil;
+        NSMutableString *result = [NSMutableString string];
+
+        /* Add status */
+        [result appendString:[NSString stringWithFormat:@"HTTP/1.1 %d %@\r\n",
+                                 statusCode, reason]];
+
+        /* Add headers */
+        NSEnumerator *fieldEnumerator = [headers keyEnumerator];
+        NSString *field, *value;
+        while (field = (NSString*)[fieldEnumerator nextObject]) {
+                value = (NSString*)[headers objectForKey:field];
+                [result appendString:[NSString stringWithFormat:@"%@: %@\r\n",
+                                         field, value]];
+        }
+
+	return result;
 }
 
+
+/*
+ * TODO: Rename this to getWebSocketResponse (or something like that)
+ */
 + (HttpResponse *)getResponse:(HttpRequest *)request
 {
 	/* Check for Upgrade: websocket in request */

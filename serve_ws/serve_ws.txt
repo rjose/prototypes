@@ -214,6 +214,16 @@ read in a more raw way.
 I'll change all of the *warn* calls to *warnx* because I'm getting spurious
 messages appended.
 
+.Pass 5
+* Clean
+
+Next, let's construct the WebSocket response portion of the handshake. We have
+all the info we need -- we just need to convert it to a string.
+
+.Pass 6
+* Typo: status instead of statusCode 
+* Search and replace also replaced a function name 
+* Forgot semicolon
 
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~
