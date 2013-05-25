@@ -82,7 +82,7 @@ NOTE: Start by reading spec [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
 . link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
 . link:https://github.com/rjose/prototypes/tree/38ef3d[Establish a websocket connection] [X][X][X][X][][]
-. Receive data across a websocket [X][X][][][]
+. Receive data across a websocket [X][X][X][][]
 . Send data to client across websocket
 . Serve a page that has web sockets
 
@@ -195,6 +195,21 @@ should happen in one of the forked processes.
 
 Actually, before we do anything, let's start moving some functions around so
 they're in the right classes.
+
+.Pass 3
+* Forgot to move headers along with functions
+
+OK, let's look for WebSocket requests. If we don't get one, we'll just exit
+the child process. If we do find one, we should complete the handshake and go
+into an OPEN state. When we're in the CONNECTING state, let's do readlines so
+we get full HTTP request lines. After the connection is established, we can
+read in a more raw way.
+
+.Pass 4
+* Forgot to include "enum" in declaration
+* sscanf args were pointer to pointer instead of just pointer
+* Runtime error: Not parsing upgrade header properly. Terminated at \n instead
+  of \r\n
 
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~

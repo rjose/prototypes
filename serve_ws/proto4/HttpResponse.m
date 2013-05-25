@@ -9,6 +9,9 @@
 #define BUF_LENGTH 200
 static char m_wsMagicString[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 
+static NSString *calculate_websocket_accept(NSString *);
+
+
 @implementation HttpResponse
 
 - (id)initWithStatus:(NSUInteger)status andReason:(NSString*)aReason
@@ -43,39 +46,17 @@ static char m_wsMagicString[] = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
 	return result;
 }
 
-@end
-
-
 /*
- * NOTE: We should add these to the HttpResponse class
+ * This converts the response to a string suitable for sending as an HTTP
+ * response over TCP.
  */
-
-
-/* 
- * The key comes from Sec-WebSocket-Accept.
- */
-NSString *calculate_websocket_accept(NSString *key)
+- (NSString*) toString
 {
-	char sha_digest[SHA_DIGEST_LENGTH];
-	char buf[BUF_LENGTH];
-
-	/* Concatenate the magic string and take the SHA1... */
-	strncpy(buf, [key cString], BUF_LENGTH/2);
-	strncat(buf, m_wsMagicString, BUF_LENGTH/2);
-	SHA1((const unsigned char*)buf, strlen(buf), (unsigned char*)sha_digest);
-
-	/* ...then base64 encode */
-	NSData *data = [NSData dataWithBytes:sha_digest length:SHA_DIGEST_LENGTH];
-	NSData *encodedData = [GSMimeDocument encodeBase64:data];
-	[encodedData getBytes:(void*)buf length:BUF_LENGTH-1];
-	buf[[encodedData length]] = '\0'; 	/* Terminate string */
-
-	/* Return result */
-	NSString *result = [NSString stringWithCString:buf];
-	return result;
+	// TODO: Implement
+	return nil;
 }
 
-static HttpResponse *get_websocket_response(HttpRequest *request)
++ (HttpResponse *)getResponse:(HttpRequest *)request
 {
 	/* Check for Upgrade: websocket in request */
 	NSString *upgradeHeader = [request getHeader:@"upgrade"];
@@ -105,3 +86,36 @@ static HttpResponse *get_websocket_response(HttpRequest *request)
 	
 	return result;
 }
+@end
+
+
+/*
+ * NOTE: We should add these to the HttpResponse class
+ */
+
+
+/* 
+ * The key comes from Sec-WebSocket-Accept.
+ */
+static NSString *
+calculate_websocket_accept(NSString *key)
+{
+	char sha_digest[SHA_DIGEST_LENGTH];
+	char buf[BUF_LENGTH];
+
+	/* Concatenate the magic string and take the SHA1... */
+	strncpy(buf, [key cString], BUF_LENGTH/2);
+	strncat(buf, m_wsMagicString, BUF_LENGTH/2);
+	SHA1((const unsigned char*)buf, strlen(buf), (unsigned char*)sha_digest);
+
+	/* ...then base64 encode */
+	NSData *data = [NSData dataWithBytes:sha_digest length:SHA_DIGEST_LENGTH];
+	NSData *encodedData = [GSMimeDocument encodeBase64:data];
+	[encodedData getBytes:(void*)buf length:BUF_LENGTH-1];
+	buf[[encodedData length]] = '\0'; 	/* Terminate string */
+
+	/* Return result */
+	NSString *result = [NSString stringWithCString:buf];
+	return result;
+}
+

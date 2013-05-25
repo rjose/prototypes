@@ -11,4 +11,7 @@
 - (id) initWithStatus:(NSUInteger)status andReason:(NSString*)reason;
 - (void) addHeader:(NSString*)field withValue:(NSString*)value;
 - (NSString*) getHeaderForField:(NSString*)field;
+- (NSString*) toString;
+
++ (HttpResponse *)getResponse:(HttpRequest *)request;
 @end
