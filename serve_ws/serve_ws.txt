@@ -225,6 +225,14 @@ all the info we need -- we just need to convert it to a string.
 * Search and replace also replaced a function name 
 * Forgot semicolon
 
+Let's write the response back to the client. We should be able to use our writen
+function.
+
+.Pass 7
+* Clean
+
+
+
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~
 

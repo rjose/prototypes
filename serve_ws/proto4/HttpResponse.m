@@ -60,6 +60,7 @@ static NSString *calculate_websocket_accept(NSString *);
                                  statusCode, reason]];
 
         /* Add headers */
+        // NOTE: We may need to convert fields from lowercase
         NSEnumerator *fieldEnumerator = [headers keyEnumerator];
         NSString *field, *value;
         while (field = (NSString*)[fieldEnumerator nextObject]) {

@@ -119,9 +119,10 @@ handle_websocket_request(int connfd)
 	HttpResponse *response = [HttpResponse getResponse:request];
 	if (response == nil)
 		errx(1, "Exiting handler thread because didn't get a WebSocket request");
+        NSString *responseString = [response toString];
+        Writen(connfd, [responseString cString], [responseString length]);
 
         warnx("Send response:\n%s", [[response toString] cString]);
-        // TODO: Write this back
 
         warnx("TODO: Finish handling the request");
 
