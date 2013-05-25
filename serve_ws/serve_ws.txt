@@ -211,6 +211,10 @@ read in a more raw way.
 * Runtime error: Not parsing upgrade header properly. Terminated at \n instead
   of \r\n
 
+I'll change all of the *warn* calls to *warnx* because I'm getting spurious
+messages appended.
+
+
 Proto 5: Send data
 ~~~~~~~~~~~~~~~~~~
 

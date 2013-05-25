@@ -61,19 +61,19 @@ static NSString *calculate_websocket_accept(NSString *);
 	/* Check for Upgrade: websocket in request */
 	NSString *upgradeHeader = [request getHeader:@"upgrade"];
 	if ([upgradeHeader compare:@"websocket"] != NSOrderedSame) {
-		warn("Upgrade is '%s' not websocket", [upgradeHeader cString]);
+		warnx("Upgrade is '%s' not websocket", [upgradeHeader cString]);
 		return nil;
 	}
 
 	NSString *websocketKey = [request getHeader:@"sec-websocket-key"];
 	if (websocketKey == nil) {
-		warn("Expected a sec-websocket-key header");
+		warnx("Expected a sec-websocket-key header");
 		return nil;
 	}
 
 	NSString *websocketAccept = calculate_websocket_accept(websocketKey);
 	if (websocketAccept == nil) {
-		warn("Problem calculating websocket accept");
+		warnx("Problem calculating websocket accept");
 		return nil;
 	}
 

@@ -43,7 +43,7 @@
 	NSUInteger dataLength = [data length];
 
 	if (dataLength < 2) {
-		warn("Data has to be at least 2 bytes long");
+		warnx("Data has to be at least 2 bytes long");
 		return nil;
 	}
 
@@ -51,17 +51,17 @@
 	 * frame. Also that it's just text */
 	const char *bytes = (const char*)[data bytes];
 	if ((bytes[0] & WS_FRAME_FIN) == 0) {
-		warn("Not handling fragmented messages yet");
+		warnx("Not handling fragmented messages yet");
 		return nil;
 	}
 	if ((bytes[0] & WS_FRAME_OP_TEXT) == 0){
-		warn("Only handling text messages right now");
+		warnx("Only handling text messages right now");
 		return nil;
 	}
 
 	/* Check the second byte to make sure it isn't masked */
 	if (bytes[1] & WS_FRAME_MASK) {
-		warn("Not handling masked messages yet");
+		warnx("Not handling masked messages yet");
 		return nil;
 	}
 
@@ -70,7 +70,7 @@
 
 	/* Check that the data length matches */
 	if (dataLength != bodyLength + 2) { 	/* 2 chars for first 2 bytes in frame */
-		warn("Data length mismatch");
+		warnx("Data length mismatch");
 		return nil;
 	}
 
@@ -98,11 +98,11 @@ construct_frame(char *dst, const char *body, size_t max_len)
 
 	/* Check some edge cases */
 	if (len > SHORT_MESSAGE_LEN) {
-		warn("Length (%d) must be <= %d", len, SHORT_MESSAGE_LEN);
+		warnx("Length (%d) must be <= %d", len, SHORT_MESSAGE_LEN);
 		return -1;
 	}
 	if (max_len < len + 2) { /* byte0, byte1 go at front of frame */
-		warn("Not enough characters to store frame");
+		warnx("Not enough characters to store frame");
 		return -1;
 	}
 

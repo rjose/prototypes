@@ -66,11 +66,11 @@ look_for_http_request(int connfd, HttpRequest **result)
 
 	/* Look for URI and then create request */
 	if (readline(connfd, buf, MAXLINE) < 0) {
-		warn("Problem reading from tcp");
+		warnx("Problem reading from tcp");
 		return -1;
 	}
 	if (sscanf(buf, "%s %s %s", method, uri, version) == EOF) {
-		warn("Couldn't find URI when expected");
+		warnx("Couldn't find URI when expected");
 		return -1;
 	}
 	HttpRequest *request = [[HttpRequest alloc]
@@ -88,7 +88,7 @@ look_for_http_request(int connfd, HttpRequest **result)
 
 		/* Parse header and store */
 		if (parse_header(buf, &field, &value) != 0) {
-			warn("Problem parsing header");
+			warnx("Problem parsing header");
 			return -1;
 		}
 		[request addHeader:[NSString stringWithCString:field]
@@ -112,13 +112,13 @@ handle_websocket_request(int connfd)
 	m_state = CONNECTING;
 	HttpRequest *request;
 	if (look_for_http_request(connfd, &request) != 0)
-		err(1, "No request");
+		errx(1, "No request");
 	[request retain];
 
 	/* Construct a handshake response and send */
 	HttpResponse *response = [HttpResponse getResponse:request];
 	if (response == nil)
-		err(1, "Didn't get a WebSocket request");
+		errx(1, "Exiting handler thread because didn't get a WebSocket request");
 
 	/* Listen for messages, looking for a CLOSE frame */
 	[request release];
