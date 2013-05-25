@@ -78,6 +78,14 @@
 	NSString *result = [NSString stringWithCString:(bytes+2) length:bodyLength];
 	return result;
 }
+
+
+- (BOOL)isCloseFrame
+{
+        // TODO: Implement this
+        return NO;
+}
+
 @end
 
 
@@ -120,3 +128,4 @@ construct_frame(char *dst, const char *body, size_t max_len)
 
 	return 0;
 }
+

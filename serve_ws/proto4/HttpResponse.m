@@ -69,6 +69,9 @@ static NSString *calculate_websocket_accept(NSString *);
                                          field, value]];
         }
 
+        /* Add final CRLF */
+        [result appendString:@"\r\n"];
+
 	return result;
 }
 

@@ -22,5 +22,6 @@
 - (NSMutableData*)data;
 - (void)appendData:(NSData*)moreData;
 - (NSString*)getBodyText;
+- (BOOL)isCloseFrame;
 @end
 

@@ -231,6 +231,12 @@ function.
 .Pass 7
 * Clean
 
+Now, we'll collect WSFrames and print them until we get a close (which we'll
+implement later).
+
+.Pass 8
+* isCloseFrame not found: Added function after @end 
+* Runtime error: Hanging on handshake
 
 
 Proto 5: Send data

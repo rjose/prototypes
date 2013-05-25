@@ -103,31 +103,83 @@ look_for_http_request(int connfd, HttpRequest **result)
 }
 
 
+/*
+ * This reads data from TCP and adds it to a WSFrame until there's an EOF.
+ */
+static WSFrame*
+get_next_wsframe(int connfd)
+{
+	char buf[MAXLINE];
+        WSFrame *result = [[WSFrame alloc] init];
+        NSData *data;
+        ssize_t n;
+        while ( (n = readn(connfd, buf, MAXLINE)) > 0 ) {
+                NSLog(@"Got: %s", buf);
+                data = [NSData dataWithBytes:buf length:n];
+                [result appendData:data];
+        }
+
+        return [result autorelease];
+}
+
+/*
+ * This should loop, getting new WSFrames each time. If we see a control frame
+ * to close the connection, we should do so. We need to have another function
+ * that builds the WSFrames, potentially from several buffer-fuls of data.
+ */
+static int
+have_websocket_conversation(int connfd)
+{
+        WSFrame *frame;
+
+        while(1) {
+                frame = get_next_wsframe(connfd);
+                if (frame == nil) {
+                        warnx("get_next_wsframe: bad frame");
+                        return -1;
+                }
+                if ([frame isCloseFrame])
+                        break;
+
+                /* For now, just log what we got */
+                NSString *bodyText = [frame getBodyText];
+                if (bodyText == nil)
+                        return -1;
+                else
+                        NSLog(@"Got: %@", bodyText);
+        }
+
+        return 0;
+}
+
+
 static void
 handle_websocket_request(int connfd)
 {
-	char buf[MAXLINE];
-
 	/* First we're CONNECTING */
 	m_state = CONNECTING;
 	HttpRequest *request;
 	if (look_for_http_request(connfd, &request) != 0)
 		errx(1, "No request");
-	[request retain];
 
-	/* Construct a handshake response and send */
+	/* Construct a handshake response and send to client */
 	HttpResponse *response = [HttpResponse getResponse:request];
 	if (response == nil)
 		errx(1, "Exiting handler thread because didn't get a WebSocket request");
         NSString *responseString = [response toString];
         Writen(connfd, [responseString cString], [responseString length]);
+        m_state = OPEN;
 
-        warnx("Send response:\n%s", [[response toString] cString]);
+        NSLog(@"Starting websocket conversation");
+        /* Have a websocket conversation */
+        sleep(5);
 
-        warnx("TODO: Finish handling the request");
 
-	/* Listen for messages, looking for a CLOSE frame */
-	[request release];
+	//char wsFrame[] = {0x81, 0x05, 0x48, 0x65, 0x6c, 0x6c, 0x6f};
+        //Writen(connfd, wsFrame, sizeof(wsFrame));
+        NSLog(@"Adios");
+//        if (have_websocket_conversation(connfd) != 0)
+//                errx(1, "WebSocket conversation ended badly.");
 }
 
 /*
@@ -141,8 +193,15 @@ accept_websocket_connections()
 	pid_t childpid;
 	socklen_t clilen;
 	struct sockaddr_in cliaddr, servaddr;
+        int option = 1;
 
 	listenfd = socket(AF_INET, SOCK_STREAM, 0);
+
+        if ( setsockopt(listenfd,
+                        SOL_SOCKET,
+                        SO_REUSEADDR,
+                        &option, sizeof(option)) != 0)
+                err(1, "setsockopt failed");
 
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
@@ -156,19 +215,11 @@ accept_websocket_connections()
 	if (listen(listenfd, LISTENQ) < 0)
 		err(1, "Problem listening to descriptor: %d", listenfd);
 
-	while (1) {
-		clilen = sizeof(cliaddr);
-		connfd = accept(listenfd, (SA*) &cliaddr, &clilen);
-
-		if ( (childpid = fork()) == 0) { /* Child */
-			close(listenfd);
-			handle_websocket_request(connfd);
-			exit(0);
-		}
-
-		/* Parent closes socket */
-		close(connfd);
-	}
+        clilen = sizeof(cliaddr);
+        connfd = accept(listenfd, (SA*) &cliaddr, &clilen);
+        handle_websocket_request(connfd);
+        close(connfd);
+        close(listenfd);
 }
 
 /*
