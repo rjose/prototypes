@@ -1,7 +1,7 @@
 Serve WebSocket
 ===============
 Rino Jose <rjose@linkedin.com>
-v0.3, May 24, 2013: Prototype 3 is done
+v0.4, May 25, 2013: Prototype 4 is done. Adding unit tests next.
 
 Overview
 --------
@@ -79,10 +79,16 @@ Prototypes
 ----------
 NOTE: Start by reading spec [X][X][X]
 
-. link:https://github.com/rjose/prototypes/tree/1a1f85[Construct a handshake response] [X][X][X]
-. link:https://github.com/rjose/prototypes/tree/0f06e9[Construct a simple frame] [X][X][][]
-. link:https://github.com/rjose/prototypes/tree/38ef3d[Establish a websocket connection] [X][X][X][X][][]
-. Receive data across a websocket [X][X][X][][]
+. link:https://github.com/rjose/prototypes/tree/1a1f85[
+      Construct a handshake response] [X][X][X]
+. link:https://github.com/rjose/prototypes/tree/0f06e9[
+      Construct a simple frame] [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/38ef3d[
+      Establish a websocket connection] [X][X][X][X][][]
+. link:https://github.com/rjose/prototypes/tree/88cee8[
+      Establish real websocket connection] [X][X][X][X][X]
+. Mask/unmask frames [][][]
+. Receive data across a websocket 
 . Send data to client across websocket
 . Serve a page that has web sockets
 
@@ -155,8 +161,8 @@ at the underlying C-string. I'll have to figure it out.)
   * Runtime error: Response is nil. Logic error (checked against 'header'
 instead of 'websocket'
 
-Proto 4: Receive data
-~~~~~~~~~~~~~~~~~~~~~
+Proto 4: Establish real websocket connection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 What I want to do in this prototype is to actually establish a websocket
 connection and print out any messages that are received over it. We'll need to
 copy the prototypes for establishing TCP connections. We'll also need to use
@@ -238,14 +244,62 @@ implement later).
 * isCloseFrame not found: Added function after @end 
 * Runtime error: Hanging on handshake
 
+Actually established a connection for reals!
 
-Proto 5: Send data
+
+Proto 5: Mask/unmask frames
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NOTE: We'll use this as an opportunity to rearrange our files a little to separate
+what's mostly stable from what's under development. We'll also use this to add
+unit test support via gnustep-tests.
+
+According to the link:http://tools.ietf.org/html/rfc6455[spec], the client MUST
+mask frames sent to the server. There's a 4 octet mask that's sent as part of
+the frame. Each byte of the message is XOR'd with one byte of the mask. The
+index into the byte is mod 4 of the index of the byte in the message. Because of
+the properties of XOR, we use the same algorithm to mask and unmask.
+
+There's a sample masked message in the spec. I'll add this as a unit test and do
+some TDD against it.
+
+
+Proto 6: Receive data
+~~~~~~~~~~~~~~~~~~~~~
+TODO: Fill this out
+
+
+
+Proto 7: Send data
 ~~~~~~~~~~~~~~~~~~
+TODO: Fill this out
 
-Proto 6: Serve a page with websockets
+
+
+Proto 8: Serve a page with websockets
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We need to create a page with some javascript to make a connection with our
 server and exchange info.
+
+
+
+Thoughts
+--------
+One thing I've struggled with is building prototypes from parts of other
+prototypes. In part, this is because there are more moving pieces. As I move
+functions from one file to another or one class to another, I start to lose
+track of where things are. Because prototypes often extend and revise work from
+other prototypes, it's not always easy to keep things divided into things I
+think are working and things that I think I'm working on.
+
+Does it make sense to rename files that are stable? Maybe we could create
+subdirectories to contain code that's more stable. If I need to work on a stable
+part of code, then I could move the file up. Or maybe, I could just delete the
+old function and write a new one in a new file. For an Objective-C class, I
+could use categories and extend the classes.
+
+I need to start figuring out how to add some small unit tests. For example, I
+need to add tests for masking and unmasking a message.
+
 
 
 References
