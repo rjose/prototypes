@@ -87,7 +87,7 @@ NOTE: Start by reading spec [X][X][X]
       Establish a websocket connection] [X][X][X][X][][]
 . link:https://github.com/rjose/prototypes/tree/88cee8[
       Establish real websocket connection] [X][X][X][X][X]
-. Mask/unmask frames [][][]
+. Mask/unmask frames [X][][]
 . Receive data across a websocket 
 . Send data to client across websocket
 . Serve a page that has web sockets
@@ -242,7 +242,7 @@ implement later).
 
 .Pass 8
 * isCloseFrame not found: Added function after @end 
-* Runtime error: Hanging on handshake
+* Runtime error: Hanging on handshake. Forgot to add ending CRLF after headers.
 
 Actually established a connection for reals!
 
@@ -257,11 +257,27 @@ According to the link:http://tools.ietf.org/html/rfc6455[spec], the client MUST
 mask frames sent to the server. There's a 4 octet mask that's sent as part of
 the frame. Each byte of the message is XOR'd with one byte of the mask. The
 index into the byte is mod 4 of the index of the byte in the message. Because of
-the properties of XOR, we use the same algorithm to mask and unmask.
+the properties of XOR, we use the same algorithm to mask and unmask.  There's a
+sample masked message in the spec. I'll add this as a unit test and do some TDD
+against it.
 
-There's a sample masked message in the spec. I'll add this as a unit test and do
-some TDD against it.
+Alright, the first thing we'll do is see if we can add a *tests* directory and
+get an empty test to run. I'm going to do things a little differently than the
+other prototypes and start with an empty directory and start adding to it.
 
+.Pass 1
+* Clean
+
+Now, let's add a test to exercise the masking toggle function.
+
+.Pass 2
+* Forgot to add brackets to declare a char array
+
+Now, let's unmask the message
+
+.Pass 3
+* Called errx without exit code
+* Added message length to signature but forgot to add it to call
 
 Proto 6: Receive data
 ~~~~~~~~~~~~~~~~~~~~~
