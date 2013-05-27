@@ -30,14 +30,6 @@ is_masked(const char *frame)
 }
 
 
-static char
-get_mask_byte(const char *frame, int index)
-{
-        /* If there's a mask, it will start at the 3rd byte of the frame */
-        int mask_index = index + 2;
-        return frame[mask_index];
-}
-
 /*
  * NOTE: Only handling message lengths < 125. We'll need to test frames that are
  * greater than this (there are two more cases).
@@ -54,31 +46,8 @@ message_length(const char *frame)
         return result;
 }
 
-/*
- * We'll only handle short messages (<= 125 bytes).
- */
 static char
-unmask_message_byte(const char *frame, long message_length, int message_byte_index)
-{
-        char result;
-        char mask_byte;
-        char message_offset;
-
-        if (message_length > 125)
-                errx(1, "Not handling messages longer than 125 bytes");
-
-        message_offset = 6;
-
-        mask_byte = get_mask_byte(frame, message_byte_index % 4); 
-
-        /* Unmask by XOR'ing message byte with mask byte */
-        result = frame[message_byte_index + message_offset] ^ mask_byte;
-
-        return result;
-}
-
-static char
-mask_message_byte(const char *message, int byteIndex, const char *mask)
+toggle_byte_mask(const char *message, int byteIndex, const char *mask)
 {
         char mask_byte = mask[byteIndex % 4];
         char result = message[byteIndex] ^ mask_byte;
@@ -86,11 +55,33 @@ mask_message_byte(const char *message, int byteIndex, const char *mask)
         return result;
 }
 
+
+/*
+ * We'll only handle short messages (<= 125 bytes).
+ */
+static char
+unmask_message_byte(const char *frame, long message_length, int message_byte_index)
+{
+        const char *mask_start;
+        const char *message_start;
+
+        if (message_length > 125)
+                errx(1, "Not handling messages longer than 125 bytes");
+
+        /* For a message of length < 125, the mask starts at Byte 2 and the
+         * message starts at Byte 6 */
+        mask_start = frame + 2;
+        message_start = frame + 6;
+
+        return toggle_byte_mask(message_start, message_byte_index, mask_start);
+}
+
+
 /*
  * This checks the following at a method level:
  *
  *  - identify a masked frame
- *  - extract the masking key
+ *  - parse message length
  *  - unmask a message
  *  - mask a message
  */
@@ -105,12 +96,6 @@ main()
 
         /* Check mask bit */
         pass(YES == is_masked(frame), "Frame is masked");
-
-        /* Check the 4 bytes of the mask */
-        char expected_mask[] = {0x37, 0xfa, 0x21, 0x3d};
-        for (i=0; i < 4; i++)
-                pass(expected_mask[i] == get_mask_byte(frame, i),
-                                "Check mask");
 
         /* Get length of body text */
         int expected_length = 5;
@@ -128,7 +113,7 @@ main()
         char expected_masked_message[] = {0x7f, 0x9f, 0x4d, 0x51, 0x58};
         for (i=0; i < 5; i++)
                 pass(expected_masked_message[i] ==
-                                mask_message_byte(message, i, mask),
+                                toggle_byte_mask(message, i, mask),
                                 "Can mask byte from message");
 
         END_SET("Masking set");

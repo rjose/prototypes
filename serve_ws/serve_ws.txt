@@ -273,11 +273,35 @@ Now, let's add a test to exercise the masking toggle function.
 .Pass 2
 * Forgot to add brackets to declare a char array
 
-Now, let's unmask the message
+Now, let's unmask the message:
 
 .Pass 3
 * Called errx without exit code
 * Added message length to signature but forgot to add it to call
+
+Alright, I want to add checking body length and masking a message next. After
+that, we can move these functions into a WSFrame class.
+
+.Pass 4
+* Used static function declared below function
+
+OK, the last thing I want to do is to move the functions into a WSFrame class.
+The frame param that we pass around should be part of the object and removed
+from the function signatures. Let's write another test that refers to a WSFrame
+and see if it works.
+
+.Pass 5
+* Tried to build but got undefined reference to WSFrame. Fixed this by adding a
+  GNUmakefile.preamble adding the WSFrame as an OBJC_FILE.
+
+The next pass should be the last pass. I'm going to create a WSFrame, add some
+data to it and then exercise the same functions that we wrote above but in the
+class.
+
+.Pass 6
+* Copied function, but forgot to handle local variables
+* Runtime error. Advanced pointer and then referred to it as if it hadn't been
+
 
 Proto 6: Receive data
 ~~~~~~~~~~~~~~~~~~~~~
