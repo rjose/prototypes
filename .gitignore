@@ -3,3 +3,6 @@
 *.out
 *.d
 obj/
+*.core
+*.log
+*.sum
