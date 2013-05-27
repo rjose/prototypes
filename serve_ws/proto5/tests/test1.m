@@ -20,7 +20,7 @@
  */
 
 static BOOL
-is_masked(char *frame)
+is_masked(const char *frame)
 {
         /* The mask bit is in the second byte of the frame */
         if (frame[1] & WS_FRAME_MASK)
@@ -31,7 +31,7 @@ is_masked(char *frame)
 
 
 static char
-get_mask_byte(char *frame, int index)
+get_mask_byte(const char *frame, int index)
 {
         /* If there's a mask, it will start at the 3rd byte of the frame */
         int mask_index = index + 2;
@@ -39,10 +39,26 @@ get_mask_byte(char *frame, int index)
 }
 
 /*
+ * NOTE: Only handling message lengths < 125. We'll need to test frames that are
+ * greater than this (there are two more cases).
+ */
+static long
+message_length(const char *frame)
+{
+        /* The length is in the second byte (if the length < 125) */
+        char result = frame[1] & ~WS_FRAME_MASK;
+
+        if (result > 125)
+                errx(1, "Can't handle messages > 125");
+
+        return result;
+}
+
+/*
  * We'll only handle short messages (<= 125 bytes).
  */
 static char
-unmask_message_byte(char *frame, long message_length, int message_byte_index)
+unmask_message_byte(const char *frame, long message_length, int message_byte_index)
 {
         char result;
         char mask_byte;
@@ -61,6 +77,14 @@ unmask_message_byte(char *frame, long message_length, int message_byte_index)
         return result;
 }
 
+static char
+mask_message_byte(const char *message, int byteIndex, const char *mask)
+{
+        char mask_byte = mask[byteIndex % 4];
+        char result = message[byteIndex] ^ mask_byte;
+
+        return result;
+}
 
 /*
  * This checks the following at a method level:
@@ -88,12 +112,24 @@ main()
                 pass(expected_mask[i] == get_mask_byte(frame, i),
                                 "Check mask");
 
+        /* Get length of body text */
+        int expected_length = 5;
+        pass(expected_length == message_length(frame), "Check message length");
+
         /* Unmask message */
         char expected_message[] = "Hello";
         for (i=0; i < strlen(expected_message); i++)
                 pass(expected_message[i] == unmask_message_byte(frame, 5, i),
                                 "Can unmask message");
 
+        /* Mask message */
+        char message[] = "Hello";
+        char mask[] = {0x37, 0xfa, 0x21, 0x3d}; 
+        char expected_masked_message[] = {0x7f, 0x9f, 0x4d, 0x51, 0x58};
+        for (i=0; i < 5; i++)
+                pass(expected_masked_message[i] ==
+                                mask_message_byte(message, i, mask),
+                                "Can mask byte from message");
 
         END_SET("Masking set");
         
