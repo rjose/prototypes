@@ -91,7 +91,7 @@ NOTE: Start by reading spec [X][X][X]
       Mask/unmask frames] [X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/cec2c2[
       Receive data across a websocket] [X][X][X][X][][]
-. Send data to client across websocket
+. Send data to client across websocket [X]
 
 Proto 1: Construct handshake response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -352,14 +352,12 @@ link:http://www.websocket.org/echo.html[echo test]).
 
 Proto 7: Send data
 ~~~~~~~~~~~~~~~~~~
-TODO: Fill this out
+I think this one can be super simple. I'll just wait until the handshake is
+done and then send back a preformatted web socket frame. This should just
+work.
 
-
-
-Proto 8: Serve a page with websockets
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We need to create a page with some javascript to make a connection with our
-server and exchange info.
+.Pass 1
+* Clean
 
 
 
