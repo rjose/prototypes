@@ -1,0 +1,87 @@
+Handle Multiple Skills
+======================
+Rino Jose <rjose@linkedin.com>
+v0.1, May 29, 2013: Added some thoughts on this.
+
+.Drafting effort
+Effort: [X][][]
+
+Overview
+--------
+I want to work out an idea for accounting for people who can do multiple
+roles -- for example, someone who can do iOS, Web, and server work. As we
+account for how many resources are available to do work, we should be able to
+adjust the skill ratios available for the quarter. I'll do most of the
+prototyping in Lua. The final impelementation should be in C.
+
+Thinking
+--------
+Here's an example of the type of question I'd like to answer:
+
+- John is an iOS developer. Tracy can do iOS or server work. Can we take on 20
+  weeks of iOS work and 4 weeks of server work for this quarter?
+
+The answer should be yes if Tracy does 7 weeks of iOS work and 4 weeks of
+server work. 
+
+Another question might be:
+
+*****
+For John and Tracy above, who much iOS bandwidth do we have? How much server
+bandwidth?
+*****
+
+In this case, it's less clear how to answer this. If we assume that we can
+combine these in a linear fashion, then we have an infinite number of options.
+If we assume that we can only break things down by week, we have 13^2^ options.
+
+Actually, what we have is a set of constraints that must be satisfied. Perhaps
+a better answer is to show the assumed allocation:
+
+*****
+- iOS: 22 weeks-effort (75% tracy)
+- server: 4 weeks-effort (25% tracy)
+*****
+
+In this case, we're making an assumption on how a group is allocated. That
+cuts down on the number of combinations (because we're picking one). In terms
+of figuring out if a given workload is feasible, we'll need to solve a
+knapsack problem (or some LP). The decision variables in this case will be the
+fractional allocations of people during a quarter.
+
+We should be able to specify some default allocations someplace. I won't think
+about where they're actually stored. They should be default allocations for
+the quarter, though. In the system, these should be part of the quarter plan.
+I suppose each person could also have a default bandwidth distribution. This
+would be overridden by the plan. 
+
+
+Risk
+----
+I've never implemented anything that can handle this in a rational way. Not
+sure if it's better to take a probablistic approach, or a combinatorial one.
+Not sure what the combinatorial approach implies. 
+
+Protos
+------
+- Model People, Skills, Plan, and skill bandwidth [][][]
+- Model workload and reporting on feasibility [][][][]
+- Write LP solver to identify feasible skill allocation [][][][][][][][][]
+
+
+Proto1
+~~~~~~
+
+
+
+Stats
+-----
+
+Thoughts
+--------
+
+Checklist
+~~~~~~~~~
+
+References
+----------
