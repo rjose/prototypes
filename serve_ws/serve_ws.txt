@@ -1,7 +1,7 @@
 Serve WebSocket
 ===============
 Rino Jose <rjose@linkedin.com>
-v0.5, May 26, 2013: Prototype 5 is done.
+v0.6, May 29, 2013: Prototype 6 is done.
 
 Overview
 --------
@@ -89,9 +89,9 @@ NOTE: Start by reading spec [X][X][X]
       Establish real websocket connection] [X][X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/ecc9f9[
       Mask/unmask frames] [X][X][X][X]
-. Receive data across a websocket [X][X][X][][][]
+. link:https://github.com/rjose/prototypes/tree/cec2c2[
+      Receive data across a websocket] [X][X][X][X][][]
 . Send data to client across websocket
-. Serve a page that has web sockets
 
 Proto 1: Construct handshake response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
