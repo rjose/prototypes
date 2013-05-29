@@ -97,6 +97,25 @@ person only has one option, just their name should be shown. If a person has
 multiple skills, then the fraction allocated should be shown in parentheses
 after their name.
 
+Proto2: Model workload and reporting on feasibility
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The first thing we'll do is move class-oriented things into their own files. I
+may or may not do something with meta-tables for doing OOD. It would be nice
+to call functions on objects. I guess I'll move move stuff into files first
+and then try converting to something that looks more OO.
+
+In terms of new features, we can assume that we have a total workload (from
+someplace). We're just interested in the bottom line: required effort for each
+skill type. Given this, it should be easy to use what we did from Prototype 1
+to figure out if this is do-able (i.e., if the bandwidth exceeds the
+requirement for each skill type).
+
+We'll also need a number of other functions to help us figure out what we can
+do about the workload. We'll need a function that shows which skills are short
+and which have excess. We'll need something that shows options for shifting
+someone's skillset. For example, for the skills that are short, we might show
+people with potential bandwidth if we redistribute their skill allocations.
+
 
 Stats
 -----
