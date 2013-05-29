@@ -86,20 +86,43 @@ look_for_http_request(int connfd, HttpRequest **result)
 
 
 /*
- * This reads data from TCP and adds it to a WSFrame until there's an EOF.
  */
 static WSFrame*
-get_next_wsframe(int connfd)
+get_websocket_frame(int connfd)
 {
 	char buf[MAXLINE];
-        WSFrame *result = [[WSFrame alloc] init];
+        WSFrame *result;
         NSData *data;
         ssize_t n;
-        while ( (n = readn(connfd, buf, MAXLINE)) > 0 ) {
-                NSLog(@"Got: %s", buf);
-                data = [NSData dataWithBytes:buf length:n];
-                [result appendData:data];
-        }
+
+	/* Read first 2 bytes */
+	if ( (n = readn(connfd, buf, 2)) != 2 ) {
+		warnx("Unable to read first 2 bytes from connection: %d", connfd);
+		return nil;
+	}
+
+	/* Initialize WSFrame and figure out how much more we have to read */
+        result = [[WSFrame alloc] init];
+	data = [NSData dataWithBytes:buf length:2];
+	[result appendData:data];
+
+	// TODO: Check that we have a text frame
+	size_t num_to_read = 0;
+	if ([result isMasked] == YES) {
+		num_to_read += 4; 	/* Need to read mask */
+	}
+	num_to_read += [result messageLength];
+
+	if (num_to_read >= MAXLINE)
+		errx(1, "Not reading messages greater than MAXLINE for now");
+
+	/* Read rest of frame */
+	if ( (n = readn(connfd, buf, num_to_read)) != num_to_read ) {
+		warnx("Unable to read message bytes from connection: %d", connfd);
+		return nil;
+	}
+	data = [NSData dataWithBytes:buf length:num_to_read];
+	[result appendData:data];
 
         return [result autorelease];
 }
@@ -154,17 +177,17 @@ handle_websocket_request(int connfd)
         Writen(connfd, [responseString cString], [responseString length]);
         m_state = OPEN;
 
-        NSLog(@"Starting websocket conversation");
         /* Have a websocket conversation */
-	NSLog(@"TODO: have a websocket conversation here");
-        sleep(5);
+        NSLog(@"Starting websocket conversation");
+
+	/* Wait for a WebSocket frame */
+	WSFrame *frame = get_websocket_frame(connfd);
+	NSLog(@"Message: %@", [frame message]);
 
 
 	//char wsFrame[] = {0x81, 0x05, 0x48, 0x65, 0x6c, 0x6c, 0x6f};
         //Writen(connfd, wsFrame, sizeof(wsFrame));
         NSLog(@"Adios");
-//        if (have_websocket_conversation(connfd) != 0)
-//                errx(1, "WebSocket conversation ended badly.");
 }
 
 /*

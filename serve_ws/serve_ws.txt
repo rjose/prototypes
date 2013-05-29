@@ -89,7 +89,7 @@ NOTE: Start by reading spec [X][X][X]
       Establish real websocket connection] [X][X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/ecc9f9[
       Mask/unmask frames] [X][X][X][X]
-. Receive data across a websocket 
+. Receive data across a websocket [X][X][X][][][]
 . Send data to client across websocket
 . Serve a page that has web sockets
 
@@ -337,6 +337,18 @@ start from there.
 .Pass 1
 * Moved headers to ./lib but did not add ./lib to the search directories.
   Added -I./lib flag to makefile 
+
+Next, let's add some logic to read 2 bytes from the socket. This should give
+info about the frame and the length of the body. We'll use this to figure out
+how much to read next. We can start by verifying that we get a text frame
+that's masked with a body length of 5 (we'll send hello from the
+link:http://www.websocket.org/echo.html[echo test]).
+
+.Pass 2
+* Forgot "," in arg list
+* Runtime error: Could not read from connection. In my readn function, we were
+  adding '\0' to the end instead of treating as raw data.
+
 
 Proto 7: Send data
 ~~~~~~~~~~~~~~~~~~

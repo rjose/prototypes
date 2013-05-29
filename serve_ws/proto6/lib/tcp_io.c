@@ -136,8 +136,13 @@ readline(int fd, void *vptr, size_t maxlen)
 	return n;
 }
 
+/*
+ * This reads in exactly *len* characters. If we get an EOF, we return the
+ * number of characters read so far. If all is good, we return the *len*. If
+ * anything goes wrong, we return -1.
+ */
 ssize_t
-readn(int fd, void *vptr, size_t maxlen)
+readn(int fd, void *vptr, size_t len)
 {
 	size_t n, rc;
 	char c, *ptr;
@@ -153,18 +158,16 @@ readn(int fd, void *vptr, size_t maxlen)
 			err(1, "Problem with pthread_setspecific");
 	}
 	ptr = vptr;
-	for (n=1; n < maxlen; n++) {
+	for (n=0; n < len; n++) {
 		if ( (rc = my_read(tsd, fd, &c)) == 1) {
 			*ptr++ = c;
 		}
 		else if (rc == 0) { 	/* Got EOF */
-			*ptr = 0;
-			return (n - 1);
+			return n;
 		}
 		else
 			return -1;
 	}
 
-	*ptr = 0;
 	return n;
 }

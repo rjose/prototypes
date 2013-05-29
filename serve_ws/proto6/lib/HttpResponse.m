@@ -63,7 +63,7 @@ static NSString *calculate_websocket_accept(NSString *);
         // NOTE: We may need to convert fields from lowercase
         NSEnumerator *fieldEnumerator = [headers keyEnumerator];
         NSString *field, *value;
-        while (field = (NSString*)[fieldEnumerator nextObject]) {
+        while ((field = (NSString*)[fieldEnumerator nextObject]) != nil) {
                 value = (NSString*)[headers objectForKey:field];
                 [result appendString:[NSString stringWithFormat:@"%@: %@\r\n",
                                          field, value]];
