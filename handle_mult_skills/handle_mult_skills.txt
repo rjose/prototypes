@@ -66,7 +66,7 @@ Protos
 ------
 - link:https://github.com/rjose/prototypes/tree/5f43b8[
     Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
-- Model workload and reporting on feasibility [][][][]
+- Model workload and reporting on feasibility [X][][][]
 - Write LP solver to identify feasible skill allocation [][][][][][][][][]
 
 
