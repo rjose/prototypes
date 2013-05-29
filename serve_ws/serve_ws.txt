@@ -91,7 +91,8 @@ NOTE: Start by reading spec [X][X][X]
       Mask/unmask frames] [X][X][X][X]
 . link:https://github.com/rjose/prototypes/tree/cec2c2[
       Receive data across a websocket] [X][X][X][X][][]
-. Send data to client across websocket [X]
+. link:https://github.com/rjose/prototypes/tree/d92d5b[
+      Send data to client across websocket] [X]
 
 Proto 1: Construct handshake response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
