@@ -1,7 +1,7 @@
 Handle Multiple Skills
 ======================
 Rino Jose <rjose@linkedin.com>
-v0.1, May 29, 2013: Added some thoughts on this.
+v0.2, May 29, 2013: Prototype 1 is done.
 
 .Drafting effort
 Effort: [X][X][]
@@ -64,7 +64,7 @@ Not sure what the combinatorial approach implies.
 
 Protos
 ------
-- Model People, Skills, Plan, and skill bandwidth [X][X][][]
+- Model People, Skills, Plan, and skill bandwidth [X][X][X][X][][]
 - Model workload and reporting on feasibility [][][][]
 - Write LP solver to identify feasible skill allocation [][][][][][][][][]
 
@@ -88,12 +88,25 @@ coding. I don't want to do any meta table stuff yet until I'm comfortable with
 Lua. I'm going to just hack something up in Lua for now. After I get something
 mostly working, I'll see if we can do some TDD.
 
+OK, a couple of things left. We need to be able to override the skill
+distribution for any person.
+
+Alright, the last thing I want to do is print out skill assignments. If a
+person only has one option, just their name should be shown. If a person has
+multiple skills, then the fraction allocated should be shown in parentheses
+after their name.
+
 
 Stats
 -----
 
 Thoughts
 --------
+When we're using something as a key, I think we should prefer strings rather
+than objects. Objects may not hash as expected. Also, at the command line,
+it's easier to type in a string. I should skim through the Lua manual again to
+make sure I understand all that's available. It feels a little constricting
+right now -- I'm sure that's not the case.
 
 Checklist
 ~~~~~~~~~
