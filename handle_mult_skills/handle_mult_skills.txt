@@ -4,7 +4,7 @@ Rino Jose <rjose@linkedin.com>
 v0.1, May 29, 2013: Added some thoughts on this.
 
 .Drafting effort
-Effort: [X][][]
+Effort: [X][X][]
 
 Overview
 --------
@@ -64,14 +64,29 @@ Not sure what the combinatorial approach implies.
 
 Protos
 ------
-- Model People, Skills, Plan, and skill bandwidth [][][]
+- Model People, Skills, Plan, and skill bandwidth [X][X][][]
 - Model workload and reporting on feasibility [][][][]
 - Write LP solver to identify feasible skill allocation [][][][][][][][][]
 
 
-Proto1
-~~~~~~
+Proto1: Model People, Skills, Plan, and skill bandwidth
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What we'll do here is create a Skill class and a Person class. Each Person
+should know their skills. Each Person should have a default skill
+distribution.
 
+We'll also need to create a Plan that has some number of weeks in it. It
+should also have a set of people assigned to it. At some point, it will also
+have Work within it, but for now we'll just deal with required effort/skill to
+make things simpler.
+
+We'll be doing this in Lua, so I'll need to review some of how that works.
+I'll start with everything in one file.
+
+I'm stumbling around a little bit with Lua doing some simple object-influenced
+coding. I don't want to do any meta table stuff yet until I'm comfortable with
+Lua. I'm going to just hack something up in Lua for now. After I get something
+mostly working, I'll see if we can do some TDD.
 
 
 Stats
