@@ -382,56 +382,6 @@ need to add tests for masking and unmasking a message.
 
 Stats
 -----
-Language sloppiness
-  * NSString may not respond to appendString. Needed to use NSMutableString
-  * Missed semi colon
-  * Syntax error declaring class
-  * Forgot semicolon
-* Forgot semicolon
-* Forgot to include "enum" in declaration
-* isCloseFrame not found: Added function after @end 
-* Forgot to add brackets to declare a char array
-* Used static function declared below function
-* Forgot "," in arg list
-
-API sloppiness
-  * Improper API call to getCString
-  * Forgot pointer cast for SHA1
-  * Runtime: Empty string. Needed to use NSData instead of NSString.
-  * Passed integer to *warn* by mistake
-* Used %@ in a C string
-* sscanf args were pointer to pointer instead of just pointer
-* Called errx without exit code
-
-Typos
-  * GSMimeDocument undeclared. Mistyped include file
-  * Copied over HttpRequest interface. Editor sloppiness.
-* Forgot to remove paren that I wasn't using anymore 
-* Typo: status instead of statusCode 
-* Search and replace also replaced a function name 
-* Added message length to signature but forgot to add it to call
-
-Refactor sloppiness
-  * Didn't rename all targets in makefile (missing reference to SHA1)
-* Forgot to move headers along with functions
-* Copied function, but forgot to handle local variables
-
-Logic error
-  * Runtime error: Response is nil. Logic error (checked against 'header' instead of 'websocket'
-* Runtime: data isn't long enough. Forgot to initialize object data!
-* Runtime error: Not parsing upgrade header properly. Terminated at \n instead of \r\n
-* Runtime error: Hanging on handshake. Forgot to add ending CRLF after headers.
-* Runtime error. Advanced pointer and then referred to it as if it hadn't been
-* Runtime error: Could not read from connection. In my readn function, we were
-  adding '\0' to the end instead of treating as raw data.
-
-Makefile sloppiness
-* Tried to build but got undefined reference to WSFrame. Fixed this by adding a
-  GNUmakefile.preamble adding the WSFrame as an OBJC_FILE.
-* Moved headers to ./lib but did not add ./lib to the search directories.
-  Added -I./lib flag to makefile 
-
-
 .Errors
 [options="header",width="75%"]
 |====
@@ -448,11 +398,18 @@ protocol  | 6
 [options="header",width="75%"]
 |====
 | Type | Pomodoros (20 min) | Effort (h) | Duration (d)
-| Average daily effort | 2 | 0.5 | 1
-| Max daily effort | 4 | 1.25 | 1
-| Total effort | 7 | 2.5 | 3.5
+| Average daily effort | 7.5 | 2.5 | 1
+| Max daily effort | 9 | 3.0 | 1
+| Total effort | 26 | 8.7 | 3.5
 |====
 
+Checklist
+---------
+- Double check signature not sure of
+- Understand intent of functions so signatures make sense
+- Check for ending semicolon
+- When moving things around, take care of all loose threads at the point
+- Before advancing a pointer, make sure we won't need the start anymore
 
 
 References
