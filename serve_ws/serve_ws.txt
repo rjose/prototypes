@@ -1,7 +1,7 @@
 Serve WebSocket
 ===============
 Rino Jose <rjose@linkedin.com>
-v0.6, May 29, 2013: Prototype 6 is done.
+v1.0, May 29, 2013: Prototypes are done.
 
 Overview
 --------
