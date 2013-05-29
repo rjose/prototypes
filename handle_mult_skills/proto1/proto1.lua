@@ -74,7 +74,6 @@ function Plan.override_skill_distrib(plan, person, skill_distrib)
 	plan.skill_distrib_override[person.name] = skill_distrib
 end
 
--- TODO: Add function to return the override skill distrib or the default
 function Plan.get_skill_distrib(plan, person)
 	if plan.skill_distrib_override[person.name] then
 		return plan.skill_distrib_override[person.name]
@@ -123,7 +122,7 @@ function Plan.print_skill_assignments(plan)
 		for i = 1, #assignments do
 			assignment_line = assignment_line .. string.format("%s, ", assignments[i])
 		end
-		print(string.format("%s: %s", skill, assignment_line))
+		print(string.format("%s: %s", skill, string.sub(assignment_line, 1, #assignment_line-2)))
 	end
 end
 
