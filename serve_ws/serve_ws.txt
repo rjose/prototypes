@@ -362,23 +362,6 @@ work.
 
 
 
-Thoughts
---------
-One thing I've struggled with is building prototypes from parts of other
-prototypes. In part, this is because there are more moving pieces. As I move
-functions from one file to another or one class to another, I start to lose
-track of where things are. Because prototypes often extend and revise work from
-other prototypes, it's not always easy to keep things divided into things I
-think are working and things that I think I'm working on.
-
-Does it make sense to rename files that are stable? Maybe we could create
-subdirectories to contain code that's more stable. If I need to work on a stable
-part of code, then I could move the file up. Or maybe, I could just delete the
-old function and write a new one in a new file. For an Objective-C class, I
-could use categories and extend the classes.
-
-I need to start figuring out how to add some small unit tests. For example, I
-need to add tests for masking and unmasking a message.
 
 Stats
 -----
@@ -403,8 +386,26 @@ protocol  | 6
 | Total effort | 26 | 8.7 | 3.5
 |====
 
+Thoughts
+--------
+One thing I've struggled with is building prototypes from parts of other
+prototypes. In part, this is because there are more moving pieces. As I move
+functions from one file to another or one class to another, I start to lose
+track of where things are. Because prototypes often extend and revise work from
+other prototypes, it's not always easy to keep things divided into things I
+think are working and things that I think I'm working on.
+
+Does it make sense to rename files that are stable? Maybe we could create
+subdirectories to contain code that's more stable. If I need to work on a stable
+part of code, then I could move the file up. Or maybe, I could just delete the
+old function and write a new one in a new file. For an Objective-C class, I
+could use categories and extend the classes.
+
+I need to start figuring out how to add some small unit tests. For example, I
+need to add tests for masking and unmasking a message.
+
 Checklist
----------
+~~~~~~~~~
 - Double check signature not sure of
 - Understand intent of functions so signatures make sense
 - Check for ending semicolon
