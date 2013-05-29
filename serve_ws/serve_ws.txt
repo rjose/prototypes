@@ -1,7 +1,7 @@
 Serve WebSocket
 ===============
 Rino Jose <rjose@linkedin.com>
-v0.4, May 25, 2013: Prototype 4 is done. Adding unit tests next.
+v0.5, May 26, 2013: Prototype 5 is done.
 
 Overview
 --------
@@ -87,7 +87,8 @@ NOTE: Start by reading spec [X][X][X]
       Establish a websocket connection] [X][X][X][X][][]
 . link:https://github.com/rjose/prototypes/tree/88cee8[
       Establish real websocket connection] [X][X][X][X][X]
-. Mask/unmask frames [X][][]
+. link:https://github.com/rjose/prototypes/tree/ecc9f9[
+      Mask/unmask frames] [X][X][X][X]
 . Receive data across a websocket 
 . Send data to client across websocket
 . Serve a page that has web sockets
@@ -305,8 +306,30 @@ class.
 
 Proto 6: Receive data
 ~~~~~~~~~~~~~~~~~~~~~
-TODO: Fill this out
+I think we're pretty close to getting this working now. We can construct a
+WSFrame from data and unmask the data. What we need to do now is to establish
+the WebSocket connection again and then handle incoming messages. This is the
+only new part. We'll use the echo demo program to send data across. This should
+be straightforward.
 
+If all we're doing is assembling pieces from earlier prototypes, I don't think
+we need to add any unit tests. If there are scenarios that make sense to set up,
+we can add that as needed.
+
+Regarding file organization, I'll add a *lib* directory to hold things that
+should be mostly stable. There may be a couple of tweaks to get things working,
+but most of the interesting logic should be in the proto6.m file. When writing
+production code, the functions in proto6.m should be moved to files/classes that
+make the most sense.
+
+The only piece I need to puzzle out is constructing the websocket frames. I
+think I need to implement a simple state machine and do something like read 2
+bytes to figure out the start of the frame. If I don't understand the bytes, I
+should close exit the thread to close the connection. If we do understand the
+bytes, then we should be able to read exactly the right number of bytes to
+construct the frame. We may need to add some logic to figure out how much to
+read at a time given our buffer length. For our prototype, we should be able to
+make the buffer big enough so that won't matter, though.
 
 
 Proto 7: Send data
