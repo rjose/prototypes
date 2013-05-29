@@ -12,6 +12,7 @@
 
 #import <Foundation/Foundation.h>
 
+/* TODO: Move http_header functions to HttpRequest */
 #include "http_header.h"
 #include "tcp_io.h"
 #import "HttpRequest.h"
@@ -111,6 +112,7 @@ get_next_wsframe(int connfd)
 static int
 have_websocket_conversation(int connfd)
 {
+#if 0
         WSFrame *frame;
 
         while(1) {
@@ -129,6 +131,7 @@ have_websocket_conversation(int connfd)
                 else
                         NSLog(@"Got: %@", bodyText);
         }
+#endif
 
         return 0;
 }
@@ -137,7 +140,7 @@ have_websocket_conversation(int connfd)
 static void
 handle_websocket_request(int connfd)
 {
-	/* First we're CONNECTING */
+	/* Start by CONNECTING */
 	m_state = CONNECTING;
 	HttpRequest *request;
 	if (look_for_http_request(connfd, &request) != 0)
@@ -153,6 +156,7 @@ handle_websocket_request(int connfd)
 
         NSLog(@"Starting websocket conversation");
         /* Have a websocket conversation */
+	NSLog(@"TODO: have a websocket conversation here");
         sleep(5);
 
 
@@ -178,6 +182,8 @@ accept_websocket_connections()
 
 	listenfd = socket(AF_INET, SOCK_STREAM, 0);
 
+	/* Reuse port so we don't have to wait before the program can be
+	 * restarted because of the TIME_WAIT state. */
         if ( setsockopt(listenfd,
                         SOL_SOCKET,
                         SO_REUSEADDR,

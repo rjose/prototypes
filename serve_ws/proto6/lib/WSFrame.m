@@ -53,6 +53,13 @@ static char toggle_byte_mask(const char *, int, const char*);
                 return NO;
 }
 
+- (BOOL)isCloseFrame
+{
+	// TODO: Implement this
+	return NO;
+}
+
+
 - (long)messageLength
 {
         const char *frame = [data bytes];

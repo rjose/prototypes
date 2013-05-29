@@ -331,6 +331,12 @@ construct the frame. We may need to add some logic to figure out how much to
 read at a time given our buffer length. For our prototype, we should be able to
 make the buffer big enough so that won't matter, though.
 
+Alright, let's pull some stuff from Prototype 4 to establish a connection and
+start from there.
+
+.Pass 1
+* Moved headers to ./lib but did not add ./lib to the search directories.
+  Added -I./lib flag to makefile 
 
 Proto 7: Send data
 ~~~~~~~~~~~~~~~~~~
