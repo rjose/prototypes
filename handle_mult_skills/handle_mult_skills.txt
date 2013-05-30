@@ -68,7 +68,8 @@ Protos
     Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
 - link:https://github.com/rjose/prototypes/tree/497503[
     Model workload and reporting on feasibility] [X][X][X][X][X][]
-- Write LP solver to identify feasible skill allocation [X][X][X][X][][][][][]
+- link:https://github.com/rjose/prototypes/tree/cad855[
+    Write LP solver to identify feasible skill allocation] [X][X][X][X][][][][][]
 
 
 Proto1: Model People, Skills, Plan, and skill bandwidth
@@ -179,6 +180,23 @@ another prototype for solving this in a more general way.
 
 Stats
 -----
+.Errors
+[options="header",width="75%"]
+|====
+| Category | Description |Count
+| Language sloppiness | "." vs ":", using local, for loops | 4
+| Typos | | 2
+| Logic error | split formatting of skills improperly | 1
+|====
+
+.Effort
+[options="header",width="75%"]
+|====
+| Type | Pomodoros (20 min) | Effort (h) | Duration (d)
+| Average daily effort | 8  | 2.7 | 1
+| Max daily effort     | 11 | 3.7 | 1
+| Total effort         | 16 | 5.3 | 2 
+|====
 
 
 Thoughts
@@ -197,6 +215,7 @@ though.
 
 Checklist
 ~~~~~~~~~
-
-References
-----------
+- Think of lua as more javascripty regarding global variables
+- With for loops, indices are "=", and "in" are "pairs"
+- When switching to object conventions (. -> :), change corresponding function
+  calls
