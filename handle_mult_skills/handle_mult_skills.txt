@@ -66,7 +66,8 @@ Protos
 ------
 - link:https://github.com/rjose/prototypes/tree/5f43b8[
     Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
-- Model workload and reporting on feasibility [X][X][X][X][X][]
+- link:https://github.com/rjose/prototypes/tree/497503[
+    Model workload and reporting on feasibility] [X][X][X][X][X][]
 - Write LP solver to identify feasible skill allocation [][][][][][][][][]
 
 
@@ -134,7 +135,9 @@ and in excess.
 .Pass 2
 * Runtime error: Looks like the skill assignments are incorrect. The format
   function didn't take the override into account.
-* Runtime error: For overloaded skills, showing skills that are underloaded
+* Runtime error: For overloaded skills, showing skills that are underloaded.
+  Turns out I didn't declare some local variables as "local", to they were
+  global by default.
 
 Stats
 -----
