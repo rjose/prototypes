@@ -18,16 +18,19 @@ tracy = Person.new("Tracy", {server_skill, ios_skill})
 
 -- A plan with some skill overrides
 plan = Plan.new(13)
-Plan.add_people(plan, {john, tracy})
+plan:add_people{john, tracy}
+
+-- TODO: Use bracket notation here
 override = {}
 override[ios_skill.name] = 0.80
 override[server_skill.name] = 0.20
-Plan.override_skill_distrib(plan, tracy, override)
+
+plan:override_skill_distrib(tracy, override)
 
 
 -- Sample usage
 print()
-Plan.print_available_skills(plan)
+plan:print_available_skills()
 
 print()
-Plan.print_skill_assignments(plan)
+plan:print_skill_assignments()

@@ -66,7 +66,7 @@ Protos
 ------
 - link:https://github.com/rjose/prototypes/tree/5f43b8[
     Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
-- Model workload and reporting on feasibility [X][][][]
+- Model workload and reporting on feasibility [X][X][][][]
 - Write LP solver to identify feasible skill allocation [][][][][][][][][]
 
 
@@ -116,6 +116,10 @@ and which have excess. We'll need something that shows options for shifting
 someone's skillset. For example, for the skills that are short, we might show
 people with potential bandwidth if we redistribute their skill allocations.
 
+OK, enough talking -- let's get started! I moved stuff out to separate files
+(by class). Let's see how hard it is to get objects going. This is pretty
+straightforward prototypal inheritance. There's a little boiler plate, but
+I'll tolerate it for now.
 
 Stats
 -----
