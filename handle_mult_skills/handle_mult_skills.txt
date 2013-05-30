@@ -66,7 +66,7 @@ Protos
 ------
 - link:https://github.com/rjose/prototypes/tree/5f43b8[
     Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
-- Model workload and reporting on feasibility [X][X][][][]
+- Model workload and reporting on feasibility [X][X][X][X][X][]
 - Write LP solver to identify feasible skill allocation [][][][][][][][][]
 
 
@@ -119,7 +119,22 @@ people with potential bandwidth if we redistribute their skill allocations.
 OK, enough talking -- let's get started! I moved stuff out to separate files
 (by class). Let's see how hard it is to get objects going. This is pretty
 straightforward prototypal inheritance. There's a little boiler plate, but
-I'll tolerate it for now.
+I'll tolerate it for now. OK, I switched things over to using a more OO style.
+Let's try pulling the boiler plate out. No dice. Not sure what subtle thing is
+happening, but I'll leave the boiler plate there for now.
+
+.Pass 1
+* When changing from "." to ":", didn't change all uses of the changed
+  function
+
+Alright, let's add a stub function to Plan that will give me total workload by
+skill. Once we have this, we'll be able to figure out what skills are short
+and in excess.
+
+.Pass 2
+* Runtime error: Looks like the skill assignments are incorrect. The format
+  function didn't take the override into account.
+* Runtime error: For overloaded skills, showing skills that are underloaded
 
 Stats
 -----

@@ -23,8 +23,20 @@ plan:override_skill_distrib(tracy, {[ios_skill.name] = 0.80,
                                     [server_skill.name] = 0.20})
 
 -- Sample usage
-print()
+print("===============================")
 plan:print_available_skills()
 
 print()
 plan:print_skill_assignments()
+
+print()
+print("===============================")
+plan:print_workload()
+
+
+print()
+print("===============================")
+plan:print_overloaded_skills()
+
+print()
+plan:print_excess_skills()

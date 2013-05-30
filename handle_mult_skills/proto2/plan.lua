@@ -14,7 +14,7 @@ end
 -- be a table of skill distributions (as what you'd find for a person)
 --]
 function Plan.new(num_weeks)
-	result = Plan:_new{num_weeks = num_weeks, skill_distrib_override = {} }
+	local result = Plan:_new{num_weeks = num_weeks, skill_distrib_override = {} }
 	return result
 end
 
@@ -35,37 +35,113 @@ function Plan:get_skill_distrib(person)
 	end
 end
 
-function Plan:print_available_skills()
-	print("Available skills")
-	total_skills = {}
-	-- Compute skill totals
+-- Just a stub function for now
+function Plan:get_workload()
+	local result = {ios = 22.0, server = 4.0, android = 10.0}
+	return result
+end
+
+-- Gets the available skill bandwidth for the team (assuming current skill
+-- distribution)
+function Plan:get_skill_totals()
+	local result = {}
 	for _, p in pairs(self.people) do
 		for skill, frac in pairs(self:get_skill_distrib(p)) do
-			total = total_skills[skill] or 0
-			total_skills[skill] = total + frac * self.num_weeks
+			total = result[skill] or 0
+			result[skill] = total + frac * self.num_weeks
 		end
 	end
+	return result
+end
 
-	for skill, avail in pairs(total_skills) do
-		print(string.format("%s: %f weeks-effort", skill, avail))
+-- Based on the workload, this returns a table of skills and the amount of
+-- overload (positive number)
+function Plan:get_overloaded_skills()
+	local result = {}
+	workload = self:get_workload()
+	skill_totals = self:get_skill_totals()
+
+	-- Find where demand exceeds supply
+	for skill, demand in pairs(workload) do
+		supply = skill_totals[skill]
+		if (supply == nil) then
+			result[skill] = demand
+		elseif (demand > supply) then
+			result[skill] = demand - supply
+		end
+	end
+	return result
+end
+
+-- Based on the workload, this returns a table of skills and the amount of
+-- excess (positive number)
+function Plan:get_excess_skills()
+	local result = {}
+	workload = self:get_workload()
+	skill_totals = self:get_skill_totals()
+
+	-- Find where demand exceeds supply
+	for skill, supply in pairs(skill_totals) do
+		demand = workload[skill]
+		if (demand == nil) then
+			result[skill] = supply
+		elseif (supply > demand) then
+			result[skill] = supply - demand
+		end
+	end
+	return result
+end
+
+function print_skills_effort(skills_effort)
+	for skill, effort in pairs(skills_effort) do
+		print(string.format("%s: %f weeks-effort", skill, effort))
 	end
 end
 
-function format_skill_assignment(person, skill_name)
+-- TODO: Think about moving the reporting functions to another class
+function Plan:print_available_skills()
+	print("Available skills")
+	print("----------------")
+	print_skills_effort(self:get_skill_totals())
+end
+
+function Plan:print_workload()
+	print("Workload")
+	print("--------")
+	print_skills_effort(self:get_workload())
+end
+
+function Plan:print_overloaded_skills()
+	print("Overloaded skills")
+	print("-----------------")
+	print_skills_effort(self:get_overloaded_skills())
+end
+
+function Plan:print_excess_skills()
+	print("Excess skills")
+	print("-------------")
+	print_skills_effort(self:get_excess_skills())
+end
+
+
+function format_skill_assignment(person, skill_distrib, skill_name)
 	if mytable.table_length(person.skill_distrib) == 1 then
 		return person.name
 	else
-		return string.format("%s (%.0f%%)", person.name, person.skill_distrib[skill_name]*100)
+		return string.format("%s-%.0f%%", person.name, skill_distrib[skill_name]*100)
 	end
 end
 
 function Plan:print_skill_assignments()
 	print("Skill assignments")
-	skill_assignments = {}
+	print("-----------------")
+	local skill_assignments = {}
 	for _, p in pairs(self.people) do
-		for skill, frac in pairs(self:get_skill_distrib(p)) do
+		skill_distrib = self:get_skill_distrib(p)
+		for skill, frac in pairs(skill_distrib) do
 			skill_assignments[skill] = skill_assignments[skill] or {}
-			table.insert(skill_assignments[skill], format_skill_assignment(p, skill))
+			table.insert(skill_assignments[skill],
+			             format_skill_assignment(p, skill_distrib, skill))
 		end
 	end
 
@@ -78,5 +154,6 @@ function Plan:print_skill_assignments()
 		print(string.format("%s: %s", skill, string.sub(assignment_line, 1, #assignment_line-2)))
 	end
 end
+
 
 return Plan
