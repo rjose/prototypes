@@ -1,7 +1,7 @@
 Handle Multiple Skills
 ======================
 Rino Jose <rjose@linkedin.com>
-v0.2, May 29, 2013: Prototype 1 is done.
+v0.3, May 30, 2013: Prototype 3 is done.
 
 .Drafting effort
 Effort: [X][X][]
@@ -68,7 +68,7 @@ Protos
     Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
 - link:https://github.com/rjose/prototypes/tree/497503[
     Model workload and reporting on feasibility] [X][X][X][X][X][]
-- Write LP solver to identify feasible skill allocation [][][][][][][][][]
+- Write LP solver to identify feasible skill allocation [X][X][X][X][][][][][]
 
 
 Proto1: Model People, Skills, Plan, and skill bandwidth
@@ -97,6 +97,7 @@ Alright, the last thing I want to do is print out skill assignments. If a
 person only has one option, just their name should be shown. If a person has
 multiple skills, then the fraction allocated should be shown in parentheses
 after their name.
+
 
 Proto2: Model workload and reporting on feasibility
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -139,8 +140,46 @@ and in excess.
   Turns out I didn't declare some local variables as "local", to they were
   global by default.
 
+
+Proto3: Write LP solver
+-----------------------
+We can cast the problem of finding a feasible skill distribution as an LP. OK,
+I sketched out some thoughts. The last part is the objective. I think the
+simplest thing would be to just sum the decision variables and take the max.
+To keep the complexity down, we should only have as decision variables people
+who have multiple skills. I started sketching out the case for our simple
+problem and have identified a simple problem statement. I'll cast this in
+canonical form and then see if I can identify some of the key steps in the
+representation.
+
+The first challenge is converting our specialized problem into canonical form.
+Once it's in that form, we can hand it off to a solver and then reinterpret
+the solution when it comes back.
+
+In order to work on my mini-problem, I'll start adding some support in Lua.
+This will help work out what we'll need going forward, too.
+
+Alright, let's add a function to print the tableau so we can see what we're
+doing. After that, we'll add functions to check the improvement criterion.
+Actually, after putting this into canonical form, this was optimal. I checked
+the result and also found this to be the case.
+
+What I'd like to do next is to add the checks for optimality and the ratio
+condition. The main trick is getting this problem into canonical form, I
+think. I'll think about that later, too. I think this should be its own
+prototype, however.
+
+.Pass1
+* Used "for i in 1", #obj instead of "for i = 1, #obj"
+* Used "for _, v in tableau" intead of "for _, v in pairs(tableau)"
+
+OK, technically, I didn't write the complete LP solver, but I showed that it's
+possible to frame this as an LP and solve it (at least manually). I'll draft
+another prototype for solving this in a more general way.
+
 Stats
 -----
+
 
 Thoughts
 --------
@@ -149,6 +188,12 @@ than objects. Objects may not hash as expected. Also, at the command line,
 it's easier to type in a string. I should skim through the Lua manual again to
 make sure I understand all that's available. It feels a little constricting
 right now -- I'm sure that's not the case.
+
+We need to be aware that our solution needs to have some slack in it to cover
+sustaining, blogs, conferences, etc. How should we account for this?
+
+Need to see how this applies to tracks. This is one level down in detail,
+though.
 
 Checklist
 ~~~~~~~~~

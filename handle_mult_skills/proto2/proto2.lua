@@ -40,3 +40,13 @@ plan:print_overloaded_skills()
 
 print()
 plan:print_excess_skills()
+
+plan:override_skill_distrib(tracy, {[ios_skill.name] = 0.6923,
+                                    [server_skill.name] = 0.3077})
+print()
+print("===============================")
+print("(At optimal)")
+plan:print_overloaded_skills()
+
+print()
+plan:print_excess_skills()
