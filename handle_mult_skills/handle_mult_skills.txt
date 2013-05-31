@@ -1,7 +1,7 @@
 Handle Multiple Skills
 ======================
 Rino Jose <rjose@linkedin.com>
-v0.3, May 30, 2013: Prototype 3 is done.
+v0.3, May 31, 2013: Updated proto links.
 
 .Drafting effort
 Effort: [X][X][]
@@ -64,12 +64,15 @@ Not sure what the combinatorial approach implies.
 
 Protos
 ------
-- link:https://github.com/rjose/prototypes/tree/5f43b8[
-    Model People, Skills, Plan, and skill bandwidth] [X][X][X][X][X][]
-- link:https://github.com/rjose/prototypes/tree/497503[
-    Model workload and reporting on feasibility] [X][X][X][X][X][]
-- link:https://github.com/rjose/prototypes/tree/cad855[
-    Write LP solver to identify feasible skill allocation] [X][X][X][X][][][][][]
+- link:https://github.com/rjose/prototypes/tree/5f43b8/handle_mult_skills/proto1[
+      Model People, Skills, Plan, and skill bandwidth]
+      [X][X][X][X][X][]
+- link:https://github.com/rjose/prototypes/tree/497503/handle_mult_skills/proto2[
+      Model workload and reporting on feasibility]
+      [X][X][X][X][X][]
+- link:https://github.com/rjose/prototypes/tree/cad855/handle_mult_skills/proto3[
+      Write LP solver to identify feasible skill allocation]
+      [X][X][X][X][][][][][]
 
 
 Proto1: Model People, Skills, Plan, and skill bandwidth
@@ -219,3 +222,8 @@ Checklist
 - With for loops, indices are "=", and "in" are "pairs"
 - When switching to object conventions (. -> :), change corresponding function
   calls
+
+References
+----------
+- link:http://www.amazon.com/Applied-Mathematical-Programming-Stephen-Bradley/dp/020100464X/ref=sr_1_1?ie=UTF8&qid=1370019963&sr=8-1&keywords=applied+mathematical+programming[
+      Applied Mathematical Programming]
