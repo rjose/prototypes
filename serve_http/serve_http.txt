@@ -1,7 +1,7 @@
 Serve HTTP Request
 ==================
 Rino Jose <rjose@linkedin.com>
-v1.0, May 22, 2013: Finished prototype
+v1.1, May 31, 2013: Updated proto links and format.
 
 Overview
 --------
@@ -21,11 +21,20 @@ where we can connect with curl and then a browser.
 
 Protos
 ------
-. link:https://github.com/rjose/prototypes/tree/2fed7a[Echo data to
-  telnet] [X][X][]
-. link:https://github.com/rjose/prototypes/tree/984fd3[Parse HTTP request into headers] [X][X][][]
-. link:https://github.com/rjose/prototypes/tree/0f61b1[Respond with headers and a body] [X][X][]
-. link:https://github.com/rjose/prototypes/tree/477624[Use NSString for sending responses] [X][]
+. link:https://github.com/rjose/prototypes/tree/2fed7a/serve_http/proto1[
+      Echo data to telnet]
+      [X][X][]
+. link:https://github.com/rjose/prototypes/tree/549bae/serve_http/proto2[
+      Use sscanf to do simple string matching (abandoned)]
+. link:https://github.com/rjose/prototypes/tree/984fd3/serve_http/proto3[
+      Parse HTTP request into headers]
+      [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/0f61b1/serve_http/proto4[
+      Respond with headers and a body]
+      [X][X][]
+. link:https://github.com/rjose/prototypes/tree/477624/serve_http/proto5[
+      Use NSString for sending responses]
+      [X][]
 
 Proto1
 ~~~~~~
@@ -139,3 +148,7 @@ Stats
 | Max daily effort | 4 | 1.25 | 1
 | Total effort | 7 | 2.5 | 3.5
 |====
+
+References
+----------
+- link:http://www.ietf.org/rfc/rfc2616.txt[RFC2616: HTTP/1.1]
