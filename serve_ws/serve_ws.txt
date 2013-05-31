@@ -1,7 +1,7 @@
 Serve WebSocket
 ===============
 Rino Jose <rjose@linkedin.com>
-v1.0, May 29, 2013: Prototypes are done.
+v1.1, May 31, 2013: Updated proto links and formatting.
 
 Overview
 --------
@@ -77,22 +77,32 @@ what the frame looks like:
 
 Prototypes
 ----------
-NOTE: Start by reading spec [X][X][X]
+NOTE: Started by reading spec [X][X][X]
 
-. link:https://github.com/rjose/prototypes/tree/1a1f85[
-      Construct a handshake response] [X][X][X]
-. link:https://github.com/rjose/prototypes/tree/0f06e9[
-      Construct a simple frame] [X][X][][]
-. link:https://github.com/rjose/prototypes/tree/38ef3d[
-      Establish a websocket connection] [X][X][X][X][][]
-. link:https://github.com/rjose/prototypes/tree/88cee8[
-      Establish real websocket connection] [X][X][X][X][X]
-. link:https://github.com/rjose/prototypes/tree/ecc9f9[
-      Mask/unmask frames] [X][X][X][X]
-. link:https://github.com/rjose/prototypes/tree/cec2c2[
-      Receive data across a websocket] [X][X][X][X][][]
-. link:https://github.com/rjose/prototypes/tree/d92d5b[
-      Send data to client across websocket] [X]
+For the prototypes below, use *gnustep-tests* to run tests and *gmake* to
+build the apps. To build a debug version use *gmake debug=yes*.
+
+. link:https://github.com/rjose/prototypes/tree/1a1f85/serve_ws/proto1[
+      Construct a handshake response]
+      [X][X][X]
+. link:https://github.com/rjose/prototypes/tree/0f06e9/serve_ws/proto2[
+      Construct a simple frame]
+      [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/38ef3d/serve_ws/proto3[
+      Establish a websocket connection]
+      [X][X][X][X][][]
+. link:https://github.com/rjose/prototypes/tree/88cee8/serve_ws/proto4[
+      Establish real websocket connection]
+      [X][X][X][X][X]
+. link:https://github.com/rjose/prototypes/tree/ecc9f9/serve_ws/proto5[
+      Mask/unmask frames]
+      [X][X][X][X]
+. link:https://github.com/rjose/prototypes/tree/cec2c2/serve_ws/proto6[
+      Receive data across a websocket]
+      [X][X][X][X][][]
+. link:https://github.com/rjose/prototypes/tree/d92d5b/serve_ws/proto7[
+      Send data to client across websocket]
+      [X]
 
 Proto 1: Construct handshake response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -415,4 +425,4 @@ Checklist
 
 References
 ----------
-- link:http://tools.ietf.org/html/rfc6455[WebSocket Protocol: RFC6455]
+- link:http://tools.ietf.org/html/rfc6455[RFC6455:WebSocket Protocol]
