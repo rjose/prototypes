@@ -40,15 +40,15 @@ Proto1
 ~~~~~~
 We'll start by pulling over the echo server code from the Stevens book.
 
-* Pass 1
-  ** errno, EINTR undeclared. Need to include errno
-  ** ':' instead of ';'
-  ** INADDR_ANY, LISTENQ undeclared. Had to include netinet/in.h and define
-     LISTENQ
+.Pass 1 errors
+* errno, EINTR undeclared. Need to include errno
+* ':' instead of ';'
+* INADDR_ANY, LISTENQ undeclared. Had to include netinet/in.h and define
+  LISTENQ
 
-* Pass 2
-  ** bzero undeclared. Needed to include strings.h
-  ** Runtime: can't connect. Forgot to apply *htons* to port.
+.Pass 2 errors
+* bzero undeclared. Needed to include strings.h
+* Runtime: can't connect. Forgot to apply *htons* to port.
 
 Proto2
 ~~~~~~
@@ -67,8 +67,8 @@ Accept: */*
 
 We'll start with just using sscanf on each of these lines
 
-* Pass 1
-  ** Runtime: segfault. %as doesn't work with the compiler I'm using.
+.Pass 1 errors
+* Runtime: segfault. %as doesn't work with the compiler I'm using.
 
 To parse headers, I'll figure out the the length of the string. Then I'll scan
 through it to find the first ':'. This will give me the header name. If I find
@@ -95,14 +95,14 @@ To store the value, we'll just copy from the line starting at the first
 non-blank character after the field name ':'. We'll go at most the length of
 the destination buffer.
 
-* Pass 1
-  ** Passed address of char array instead of a pointer
-  ** Forgot ',' after auto linebreak
-  ** Runtime: Invalid pointer. Advancing index too many times. Advancing
+.Pass 1 errors
+* Passed address of char array instead of a pointer
+* Forgot ',' after auto linebreak
+* Runtime: Invalid pointer. Advancing index too many times. Advancing
 pointer into memory without keeping track of it.
 
-* Pass 2
-  ** Syntax error declaraing static array
+.Pass 2 errors
+* Syntax error declaraing static array
 
 Proto4
 ~~~~~~
@@ -110,22 +110,22 @@ We're going to split out functionality into files. I want a readline function
 and a write function. We'll still fork a process for each request, though.
 Let's create a tcp_io.c file and put stuff there.
 
-* Pass 1
-  * GNUStep Makefile error: Used OBJC_FILES instead of C_FILES for c files
-  * Forgot to include headers after moving functions
+.Pass 1 errors
+* GNUStep Makefile error: Used OBJC_FILES instead of C_FILES for c files
+* Forgot to include headers after moving functions
 
 OK, now we'll look for an empty line and then write a response.
 
-* Pass 2 (clean)
+.Pass 2 errors
+* None
 
 Proto5
 ~~~~~~
 This one should be pretty straightforward. Just want to use NSString instead
 of char arrays to send headers and the body.
 
-* Pass 1
-  ** Forgot to include ':' in Objective-C call
-
+.Pass 1 errors
+* Forgot to include ':' in Objective-C call
 
 
 Stats

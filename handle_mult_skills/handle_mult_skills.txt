@@ -129,7 +129,7 @@ I'll tolerate it for now. OK, I switched things over to using a more OO style.
 Let's try pulling the boiler plate out. No dice. Not sure what subtle thing is
 happening, but I'll leave the boiler plate there for now.
 
-.Pass 1
+.Pass 1 errors
 * When changing from "." to ":", didn't change all uses of the changed
   function
 
@@ -137,7 +137,7 @@ Alright, let's add a stub function to Plan that will give me total workload by
 skill. Once we have this, we'll be able to figure out what skills are short
 and in excess.
 
-.Pass 2
+.Pass 2 errors
 * Runtime error: Looks like the skill assignments are incorrect. The format
   function didn't take the override into account.
 * Runtime error: For overloaded skills, showing skills that are underloaded.
@@ -146,7 +146,7 @@ and in excess.
 
 
 Proto3: Write LP solver
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 We can cast the problem of finding a feasible skill distribution as an LP. OK,
 I sketched out some thoughts. The last part is the objective. I think the
 simplest thing would be to just sum the decision variables and take the max.
@@ -173,7 +173,7 @@ condition. The main trick is getting this problem into canonical form, I
 think. I'll think about that later, too. I think this should be its own
 prototype, however.
 
-.Pass1
+.Pass 1 errors
 * Used "for i in 1", #obj instead of "for i = 1, #obj"
 * Used "for _, v in tableau" intead of "for _, v in pairs(tableau)"
 

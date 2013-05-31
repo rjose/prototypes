@@ -111,7 +111,7 @@ request Sec-WebSocket-Key of *dGhlIHNhbXBsZSBub25jZQ==*. This will mainly be
 an exercise in using GNUStep libraries. It will also check my understanding of
 how to do this.
 
-.Pass 1
+.Pass 1 errors
   * NSString may not respond to appendString. Needed to use NSMutableString
   * GSMimeDocument undeclared. Mistyped include file
   * Improper API call to getCString
@@ -129,7 +129,7 @@ can check against.
 We'll start with a single frame "hello". I'm going to break the example frame
 down to see if I understand where the bits come from. 
 
-.Pass 1
+.Pass 1 errors
   * Passed integer to *warn* by mistake
 
 
@@ -157,7 +157,7 @@ Here are the steps:
 - Create HttpResponse
 - Write a get_websocket_response function
 
-.Pass 1
+.Pass 1 errors
   * Copied over HttpRequest interface. Editor sloppiness.
   * Missed semi colon
   * Syntax error declaring class
@@ -167,7 +167,7 @@ from proto1 and then fill out the HttpResponse with it. I'd also like the
 HttpResponse to generate the body of the response. (There must be a way to get
 at the underlying C-string. I'll have to figure it out.)
 
-.Pass 2
+.Pass 2 errors
   * Forgot semicolon
   * Didn't rename all targets in makefile (missing reference to SHA1)
   * Runtime error: Response is nil. Logic error (checked against 'header'
@@ -192,14 +192,14 @@ across multiple frames should be represented as multiple WSFrames. Not sure if
 we need to have a separate Message class to hold multiple WSFrames. It seems
 reasonable. For now, let's just stick with a WSFrame.
 
-.Pass 1
+.Pass 1 errors
 * Used %@ in a C string
 
 Alright, the next step is to parse the frame. We should be able to construct
 an NSString by copying from the data in NSData directly. We'll need to know
 where the start of the data is. The length should be part of the WSFrame.
 
-.Pass 2
+.Pass 2 errors
 * Forgot to remove paren that I wasn't using anymore 
 * Runtime: data isn't long enough. Forgot to initialize object data!
 
@@ -214,7 +214,7 @@ should happen in one of the forked processes.
 Actually, before we do anything, let's start moving some functions around so
 they're in the right classes.
 
-.Pass 3
+.Pass 3 errors
 * Forgot to move headers along with functions
 
 OK, let's look for WebSocket requests. If we don't get one, we'll just exit
@@ -223,7 +223,7 @@ into an OPEN state. When we're in the CONNECTING state, let's do readlines so
 we get full HTTP request lines. After the connection is established, we can
 read in a more raw way.
 
-.Pass 4
+.Pass 4 errors
 * Forgot to include "enum" in declaration
 * sscanf args were pointer to pointer instead of just pointer
 * Runtime error: Not parsing upgrade header properly. Terminated at \n instead
@@ -232,13 +232,13 @@ read in a more raw way.
 I'll change all of the *warn* calls to *warnx* because I'm getting spurious
 messages appended.
 
-.Pass 5
-* Clean
+.Pass 5 errors
+* None
 
 Next, let's construct the WebSocket response portion of the handshake. We have
 all the info we need -- we just need to convert it to a string.
 
-.Pass 6
+.Pass 6 errors
 * Typo: status instead of statusCode 
 * Search and replace also replaced a function name 
 * Forgot semicolon
@@ -246,13 +246,13 @@ all the info we need -- we just need to convert it to a string.
 Let's write the response back to the client. We should be able to use our writen
 function.
 
-.Pass 7
-* Clean
+.Pass 7 errors
+* None
 
 Now, we'll collect WSFrames and print them until we get a close (which we'll
 implement later).
 
-.Pass 8
+.Pass 8 errors
 * isCloseFrame not found: Added function after @end 
 * Runtime error: Hanging on handshake. Forgot to add ending CRLF after headers.
 
@@ -277,24 +277,24 @@ Alright, the first thing we'll do is see if we can add a *tests* directory and
 get an empty test to run. I'm going to do things a little differently than the
 other prototypes and start with an empty directory and start adding to it.
 
-.Pass 1
-* Clean
+.Pass 1 errors
+* None
 
 Now, let's add a test to exercise the masking toggle function.
 
-.Pass 2
+.Pass 2 errors
 * Forgot to add brackets to declare a char array
 
 Now, let's unmask the message:
 
-.Pass 3
+.Pass 3 errors
 * Called errx without exit code
 * Added message length to signature but forgot to add it to call
 
 Alright, I want to add checking body length and masking a message next. After
 that, we can move these functions into a WSFrame class.
 
-.Pass 4
+.Pass 4 errors
 * Used static function declared below function
 
 OK, the last thing I want to do is to move the functions into a WSFrame class.
@@ -302,7 +302,7 @@ The frame param that we pass around should be part of the object and removed
 from the function signatures. Let's write another test that refers to a WSFrame
 and see if it works.
 
-.Pass 5
+.Pass 5 errors
 * Tried to build but got undefined reference to WSFrame. Fixed this by adding a
   GNUmakefile.preamble adding the WSFrame as an OBJC_FILE.
 
@@ -310,7 +310,7 @@ The next pass should be the last pass. I'm going to create a WSFrame, add some
 data to it and then exercise the same functions that we wrote above but in the
 class.
 
-.Pass 6
+.Pass 6 errors
 * Copied function, but forgot to handle local variables
 * Runtime error. Advanced pointer and then referred to it as if it hadn't been
 
@@ -345,7 +345,7 @@ make the buffer big enough so that won't matter, though.
 Alright, let's pull some stuff from Prototype 4 to establish a connection and
 start from there.
 
-.Pass 1
+.Pass 1 errors
 * Moved headers to ./lib but did not add ./lib to the search directories.
   Added -I./lib flag to makefile 
 
@@ -355,7 +355,7 @@ how much to read next. We can start by verifying that we get a text frame
 that's masked with a body length of 5 (we'll send hello from the
 link:http://www.websocket.org/echo.html[echo test]).
 
-.Pass 2
+.Pass 2 errors
 * Forgot "," in arg list
 * Runtime error: Could not read from connection. In my readn function, we were
   adding '\0' to the end instead of treating as raw data.
@@ -367,8 +367,8 @@ I think this one can be super simple. I'll just wait until the handshake is
 done and then send back a preformatted web socket frame. This should just
 work.
 
-.Pass 1
-* Clean
+.Pass 1 errors
+* None
 
 
 
