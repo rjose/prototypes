@@ -1,7 +1,7 @@
 Prototype: REPL with status
 ===========================
 Rino Jose <rjose@linkedin.com>
-v1.0, May 16, 2013: Finishing up prototype
+v1.1, May 31, 2013: Updated proto links and format.
 
 Overview
 --------
@@ -27,23 +27,35 @@ the app. This might be a follow-on prototype.
 
 Protos
 ------
-. link:https://github.com/rjose/prototypes/tree/1480c5[From the main thread,
-  create a REPL thread and join to it] [X]
-. link:https://github.com/rjose/prototypes/tree/aed0cf[REPL thread can handle
-  some commands][X][X]
-. link:https://github.com/rjose/prototypes/tree/0841ad[some repl commands for
-  simulating an http request (thread unsafe)] [X][X][X]
-. link:https://github.com/rjose/prototypes/tree/7b2628[Refactor into modules] [X][X]
-. link:https://github.com/rjose/prototypes/tree/499eb0[Add some repl commands
-  for simulating an http request (thread safe)] [X]
-. link:https://github.com/rjose/prototypes/tree/b2b03a[Add some repl commands for
-  simulating a websockets request] [X][X][X][X]
-. link:https://github.com/rjose/prototypes/tree/f753e6[Refactor] [X]
-. link:https://github.com/rjose/prototypes/tree/da9eef[Use Objective-C
-  objects instead of C structs] [X][X][X][X]
-. link:https://github.com/rjose/prototypes/tree/01c71d[Refactor to clean up
-  Objective-C usage] [X][X][X][X][X]
-. Use GNUstep makefiles to build  
+. link:https://github.com/rjose/prototypes/tree/1480c5/repl[
+      From the main thread, create a REPL thread and join to it]
+      [X]
+. link:https://github.com/rjose/prototypes/tree/aed0cf/repl[
+      REPL thread can handle some commands]
+      [X][X]
+. link:https://github.com/rjose/prototypes/tree/0841ad/repl[
+      some repl commands for simulating an http request (thread unsafe)]
+      [X][X][X]
+. link:https://github.com/rjose/prototypes/tree/7b2628/repl[
+      Refactor into modules]
+      [X][X]
+. link:https://github.com/rjose/prototypes/tree/499eb0/repl/proto5[
+      Add some repl commands for simulating an http request (thread safe)]
+      [X]
+. link:https://github.com/rjose/prototypes/tree/b2b03a/repl/proto6[
+      Add some repl commands for simulating a websockets request]
+      [X][X][X][X]
+. link:https://github.com/rjose/prototypes/tree/f753e6/repl/proto7[
+      Refactor]
+      [X]
+. link:https://github.com/rjose/prototypes/tree/da9eef/repl/proto8[
+      Use Objective-C objects instead of C structs]
+      [X][X][X][X]
+. link:https://github.com/rjose/prototypes/tree/01c71d/repl/proto9[
+      Refactor to clean up Objective-C usage]
+      [X][X][X][X][X]
+. link:https://github.com/rjose/prototypes/tree/cca5a1/repl/proto10[
+      Use GNUstep makefiles to build]
 
 Proto1
 ~~~~~~
