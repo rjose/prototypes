@@ -1,7 +1,7 @@
 Prototype: REPL with status
 ===========================
 Rino Jose <rjose@linkedin.com>
-v1.1, May 31, 2013: Updated proto links and format.
+v1.2, May 31, 2013: Added pthreads reference.
 
 Overview
 --------
@@ -255,3 +255,8 @@ Notes
   BASE_NATIVE_OBJC_EXCEPTIONS to 1
 * Also need to source /usr/lib64/GNUstep/Makefiles/GNUstep.sh in order for
   makefiles to work properly
+
+References
+----------
+- link:http://www.amazon.com/Programming-POSIX-Threads-David-Butenhof/dp/0201633922/ref=sr_1_2?s=books&ie=UTF8&qid=1370018160&sr=1-2&keywords=pthreads[
+      Programming with POSIX Threads]
