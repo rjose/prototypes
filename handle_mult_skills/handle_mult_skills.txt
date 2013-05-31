@@ -1,7 +1,7 @@
 Handle Multiple Skills
 ======================
 Rino Jose <rjose@linkedin.com>
-v0.3, May 31, 2013: Updated proto links.
+v0.4, May 31, 2013: Fixed one of the proto links
 
 .Drafting effort
 Effort: [X][X][]
@@ -70,7 +70,7 @@ Protos
 - link:https://github.com/rjose/prototypes/tree/497503/handle_mult_skills/proto2[
       Model workload and reporting on feasibility]
       [X][X][X][X][X][]
-- link:https://github.com/rjose/prototypes/tree/cad855/handle_mult_skills/proto3[
+- link:https://github.com/rjose/prototypes/tree/ea9ac6/handle_mult_skills/proto3[
       Write LP solver to identify feasible skill allocation]
       [X][X][X][X][][][][][]
 
