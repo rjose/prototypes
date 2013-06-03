@@ -21,6 +21,13 @@ benefit of doing it this way is that I can take one pass to get something
 working and then circle back to add tests. I'll need to see if there's a good
 test framework for this.
 
+I'll have to think about how to handle tracks. Are these just tags applied to
+a work item or is this something intrinsic to the work item? We could just
+add another field for a track. How would we use it? For now, this could just
+be metadata that's added to each work item. We can do something with it later.
+
+
+
 Problem
 -------
 Here the scenarios we need to handle:
@@ -120,6 +127,12 @@ Let's delete a work item next. We'll have to do a linear scan through the
 plan's work items, but we can use the key directly in the work table. Am I
 being too explicit here? A better design would be to have watchers and
 callbacks, I think. For now, let's just do this directly.
+
+OK, let's work on adding estimates to work items next. Done.
+
+Last step is writing this out to a file. For now, we'll just write with each
+change. We could store up changes and write periodically. Ultimately, we'll
+have a queue of writes and have the writes being done in another thread.
 
 
 Proto4: Write functions for updating plan

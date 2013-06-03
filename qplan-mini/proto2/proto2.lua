@@ -56,10 +56,10 @@ end
 -- List of work items in ranked order along with a cutline
 -- TODO: Build these with the construct_work_item function
 max_work_item_id = 2
-work = {["1"] = {id = "1", name = "Do work item 1",
+work = {["1"] = {id = "1", name = "Do work item 1", track = "Track1",
 	 estimates = {["Native"] = "L", ["Web"] = "M", ["Server"] = "S", ["BB"] = "S"}},
 
-	["2"] = {id = "2", name = "Do work item 2",
+	["2"] = {id = "2", name = "Do work item 2", track = "Track2",
 	 estimates = {["Native"] = "2L", ["Web"] = "Q", ["Server"] = "S", ["BB"] = "S"}}
 }
 
@@ -139,6 +139,24 @@ function delete_work_item(id, work, plan)
 	work[id] = nil
 end
 
+function add_work_estimate(work, work_id, skill_name, estimate_string)
+	if work[work_id] == nil then
+		print("Got an empty work item")
+		return
+	end
+
+	work[work_id].estimates[skill_name] = estimate_string
+end
+
+function clear_work_estimate(work, work_id)
+	if work[work_id] == nil then
+		print("Got an empty work item")
+		return
+	end
+
+	work[work_id].estimates = {}
+end
+
 --[
 -- Sample function calls
 --]
@@ -149,5 +167,11 @@ print_work_items(ranked)
 
 print("\nDelete the top item")
 delete_work_item("2", work, plan)
+ranked = get_ranked_work_items(plan, work)
+print_work_items(ranked)
+
+print("\nAdd estimate to work item")
+add_work_estimate(work, "3", "Native", "2L")
+add_work_estimate(work, "3", "Server", "M")
 ranked = get_ranked_work_items(plan, work)
 print_work_items(ranked)
