@@ -1,0 +1,114 @@
+QPlan-Mini
+==========
+Rino Jose <rjose@linkedin.com>
+v0.1, Jun 3, 2013: Sketching out thoughts for a quick version
+
+Drafting effort [X]
+
+Overview
+--------
+Ultimately, I'd like to implement what's specified for
+link:https://github.com/rjose/product-specs/blob/67d533/qplan.txt[qplan], but
+I need to have something happen much quicker than that. I'll some basic
+functionality in place first. We'll do everything in Lua. Data will be stored
+in text files in something that would be easily parsed by awk.
+
+I'm going to see if I can take a sweep through all of the prototypes. Maybe I
+can take a narrow vertical slice through all pieces. Even though, I'll be
+working on a coherent slice, I think I want to work across multiple prototype
+directories. Not sure if this is a good idea, but I'm going to try it. Another
+benefit of doing it this way is that I can take one pass to get something
+working and then circle back to add tests. I'll need to see if there's a good
+test framework for this.
+
+Problem
+-------
+Here the scenarios we need to handle:
+
+- Read skills from file
+- Read team data from file
+- Verify team data is valid wrt skills file (offline)
+- Read/write work item data
+- Read/write plan info (priority, cutline, is feasible, excess/short)
+- Add work item (at position, above cutline, below cutline, bottom)
+- Rank work item
+- Estimate work item (array of skill/effort)
+- Set cutline
+- Check feasibility
+- Write to format pastable into spreadsheet
+- Read from spreadsheet (or spreadsheet export)
+
+
+Architecture
+------------
+Will run from an interactive lua script. All functionality will be in Lua.
+We'll organize the interfaces with the expectation that we'll re-code much of
+this in C.
+
+Prototypes
+----------
+- Create files and read them from Lua [][][]
+- Write functions for reporting work items, current plan, team stats [][][][]
+- Write functions for adding/manipulating work items [][][][]
+- Write functions for updating plan (ranking, cutline) [][][]
+- Add stub for updating plan feasibility [][]
+
+Proto1: Create qplan files
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+In this prototype, we'll create all of the files that we'll need to implement
+the first proto version of this tool. The files we'll need are:
+
+- skills.txt
+- team.txt
+- work.txt
+- plan.txt
+
+We'll need to parse these into forms that we can understand. It's acceptable
+to parse into an array of tables for now. We can add classes later if needed.
+The users need to have a default skill distribution. That should be part of
+the team file. The plan should also have overrides for each person. The
+structure of the plan file may be interesting. We might want to split it into
+multiple files if it gets too ugly.
+
+
+Proto2: Write functions for reporting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are two parts to this. One is doing a query for the data. This we can do
+somewhat ad hoc against the data in memory. The other is the
+formatting/representation/printing of the information. For now, we'll print to
+stdout. In the future, we should be able to hook into ncurses and into
+something that can render JSON or HTML fragments.
+
+We should put all of the reporting functions into a reporting module. Here are
+some of the things we'll need to show:
+
+- List of work items in ranked order along with a cutline
+- Stats for the current plan (num items above cutline, num items below,
+  resource demand, resource shortage, resource excess)
+
+
+Proto3: Write functions for adding/manipulating work items
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here, we need to be able to add a work item. We need to delete one. We need to
+estimate work for an item. We need to search work items by index and by word.
+Whenever we make a change, we need to write it out to file.
+
+
+Proto4: Write functions for updating plan
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here, we need to update the ranking of items. We can specify a rank for an
+individual work item. That should put it into that position and move
+everything else down. The cutline should be unchanged when this happens. We
+should be able to specify ranking for an array of work items (including the
+start rank). We should be able to move something above or below the cutline.
+This moves the item right next to the cutline and adjusts the cutline in order
+to compensate.
+
+
+Proto5: Add stub for updating plan feasibility
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The plan should maintain information regarding the current feasibility and
+which resources are in excess and which are short. There should be a function
+that computes this. Ultimately, this needs to hook into an LP to solve. For
+now, we can just make some assumptions about the users' skillset. That should
+be enough for now.
