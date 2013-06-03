@@ -3,7 +3,7 @@ QPlan-Mini
 Rino Jose <rjose@linkedin.com>
 v0.1, Jun 3, 2013: Sketching out thoughts for a quick version
 
-Drafting effort [X]
+Drafting effort [X][X]
 
 Overview
 --------
@@ -47,8 +47,8 @@ this in C.
 
 Prototypes
 ----------
-- Create files and read them from Lua [][][]
-- Write functions for reporting work items, current plan, team stats [][][][]
+- Create files and read them from Lua [X][][]
+- Write functions for reporting work items, current plan, team stats [X][][][]
 - Write functions for adding/manipulating work items [][][][]
 - Write functions for updating plan (ranking, cutline) [][][]
 - Add stub for updating plan feasibility [][]
@@ -59,7 +59,8 @@ In this prototype, we'll create all of the files that we'll need to implement
 the first proto version of this tool. The files we'll need are:
 
 - skills.txt
-- team.txt
+- people.txt
+- team.txt (later)
 - work.txt
 - plan.txt
 
@@ -69,6 +70,15 @@ The users need to have a default skill distribution. That should be part of
 the team file. The plan should also have overrides for each person. The
 structure of the plan file may be interesting. We might want to split it into
 multiple files if it gets too ugly.
+
+Alright, I'm going to start with Proto1 and do a vertical slice. Let's add
+skills.txt, work.txt, and plan first. If we have that, we should be able to write
+some reports for listing work items.
+
+OK, I added skills, work, and plan files. Each file has a header that
+describes the fields. Let's see if we can read the skills in. OK, I can read
+skills in. Let's hop over to Proto2 and see what we'll need to print work
+items in a plan.
 
 
 Proto2: Write functions for reporting
@@ -85,6 +95,11 @@ some of the things we'll need to show:
 - List of work items in ranked order along with a cutline
 - Stats for the current plan (num items above cutline, num items below,
   resource demand, resource shortage, resource excess)
+
+I'm going to work backwards a little bit and start with primitive plan and
+work tables and see if I can print things out. I won't need any data to start.
+Alright, I can print out the work items. Let's return the data instead and
+have a separate printing function. Done.
 
 
 Proto3: Write functions for adding/manipulating work items
