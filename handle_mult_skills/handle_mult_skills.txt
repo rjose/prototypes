@@ -73,6 +73,7 @@ Protos
 - link:https://github.com/rjose/prototypes/tree/ea9ac6/handle_mult_skills/proto3[
       Write LP solver to identify feasible skill allocation]
       [X][X][X][X][][][][][]
+- Convert mult skills problem to canonical form [X][X][][][][][][][][]
 
 
 Proto1: Model People, Skills, Plan, and skill bandwidth
@@ -180,6 +181,14 @@ prototype, however.
 OK, technically, I didn't write the complete LP solver, but I showed that it's
 possible to frame this as an LP and solve it (at least manually). I'll draft
 another prototype for solving this in a more general way.
+
+
+Proto4: Convert mult skills problem to canonical form
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I wasn't planning on doing anything more with this, but I think I should at
+least try to automatically convert the multiple skills problem into a
+canonical LP form while it's still fresh in my mind. I'll do this on paper
+first and see if I can bring it back here.
 
 Stats
 -----
