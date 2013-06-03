@@ -48,8 +48,8 @@ this in C.
 Prototypes
 ----------
 - Create files and read them from Lua [X][][]
-- Write functions for reporting work items, current plan, team stats [X][][][]
-- Write functions for adding/manipulating work items [][][][]
+- Write functions for reporting work items, current plan, team stats [X][X][][]
+- Write functions for adding/manipulating work items [X][][][]
 - Write functions for updating plan (ranking, cutline) [][][]
 - Add stub for updating plan feasibility [][]
 
@@ -99,7 +99,8 @@ some of the things we'll need to show:
 I'm going to work backwards a little bit and start with primitive plan and
 work tables and see if I can print things out. I won't need any data to start.
 Alright, I can print out the work items. Let's return the data instead and
-have a separate printing function. Done.
+have a separate printing function. Done. Alright, let's add estimates for
+these as well.
 
 
 Proto3: Write functions for adding/manipulating work items
@@ -107,6 +108,18 @@ Proto3: Write functions for adding/manipulating work items
 Here, we need to be able to add a work item. We need to delete one. We need to
 estimate work for an item. We need to search work items by index and by word.
 Whenever we make a change, we need to write it out to file.
+
+Let's start by adding a work item without an estimate. Done.
+
+One thing I realize is that we'll need some functions that operate on global
+data from the repl's perspective. In order to do this, I think I need to start
+packaging stuff into modules. Once that's done, I can just call things at
+will.
+
+Let's delete a work item next. We'll have to do a linear scan through the
+plan's work items, but we can use the key directly in the work table. Am I
+being too explicit here? A better design would be to have watchers and
+callbacks, I think. For now, let's just do this directly.
 
 
 Proto4: Write functions for updating plan
