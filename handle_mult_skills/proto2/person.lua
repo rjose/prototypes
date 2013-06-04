@@ -9,7 +9,7 @@ end
 
 -- *skills* is an array of skills
 function Person.new(name, skills)
-	result = Person:_new{name = name}
+	local result = Person:_new{name = name}
 	result.skill_distrib = {}
 
 	if (#skills == 0) then
