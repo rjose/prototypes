@@ -12,16 +12,23 @@ my_plan = Plan.new("MobileQ3", 13, 1, {"2", "1"})
 
 print("Add a new item")
 my_plan:add_work_item("Item #3", "Track2")
-ranked = my_plan:get_ranked_work_items()
-Work.print_work_items(ranked)
+Work.print_work_items(my_plan:get_ranked_work_items())
 
 print("\nDelete the top item")
 my_plan:delete_work_item("2")
-ranked = my_plan:get_ranked_work_items()
-Work.print_work_items(ranked)
+Work.print_work_items(my_plan:get_ranked_work_items())
 
 print("\nAdd estimate to work item")
 Work.work["3"]:add_estimate("Native", "2L")
 Work.work["3"]:add_estimate("Server", "M")
-ranked = my_plan:get_ranked_work_items()
-Work.print_work_items(ranked)
+Work.print_work_items(my_plan:get_ranked_work_items())
+
+print("\nAdd more work items")
+for i = 4, 10 do
+	my_plan:add_work_item("Item #" .. i, "Track2")
+end
+Work.print_work_items(my_plan:get_ranked_work_items())
+
+print("\nSet cutline")
+my_plan:set_cutline(5)
+Work.print_work_items(my_plan:get_ranked_work_items())

@@ -152,14 +152,18 @@ start rank). We should be able to move something above or below the cutline.
 This moves the item right next to the cutline and adjusts the cutline in order
 to compensate.
 
+- Move the cutline
 - Apply new ranking (need to reject garbage)
 - Move just below and just above cutline
-- Move the cutline
 
 Let's start by moving all of the Plan related functions to their own module.
 Hopefully, I can keep my "."'s and ":"'s straight. First, I want to see if
 module data is shared across files. Hmmm. Seems to work. I'll be careful,
-though.
+though. OK, that went pretty smooth.
+
+Let's look at setting the cutline next. OK, that looks good. Let's go to
+changing rankings next.
+
 
 
 Proto5: Add stub for updating plan feasibility

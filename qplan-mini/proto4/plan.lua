@@ -58,5 +58,13 @@ function Plan:get_ranked_work_items()
 	return result
 end
 
+function Plan:set_cutline(cutline)
+	if type(cutline) ~= "number" then
+		io.stderr:write("Cutline wasn't a number!")
+		return
+	end
+	self.cutline = cutline
+end
+
 
 return Plan
