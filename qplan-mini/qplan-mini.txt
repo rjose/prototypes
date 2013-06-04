@@ -57,7 +57,7 @@ Prototypes
 - Create files and read them from Lua [X][][]
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
-- Write functions for updating plan (ranking, cutline) [X][][]<>
+- Write functions for updating plan (ranking, cutline) [X][X][X]<X><>
 - Add stub for updating plan feasibility [][]
 
 Proto1: Create qplan files
@@ -162,9 +162,12 @@ module data is shared across files. Hmmm. Seems to work. I'll be careful,
 though. OK, that went pretty smooth.
 
 Let's look at setting the cutline next. OK, that looks good. Let's go to
-changing rankings next.
+changing rankings next. To change rankings, let's iterate through the current
+list to pull the items to be updated into a separate list. Once we have this,
+we iterate through the other items again and when we hit the desired position,
+copy updated items in and then follow with the rest of the items.
 
-
+It would be nice to have undo. I'll see if I can add this at some point.
 
 Proto5: Add stub for updating plan feasibility
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -174,6 +177,7 @@ that computes this. Ultimately, this needs to hook into an LP to solve. For
 now, we can just make some assumptions about the users' skillset. That should
 be enough for now.
 
+- Need to parse estimate strings
 - Check if plan is feasible
 - Compute best skill utilization
 - Find cutline given staffing and current plan
