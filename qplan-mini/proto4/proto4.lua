@@ -33,15 +33,22 @@ print("\nSet cutline")
 my_plan:set_cutline(5)
 Work.print_work_items(my_plan:get_ranked_work_items())
 
+function print_work_items(work_items)
+	for i = 1, #work_items do
+		print(string.format("%s %s %s", i, type(work_items[i]), work_items[i]))
+	end
+	print()
+	for k, v in pairs(work_items) do
+		print(string.format("%s %s %s", k, type(v), v))
+	end
+end
+
 print("\nApply rankings")
-my_plan:rank({7, 8, 9})
+--my_plan:rank({1, 3, 4}, {at = 1})
+my_plan:rank({7, 8, 9}, {at = 8})
 Work.print_work_items(my_plan:get_ranked_work_items())
 
+--my_plan:rank({7, 8, 9}, {at = 3})
+--my_plan:rank({7, 8, 9})
 -- my_plan:rank({7, 8, 9}, {at = 6})
--- Work.print_work_items(my_plan:get_ranked_work_items())
--- 
--- my_plan:rank({9}, {at = "C-"})
--- Work.print_work_items(my_plan:get_ranked_work_items())
--- 
--- my_plan:rank({9}, {at = "C"})
 -- Work.print_work_items(my_plan:get_ranked_work_items())

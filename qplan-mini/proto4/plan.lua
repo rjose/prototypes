@@ -66,33 +66,44 @@ function Plan:set_cutline(cutline)
 	self.cutline = cutline
 end
 
+function position_from_options(items, options)
+	local result = 1
+	if options == nil then
+		return result
+	end
+
+	if type(options.at) == "number" then
+		result = options.at
+	end
+
+	return result
+end
+
 -- We'll use this to move items around the list
 function Plan:rank(items, options)
 	-- Normalize ids in items
+	local items_map = {}
 	for i = 1,#items do
 		items[i] = items[i] .. ""
+		items_map[items[i]] = true
 	end
 
-	local position = 1
+	local position = position_from_options(items, options)
 
-	local items_map = {}
 	local unchanged_items = {}
 	local changed_map = {}
 
 	local insert_position = nil 
 
-	-- Put items into a map so we can find/delete them easily
-	for _, v in pairs(items) do
-		items_map[v] = true
-	end
-
 	-- Separate work items into unchaged and changed items
 	for rank, id in pairs(self.work_items) do
+--		print(string.format("%s: %d, %s", type(id), id, items_map[id]))
 		if items_map[id] then
 			-- Need to treat separately because these need to be ordered
 			changed_map[id] = true
 		else
 			unchanged_items[#unchanged_items+1] = id
+			--print(string.format("Rank: %s, position: %s, %s", rank, position, rank == position))
 			if rank == position then
 				insert_position = #unchanged_items
 			end
@@ -106,6 +117,7 @@ function Plan:rank(items, options)
 			changed_items[#changed_items+1] = id
 		end
 	end
+
 
 	-- Put changed items into position
 	local new_work_items = {}
@@ -122,6 +134,9 @@ function Plan:rank(items, options)
 				for j = 1,#changed_items do
 					new_work_items[#new_work_items+1] = changed_items[j]
 				end
+				
+				-- Don't forget the current unchanged item!
+				new_work_items[#new_work_items+1] = unchanged_items[i]
 			else
 				new_work_items[#new_work_items+1] = unchanged_items[i]
 			end

@@ -57,7 +57,7 @@ Prototypes
 - Create files and read them from Lua [X][][]
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
-- Write functions for updating plan (ranking, cutline) [X][X][X]<X><>
+- Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><>
 - Add stub for updating plan feasibility [][]
 
 Proto1: Create qplan files
@@ -167,7 +167,21 @@ list to pull the items to be updated into a separate list. Once we have this,
 we iterate through the other items again and when we hit the desired position,
 copy updated items in and then follow with the rest of the items.
 
+OK, let's add options for where items should be placed. I'll add a function
+that can compute the position based on the items. For "at", we just need to
+set the position to that number. If the position is < 1, we'll clamp it to 1.
+If we can't interpret the "at", we'll default to 1.
+
+Hmmm. I'm seeing a weird issue where the first ranking works fine, but the
+second is all messed up. Something must be wrong with the state of the
+plan.work_items. Nope. Looks like the problem is if the desired position
+is in the position of the items to be ranked.
+
+It would also be nice to specify the cutline as an "at" option.
+
 It would be nice to have undo. I'll see if I can add this at some point.
+
+What happens for repeated indices?
 
 Proto5: Add stub for updating plan feasibility
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
