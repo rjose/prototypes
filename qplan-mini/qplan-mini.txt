@@ -56,7 +56,7 @@ Prototypes
 ----------
 - Create files and read them from Lua [X][][]
 - Write functions for reporting work items, current plan, team stats [X][X][][]
-- Write functions for adding/manipulating work items [X][][][]
+- Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
 - Write functions for updating plan (ranking, cutline) [][][]
 - Add stub for updating plan feasibility [][]
 
@@ -133,6 +133,13 @@ OK, let's work on adding estimates to work items next. Done.
 Last step is writing this out to a file. For now, we'll just write with each
 change. We could store up changes and write periodically. Ultimately, we'll
 have a queue of writes and have the writes being done in another thread.
+
+I want to write things out to file, but it's starting to get a little
+complicated with all of the bare functions. Let's move all of the work item
+functions to a Work class. Hang on. Let's just move the functions first and
+handle writing to file later. Ugh. That took a long time. Lots of errors
+stemming from a missed "." vs ":". Also spent time on a wild goose chase
+around mis-initialization of the number of work items.
 
 
 Proto4: Write functions for updating plan

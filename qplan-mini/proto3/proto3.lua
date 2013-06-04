@@ -1,3 +1,8 @@
+Work = require("work")
+
+local plan = {}
+
+
 -- TODO: Move this to a util module
 function string:split(sSeparator, nMax, bRegexp)
 	assert(sSeparator ~= '')
@@ -54,23 +59,13 @@ function read_skills()
 end
 
 -- List of work items in ranked order along with a cutline
--- TODO: Build these with the construct_work_item function
-max_work_item_id = 2
-work = {["1"] = {id = "1", name = "Do work item 1", track = "Track1",
-	 estimates = {["Native"] = "L", ["Web"] = "M", ["Server"] = "S", ["BB"] = "S"}},
 
-	["2"] = {id = "2", name = "Do work item 2", track = "Track2",
-	 estimates = {["Native"] = "2L", ["Web"] = "Q", ["Server"] = "S", ["BB"] = "S"}}
-}
 
-plan = {id = "1", name = "MobileQ3", num_weeks = 13, team_id = "0",
-        cutline = 1, work_items = {"2", "1"}}
-
-function get_ranked_work_items(plan, work)
+function get_ranked_work_items(plan)
 	local work_ids = plan.work_items
 	local result = {}
 	for _, id in pairs(work_ids) do
-		result[#result+1] = work[id]
+		result[#result+1] = Work.get_work(id)
 	end
 
 	-- Add the cutline
@@ -78,19 +73,10 @@ function get_ranked_work_items(plan, work)
 	return result
 end
 
-function get_work_estimate_string(work_item)
-	local result = ""
-	for skill, estimate in pairs(work_item.estimates) do
-		result = result .. string.format("%s: %s, ", skill, estimate)
-	end
-
-	-- Strip trailing comma
-	return result:sub(1, -3)
-end
 
 function print_work_item(work_item)
 	io.write(string.format("%3s - %-40s %s\n", work_item.id,
-	                       work_item.name, get_work_estimate_string(work_item)))
+	                       work_item.name, work_item:get_estimate_string()))
 end
 
 function print_work_items(work_items)
@@ -103,19 +89,12 @@ function print_work_items(work_items)
 	end
 end
 
-function construct_work_item(name)
-	new_id = max_work_item_id + 1
-	max_work_item_id = new_id
 
-	local result = {id = new_id .. "", name = name, estimates = {}}
-	return result
-end
-
--- TODO: Need to specify how a work item should be added
--- By default, adding a work item should add it to the bottom of the list
-function add_work_item(work, name, plan)
-	new_item = construct_work_item(name)
-	work[new_item.id] = new_item
+-- By default, adding a work item should add it to the bottom of the list (TODO:
+-- Need to Specify this)
+function add_work_item(name, plan)
+	new_item = Work.new(name, "Track2")
+	Work.add_work(new_item)
 
 	-- Add new work item to plan
 	plan.work_items[#plan.work_items+1] = new_item.id
@@ -136,42 +115,34 @@ function delete_work_item(id, work, plan)
 	
 
 	-- Delete work item from table
-	work[id] = nil
-end
-
-function add_work_estimate(work, work_id, skill_name, estimate_string)
-	if work[work_id] == nil then
-		print("Got an empty work item")
-		return
-	end
-
-	work[work_id].estimates[skill_name] = estimate_string
-end
-
-function clear_work_estimate(work, work_id)
-	if work[work_id] == nil then
-		print("Got an empty work item")
-		return
-	end
-
-	work[work_id].estimates = {}
+	Work.delete_work(id)
 end
 
 --[
 -- Sample function calls
 --]
+work1 = Work.new("Do work item 1", "Track1", {["Native"] = "L",
+                 ["Web"] = "M", ["Server"] = "S", ["BB"] = "S"})
+Work.add_work(work1)
+work2 = Work.new("Do work item 2", "Track1", {["Native"] = "2L",
+                 ["Web"] = "Q", ["Server"] = "S", ["BB"] = "S"})
+Work.add_work(work2)
+
+plan = {id = "1", name = "MobileQ3", num_weeks = 13, team_id = "0",
+        cutline = 1, work_items = {"2", "1"}}
+
 print("Add a new item")
-add_work_item(work, "Item #3", plan)
-ranked = get_ranked_work_items(plan, work)
+add_work_item("Item #3", plan)
+ranked = get_ranked_work_items(plan)
 print_work_items(ranked)
 
 print("\nDelete the top item")
 delete_work_item("2", work, plan)
-ranked = get_ranked_work_items(plan, work)
+ranked = get_ranked_work_items(plan)
 print_work_items(ranked)
 
 print("\nAdd estimate to work item")
-add_work_estimate(work, "3", "Native", "2L")
-add_work_estimate(work, "3", "Server", "M")
-ranked = get_ranked_work_items(plan, work)
+Work.work["3"]:add_estimate("Native", "2L")
+Work.work["3"]:add_estimate("Server", "M")
+ranked = get_ranked_work_items(plan)
 print_work_items(ranked)
