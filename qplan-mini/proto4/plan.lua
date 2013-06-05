@@ -53,7 +53,7 @@ function Plan:get_ranked_work_items()
 		result[#result+1] = Work.get_work(id)
 	end
 
-	-- Add the cutline
+	-- Insert the cutline
 	table.insert(result, self.cutline+1, "CUTLINE")
 	return result
 end
@@ -97,13 +97,15 @@ function Plan:rank(items, options)
 
 	-- Separate work items into unchaged and changed items
 	for rank, id in pairs(self.work_items) do
---		print(string.format("%s: %d, %s", type(id), id, items_map[id]))
 		if items_map[id] then
 			-- Need to treat separately because these need to be ordered
 			changed_map[id] = true
+			if rank == position then
+				insert_position = rank
+			end
 		else
 			unchanged_items[#unchanged_items+1] = id
-			--print(string.format("Rank: %s, position: %s, %s", rank, position, rank == position))
+                        --print(rank, position, rank == position)
 			if rank == position then
 				insert_position = #unchanged_items
 			end
@@ -112,12 +114,11 @@ function Plan:rank(items, options)
 
 	-- Put changed items back into order (filtering out garbage)
 	local changed_items = {}
-	for _, id in pairs(items) do
+        for _, id in pairs(items) do
 		if changed_map[id] then
 			changed_items[#changed_items+1] = id
 		end
 	end
-
 
 	-- Put changed items into position
 	local new_work_items = {}
