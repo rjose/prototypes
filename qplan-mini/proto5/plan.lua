@@ -17,14 +17,14 @@ function Plan.new(options)
 	num_weeks = num_weeks or 13 	-- Default to a quarter
 	team_id = options.team_id or ""
 	work_items = options.work_items or {}
-	cutline = cutline or 1
+	cutline = options.cutline or 1
 
 	return Plan:_new{id = id .. "", name = name, num_weeks = num_weeks,
 	                 cutline = cutline, work_items = work_items,
 			 team_id = team_id .. ""}
 end
 
--- TODO: Should be able to specify where to add work item
+-- TODO: I think this should only take a real Work item. It shouldn't create one
 function Plan:add_work_item(name, track)
 	new_item = Work.new(name, track)
 	Work.add_work(new_item)
@@ -65,6 +65,7 @@ end
 function Plan:get_work_above_cutline()
 	local result = {}
 	for i, id in pairs(self.work_items) do
+		local work = Work.get_work(id)
 		result[#result+1] = Work.get_work(id)
 		if i == self.cutline then break end
 	end
@@ -160,6 +161,11 @@ function Plan:rank(items, options)
 	self.work_items = new_work_items
 end
 
-
+function Plan:get_demand_above_cutline()
+	local work_items = self:get_work_above_cutline()
+	print("====>", #work_items)
+	local running_totals = Work.running_estimate_totals(work_items)
+	return running_totals[#running_totals]
+end
 
 return Plan

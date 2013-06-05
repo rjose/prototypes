@@ -58,7 +58,7 @@ Prototypes
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
-- Add stub for updating plan feasibility [X][X][X][X][X][]<><><><>
+- Add stub for updating plan feasibility [X][X][X][X][X][X]<><><><>
 
 Proto1: Create qplan files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,6 +221,15 @@ a cutline given current staffing. We may also want running skills gaps, too.
 Alright, let's start by getting work items above the cutline for a plan.
 Before we start, let's do something similar to Work where we use a table to
 construct a Plan object. Done.
+
+OK, now let's figure out how much work is required for the given cutline.
+Let's first create work with some estimates. Alright, now let's get the
+estimates. Done.
+
+
+I think we can sidestep the people portion for now by assuming we have a
+certain supply of skills and going from there. In effect, we'll be stubbing
+out the people/skills portion.
 
 - Check if plan is feasible
 - Find cutline given staffing and current plan
