@@ -57,8 +57,8 @@ Prototypes
 - Create files and read them from Lua [X][][]
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
-- Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><>
-- Add stub for updating plan feasibility [][]
+- Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
+- Add stub for updating plan feasibility [X][X][X][][][]
 
 Proto1: Create qplan files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -191,8 +191,23 @@ that computes this. Ultimately, this needs to hook into an LP to solve. For
 now, we can just make some assumptions about the users' skillset. That should
 be enough for now.
 
+Alright, let's figure out a plan. The first piece will be to take a Plan and
+figure out how much effort (by skill) is required by the items above the
+cutline (one variant is to find the running totals for each line). I suppose
+given this, we should memoize a result set and fill it in on demand. That means
+that we'll have to parse estimate strings for work items. If an estimate is
+malformed, we should print an error.
+
+Let's start by doing some TDD on estimate parsing. While I'm here, I'm going to
+change the constructor of Work to take a table instead of straight arguments.
+Done. OK, let's call the new function estimates_to_weeks. Done.
+
+Next up is summing the estimates for an array of work items. This should also go
+into the work tests. Let's do this next. Done. Let's check this in.
+
 - Need to parse estimate strings
 - Check if plan is feasible
 - Compute best skill utilization
 - Find cutline given staffing and current plan
+
 
