@@ -198,21 +198,29 @@ given this, we should memoize a result set and fill it in on demand. That means
 that we'll have to parse estimate strings for work items. If an estimate is
 malformed, we should print an error.
 
+.Pass 1: Parsing estimates
 Let's start by doing some TDD on estimate parsing. While I'm here, I'm going to
 change the constructor of Work to take a table instead of straight arguments.
 Done. OK, let's call the new function estimates_to_weeks. Done.
 
+.Pass 2: Sum estimates for array of work items
 Next up is summing the estimates for an array of work items. This should also go
 into the work tests. Let's do this next. Done. Let's check this in.
 
+.Pass 3: Compute running total of work items
 Let's forget the memoization for now. We can revisit that if it makes sense. For
 now, let's write a function that returns the running total for a set of work
 items. This can still be part of the Work tests. OK, this looks good.
 
+.Pass 4: Demand for work making the cut
 Next, we can move to the plan piece. The first test is to find the demand for
 items above the cutline. The second will be to check feasibility given current
 staffing (we'll need to add some functions for that). The third will be to find
 a cutline given current staffing. We may also want running skills gaps, too.
+
+Alright, let's start by getting work items above the cutline for a plan.
+Before we start, let's do something similar to Work where we use a table to
+construct a Plan object. Done.
 
 - Check if plan is feasible
 - Find cutline given staffing and current plan

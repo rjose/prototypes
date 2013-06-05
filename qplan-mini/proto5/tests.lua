@@ -2,7 +2,7 @@ local LuaUnit = require('luaunit')
 local Work = require("work")
 local Plan = require("plan")
 
-tmp_plan = Plan.new("MobileQ3", 13, 1, {})
+tmp_plan = Plan.new{name = "MobileQ3"}
 for i = 1, 10 do
         tmp_plan:add_work_item("Item #" .. i, "Track1")
 end

@@ -11,10 +11,14 @@ function Plan:_new(obj)
         return obj
 end
 
-function Plan.new(name, num_weeks, cutline, work_items, team_id, id)
-	id = id or ""
-	team_id = team_id or ""
-	work_items = work_items or {}
+function Plan.new(options)
+	id = options.id or ""
+	name = options.name or ""
+	num_weeks = num_weeks or 13 	-- Default to a quarter
+	team_id = options.team_id or ""
+	work_items = options.work_items or {}
+	cutline = cutline or 1
+
 	return Plan:_new{id = id .. "", name = name, num_weeks = num_weeks,
 	                 cutline = cutline, work_items = work_items,
 			 team_id = team_id .. ""}
@@ -55,6 +59,15 @@ function Plan:get_ranked_work_items()
 
 	-- Insert the cutline
 	table.insert(result, self.cutline+1, "CUTLINE")
+	return result
+end
+
+function Plan:get_work_above_cutline()
+	local result = {}
+	for i, id in pairs(self.work_items) do
+		result[#result+1] = Work.get_work(id)
+		if i == self.cutline then break end
+	end
 	return result
 end
 
@@ -105,7 +118,6 @@ function Plan:rank(items, options)
 			end
 		else
 			unchanged_items[#unchanged_items+1] = id
-                        --print(rank, position, rank == position)
 			if rank == position then
 				insert_position = #unchanged_items
 			end
@@ -147,6 +159,7 @@ function Plan:rank(items, options)
 
 	self.work_items = new_work_items
 end
+
 
 
 return Plan

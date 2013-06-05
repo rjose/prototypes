@@ -11,13 +11,6 @@ function Work:_new(obj)
         return obj
 end
 
-function Work.new(name, track, estimates, id)
-	id = id or ""
-	estimates = estimates or {}
-	return Work:_new{id = id .. "", name = name, track = track,
-	                 estimates = estimates}
-end
-
 function Work.new(options)
 	id = options.id or ""
 	estimates = options.estimates or {}
