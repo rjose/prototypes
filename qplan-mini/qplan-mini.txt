@@ -58,7 +58,7 @@ Prototypes
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
-- Add stub for updating plan feasibility [X][X][X][][][]
+- Add stub for updating plan feasibility [X][X][X][X][X][]<><><><>
 
 Proto1: Create qplan files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -205,9 +205,16 @@ Done. OK, let's call the new function estimates_to_weeks. Done.
 Next up is summing the estimates for an array of work items. This should also go
 into the work tests. Let's do this next. Done. Let's check this in.
 
-- Need to parse estimate strings
+Let's forget the memoization for now. We can revisit that if it makes sense. For
+now, let's write a function that returns the running total for a set of work
+items. This can still be part of the Work tests. OK, this looks good.
+
+Next, we can move to the plan piece. The first test is to find the demand for
+items above the cutline. The second will be to check feasibility given current
+staffing (we'll need to add some functions for that). The third will be to find
+a cutline given current staffing. We may also want running skills gaps, too.
+
 - Check if plan is feasible
-- Compute best skill utilization
 - Find cutline given staffing and current plan
 
 

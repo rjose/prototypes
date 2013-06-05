@@ -70,7 +70,24 @@ function TestWorkEstimateParse:test_sumWorkEstimates()
         for skill, estimate in pairs(expected1) do
                 assertEquals(sum2[skill], expected2[skill])
         end
+end
 
+function TestWorkEstimateParse:test_runningEstimateTotals()
+        local expected = {
+                {["Native"] = 8, ["Web"] = 2, ["Server"] = 13, ["BB"] = 1},
+                {["Native"] = 8+4, ["Web"] = 2+4, ["Server"] = 2*13, ["BB"] = 2},
+                {["Native"] = 8+8, ["Web"] = 6+6, ["Server"] = 3*13, ["BB"] = 3},
+                {["Native"] = 8+12, ["Web"] = 12+8, ["Server"] = 4*13, ["BB"] = 4}
+        }
+        local totals = Work.running_estimate_totals(self.work)
+
+        assertEquals(#totals, #expected)
+--         for i = 1,#expected do
+--                 for skill, value in pairs(expected[i]) do
+--                         print(skill, totals[i][skill], value)
+--                         assertEquals(totals[i][skill], value)
+--                 end
+--         end
 end
 
 LuaUnit:run()

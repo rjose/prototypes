@@ -64,6 +64,7 @@ function Work:clear_estimate()
 	self.estimates = {}
 end
 
+-- Converts the work estimates from string values to weeks
 function Work:week_estimates()
         local result = {}
         for skill, est_str in pairs(self.estimates) do
@@ -95,18 +96,42 @@ function Work.estimate_to_weeks(est_string)
         return scalar * units[unit]
 end
 
+function Work.add_estimates(est1, est2)
+        local result = est1
+        for skill, num_weeks in pairs(est2) do
+                if result[skill] then
+                        result[skill] = result[skill] + num_weeks
+                else
+                        result[skill] = num_weeks
+                end
+        end
+        return result
+end
+
 function Work.sum_estimates(work_items)
         local result = {}
         for i = 1,#work_items do
-                local estimates = work_items[i]:week_estimates()
-                for skill, num_weeks in pairs(estimates) do
-                        if result[skill] then
-                                result[skill] = result[skill] + num_weeks
-                        else
-                                result[skill] = num_weeks
-                        end
-                end
+                result = Work.add_estimates(result,
+                                            work_items[i]:week_estimates())
         end
+        return result
+end
+
+function Work.running_estimate_totals(work_items)
+        -- Get an array of estimates
+        local estimates = {}
+        for _, w in pairs(work_items) do
+                estimates[#estimates+1] = w:week_estimates()
+        end
+
+        -- Compute running totals
+        local result = {}
+        local cur_total = {}
+        for _, est in pairs(estimates) do
+                cur_total = Work.add_estimates(cur_total, est)
+                result[#result+1] = cur_total
+        end
+
         return result
 end
 
