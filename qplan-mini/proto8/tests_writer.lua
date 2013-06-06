@@ -43,5 +43,13 @@ function TestWriter:test_writePlan()
 	end
 end
 
+function TestWriter:test_writeWork()
+	Writer.write_work(Work.work, "work_tmp.txt")
+
+	-- Use Reader to test
+	local work_items = Reader.read_work("work_tmp.txt")
+	assertEquals(#work_items, 10)
+end
+
 LuaUnit:run()
 

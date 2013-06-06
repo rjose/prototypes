@@ -30,4 +30,28 @@ function Writer.write_plans(plans, filename)
 	file:close()
 end
 
+function build_estimate_string(estimates)
+	local est_str_array = {}
+	for skill, est in pairs(estimates) do
+		est_str_array[#est_str_array+1] = skill .. ":" .. est
+	end
+	return join(est_str_array, ", ")
+end
+
+function Writer.write_work(work_items, filename)
+	local file = assert(io.open(filename, "w"))
+
+	-- Write headers first
+	file:write("ID\tName\tTrack\tEstimate\n")
+	file:write("-----\n")
+
+	-- Write work next
+	for _, w in pairs(work_items) do
+		file:write(string.format("%s\t%s\t%s\t%s\n", 
+			w.id, w.name, w.track, build_estimate_string(w.estimates)
+		))
+	end
+	file:close()
+end
+
 return Writer
