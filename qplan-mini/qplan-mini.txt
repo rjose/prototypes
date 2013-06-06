@@ -314,6 +314,8 @@ assume the first two lines are headers. For the time being, we'll only pick
 the first plan. We'll use the string:split function that we already have.
 We'll also assume the filename is called "plan.txt". OK, can read a plan.
 
+Next up is reading work from work.txt. Done.
+
 I'll implement the save as a specific function call first and then hook up
 when it should be called later.
 
