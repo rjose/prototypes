@@ -60,7 +60,7 @@ Prototypes
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
 - Check feasibility of plan [X][X][X][X][X][X]<X><X><><>
 - Find capacity of team with respect to plan [X][]
-- Support multiple skills in people and plan [X][X][][]
+- Support multiple skills in people and plan [X][X][X][]
 - Read/write work, plan, people [][][][][]
 - Implement shell functions [][][][][]
 
@@ -279,6 +279,15 @@ is just a note.
 OK, I want to make sure we can parse a skills field. I'll also want to be able
 to sum the available skills for a set of people. OK, can parse a skills field.
 Let's check in.
+
+Now, I want to sum a set of skills. I think I can pull this out of work.lua.
+Let's copy it for now with the expectation that we should refactor out of
+Work. Actually, before we do this, we need to convert a person's skills to a
+skill availability. For example, if someone can do 50% of Apps and 50% of
+Native, then over 13 weeks, they should have 6.5 weeks of each available.
+Let's assume that all of the override happens up front and we need only deal
+with a person object. I think we need to go to person.lua now.  I can get a
+person's skill availability given a number of weeks. Let's check this in.
 
 Thoughts
 --------
