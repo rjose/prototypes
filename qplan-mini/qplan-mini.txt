@@ -268,7 +268,13 @@ the files that would be in a database.
 
 We should start with the spreadsheet that Jen put together for available
 resources. OK, I put a nifty awk script together to convert the tab separated
-file into something I could use. I'll check this in. 
+file into something I could use. I'll check this in.
+
+Alright, I have a way to represent a default skill distribution for each
+person. How should we do this for a plan? We just need to list overrides.
+Maybe we should a separate file with each line being an override for a plan
+and a person. We could denormalize a little to have more info. Or maybe this
+is just a note.
 
 Thoughts
 --------

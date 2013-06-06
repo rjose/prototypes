@@ -1,0 +1,3 @@
+PlanID	PersonID	Skills	Note
+-----
+1	5	Apps:0.8,Native:0.2	MobileQ3 plan override for Akhilesh
