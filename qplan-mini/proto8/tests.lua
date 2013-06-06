@@ -26,5 +26,19 @@ function TestReader:test_readWork()
 	assertEquals(estimates["Web"], 2)
 end
 
+function TestReader:test_readPeople()
+	local expected_names = {"Aarthi", "Adam", "Adrian N", "Adrian L", "Akhilesh", "Amanda"}
+	local people = Reader.read_people("people.txt")
+
+	assertEquals(#people, 6)
+	for i = 1,#expected_names do
+		assertEquals(people[i].name, expected_names[i])
+	end
+
+	-- Test skills
+	assertEquals(people[5].skills["Apps"], 1)
+	assertEquals(people[5].skills["Native"], 0)
+end
+
 
 LuaUnit:run()

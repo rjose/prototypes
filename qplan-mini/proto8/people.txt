@@ -4,54 +4,5 @@ ID	Name	Skills
 2	Adam	Apps:1
 3	Adrian N	Web:1
 4	Adrian L	UX:1
-5	Akhilesh	Apps:1,Native:0
-6	Alex C.		Web:1
+5	Akhilesh	Apps:1, Native:0
 7	Amanda	
-8	Amol	Apps:1
-9       Andrew  Web:1
-10      Aravind Native:1
-11      Artur   Native:1
-12      Asa     Web:1
-13      Ashit   Native:1
-14      Avik    Apps:1
-15      Bhargav SET:1
-16      Boyan   Apps:1
-17      Cheng   Native:1
-18      Corine  UX:1
-19      David   BB:1
-20      Deepak  Apps:1
-21      Deepank Apps:1
-22      Efrat   UX:1
-23      Ethan   Apps:1
-24      Ganesh  Overhead:1
-25      Greg    Apps:1
-26      Jayant  Native:1
-27      Jennifer        Overhead:1
-28      Jesse   UX:1
-29      Jibran  UX:1
-30      Joseph  Web:1
-31      Josh    Web:1
-32      Kiran   Overhead:1
-33      Laukik  Native:1
-34      Lew     SET:1
-35      Linzhen SET:1
-36      Logan   Web:1
-37      Michael Native:1
-38      Michelle        Apps:1
-39      Mohammad        Apps:1
-40      Nash    Overhead:1
-41      Neb     Apps:1
-42      Neeraja BB:1
-43      Niranjan        Apps:1
-44      Pdash   Native:1
-45      Peter   Native:1
-46      Raymond Web:1
-47      Rino    Overhead:1
-48      Sameer  Apps:1
-49      Siva    Apps:1
-50      Spandana        BB:1
-51      Srihari Native:1
-52      Sudeep  Native:1
-53      Swasti  BB:1
-54      William BB:1
-55      Xin     Native:1

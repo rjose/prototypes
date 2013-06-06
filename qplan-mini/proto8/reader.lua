@@ -2,6 +2,7 @@ require 'string_utils'
 
 local Plan = require 'plan'
 local Work = require 'work'
+local Person = require 'person'
 
 local Reader = {}
 
@@ -67,4 +68,25 @@ function Reader.read_work(filename)
 	return construct_objects_from_file(filename, construct_work)
 end
 
+function construct_person(str)
+	local id, name, skills_str = unpack(str:split("\t"))
+
+	local skills = {}
+	for _, s in pairs(skills_str:split(", ")) do
+		-- At this point, s will be something like "Native:1"
+		local skill, frac = unpack(s:split(":"))
+		skills[skill] = frac + 0
+	end
+
+	local result = Person.new{
+		id = id,
+		name = name,
+		skills = skills
+	}
+	return result
+end
+
+function Reader.read_people(filename)
+	return construct_objects_from_file(filename, construct_person)
+end
 return Reader
