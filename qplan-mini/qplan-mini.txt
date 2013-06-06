@@ -62,7 +62,6 @@ Prototypes
 - Find capacity of team with respect to plan [X][]
 - Support multiple skills in people and plan [X][X][X][X]
 - Read/write work, plan, people [X][X][X][X][]
-- Implement shell functions [][][][][]
 
 Proto1: Create qplan files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
