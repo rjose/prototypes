@@ -60,7 +60,7 @@ Prototypes
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
 - Check feasibility of plan [X][X][X][X][X][X]<X><X><><>
 - Find capacity of team with respect to plan [X][]
-- Support multiple skills in people and plan [X][X][X][]
+- Support multiple skills in people and plan [X][X][X][X]
 - Read/write work, plan, people [][][][][]
 - Implement shell functions [][][][][]
 
@@ -288,6 +288,10 @@ Native, then over 13 weeks, they should have 6.5 weeks of each available.
 Let's assume that all of the override happens up front and we need only deal
 with a person object. I think we need to go to person.lua now.  I can get a
 person's skill availability given a number of weeks. Let's check this in.
+
+The next thing will be to sum a set of people's skills. Let's add this now.
+Done. At this point, we can integrate this stuff into the rest of the
+feasibility prototypes above.
 
 Thoughts
 --------
