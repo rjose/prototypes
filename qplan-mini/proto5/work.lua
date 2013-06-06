@@ -90,7 +90,10 @@ function Work.estimate_to_weeks(est_string)
 end
 
 function Work.add_estimates(est1, est2)
-        local result = est1
+	-- Start by copying est1 into result
+	local result = {}
+	for k, v in pairs(est1) do result[k] = v end
+
         for skill, num_weeks in pairs(est2) do
                 if result[skill] then
                         result[skill] = result[skill] + num_weeks
@@ -100,6 +103,22 @@ function Work.add_estimates(est1, est2)
         end
         return result
 end
+
+function Work.subtract_estimates(est1, est2)
+	-- Start by copying est1 into result
+	local result = {}
+	for k, v in pairs(est1) do result[k] = v end
+
+        for skill, num_weeks in pairs(est2) do
+                if result[skill] then
+                        result[skill] = result[skill] - num_weeks
+                else
+                        result[skill] = num_weeks
+                end
+        end
+        return result
+end
+
 
 function Work.sum_estimates(work_items)
         local result = {}

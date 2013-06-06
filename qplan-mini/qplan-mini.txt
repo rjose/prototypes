@@ -58,7 +58,8 @@ Prototypes
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
-- Add stub for updating plan feasibility [X][X][X][X][X][X]<><><><>
+- Check feasibility of plan [X][X][X][X][X][X]<X><><><>
+- Find capacity of team with respect to plan [][][][]
 
 Proto1: Create qplan files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -183,8 +184,8 @@ It would be nice to have undo. I'll see if I can add this at some point.
 
 What happens for repeated indices?
 
-Proto5: Add stub for updating plan feasibility
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Proto5: Check feasibility of plan
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 The plan should maintain information regarding the current feasibility and
 which resources are in excess and which are short. There should be a function
 that computes this. Ultimately, this needs to hook into an LP to solve. For
@@ -226,6 +227,24 @@ OK, now let's figure out how much work is required for the given cutline.
 Let's first create work with some estimates. Alright, now let's get the
 estimates. Done.
 
+.Pass 5: Find feasibility of plan
+Let's start by computing running totals of the available skills; after that,
+we can answer if a schedule is feasible. OK, one thing that's interesting here
+is that we'll need to check both the demand and supply for skills -- we need
+the union of the set of skills in the final result. Let's start by adding the
+skill availablilty to the result and then subtracting the weekly demand. If a
+skill isn't in the result, we assume it's zero and subtract off the demand.
+
+Aargh. Was making this too complicated. I already have running demand totals.
+All I need to do was to subtract these off from the supply! We're done. Let's
+check this piece in.
+
+
+It's interesting that there are a couple of design patterns at play here. One
+is that of figuring out an array of work items and then passing them into a
+function. Another is making an assumption about what that array of work items
+is and operating on it in one step. I think we may need both and should
+implement one in terms of the other.
 
 I think we can sidestep the people portion for now by assuming we have a
 certain supply of skills and going from there. In effect, we'll be stubbing

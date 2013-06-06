@@ -44,4 +44,21 @@ function TestPlanFeasibility:test_demandAboveCutline()
 	end
 end
 
+function TestPlanFeasibility:test_runningSkillsAvailableTotal()
+	local skills = { ["Native"] = 10, ["Web"] = 8, ["BB"] = 3 }
+	local expected = {
+		{ ["Native"] = 6, ["Web"] = 6, ["BB"] = 2 },
+		{ ["Native"] = 2, ["Web"] = 4, ["BB"] = 1 },
+		{ ["Native"] = -2, ["Web"] = 2, ["BB"] = 0 }
+	}
+	-- TODO: Think of a better function name
+	actual = Plan.get_running_skills_available(skills, self.plan:get_work_above_cutline())
+	for i = 1,#expected do
+		local expected_total = expected[i]
+		for skill, avail in pairs(expected_total) do
+			assertEquals(actual[i][skill], avail)
+		end
+	end
+end
+
 LuaUnit:run()

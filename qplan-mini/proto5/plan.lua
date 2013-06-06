@@ -163,9 +163,23 @@ end
 
 function Plan:get_demand_above_cutline()
 	local work_items = self:get_work_above_cutline()
-	print("====>", #work_items)
 	local running_totals = Work.running_estimate_totals(work_items)
 	return running_totals[#running_totals]
+end
+
+-- This takes a table of available skills and returns a running total of the
+-- skill availability by week. This also takes an array of work items.
+function Plan.get_running_skills_available(skills, work_items)
+	local result = {}
+
+	-- Get the running demand
+	local running_demand_totals = Work.running_estimate_totals(work_items)
+
+	-- Compute the running availability
+	for i = 1,#running_demand_totals do
+		result[#result+1]= Work.subtract_estimates(skills, running_demand_totals[i])
+	end
+	return result
 end
 
 return Plan
