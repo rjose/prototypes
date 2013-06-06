@@ -50,15 +50,19 @@ function Plan:delete_work_item(id)
 	Work.delete_work(id)
 end
 
-function Plan:get_ranked_work_items()
+function Plan:get_ranked_work_items(options)
 	local work_ids = self.work_items or {}
 	local result = {}
 	for _, id in pairs(work_ids) do
 		result[#result+1] = Work.get_work(id)
 	end
 
+	-- TODO: Be smarter about this function
 	-- Insert the cutline
-	table.insert(result, self.cutline+1, "CUTLINE")
+	local should_insert_cutline = not (type(options) == 'table' and options.suppress_cutline)
+	if should_insert_cutline then
+		table.insert(result, self.cutline+1, "CUTLINE")
+	end
 	return result
 end
 
@@ -179,14 +183,14 @@ function Plan.get_running_skills_available(skills, work_items)
 	for i = 1,#running_demand_totals do
 		result[#result+1]= Work.subtract_estimates(skills, running_demand_totals[i])
 	end
-	return result
+	return result, running_demand_totals
 end
 
 function is_any_skill_negative(skills)
-	local result = true
+	local result = false
 	for skill, avail in pairs(skills) do
 		if avail < 0 then
-			result = false
+			result = true
 			break
 		end
 	end
@@ -199,7 +203,28 @@ function Plan:is_feasible(skills)
 	
 	-- The last line is the total supply minus demand
 	local bottom_line = totals[#totals]
-	return is_any_skill_negative(bottom_line), bottom_line
+	local result = not is_any_skill_negative(bottom_line)
+	return result, bottom_line
+end
+
+-- We need to get the running demand and availability totals and then find the
+-- position just above the point at which some of the available skills go
+-- negative.
+function Plan:find_cutline(skills)
+	local work_items = self:get_ranked_work_items({suppress_cutline = true})
+	local running_demand, running_avail
+	local cutline
+
+	running_avail, running_demand = Plan.get_running_skills_available(skills, work_items)
+
+	for i = 1,#running_avail do
+		if is_any_skill_negative(running_avail[i]) then
+			cutline = i - 1
+			break
+		end
+	end
+
+	return cutline, running_demand, running_avail
 end
 
 return Plan

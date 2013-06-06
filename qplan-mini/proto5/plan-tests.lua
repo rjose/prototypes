@@ -70,4 +70,16 @@ function TestPlanFeasibility:test_isFeasible()
 	assertEquals(avail_skills, { ["Native"] = -2, ["Web"] = 2, ["BB"] = 0 })
 end
 
+function TestPlanFeasibility:test_findCutline()
+	local skills = { ["Native"] = 10, ["Web"] = 8, ["BB"] = 3 }
+	local running_demand, running_avail
+	local cutline
+
+	cutline, running_demand, running_avail = self.plan:find_cutline(skills)
+
+	assertEquals(cutline, 2)
+	assertEquals(#running_demand, 10)
+	assertEquals(#running_avail, 10)
+end
+
 LuaUnit:run()
