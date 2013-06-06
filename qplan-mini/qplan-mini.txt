@@ -61,7 +61,7 @@ Prototypes
 - Check feasibility of plan [X][X][X][X][X][X]<X><X><><>
 - Find capacity of team with respect to plan [X][]
 - Support multiple skills in people and plan [X][X][X][X]
-- Read/write work, plan, people [X][X][][][]
+- Read/write work, plan, people [X][X][X][][]
 - Implement shell functions [][][][][]
 
 Proto1: Create qplan files
@@ -315,6 +315,11 @@ the first plan. We'll use the string:split function that we already have.
 We'll also assume the filename is called "plan.txt". OK, can read a plan.
 
 Next up is reading work from work.txt. Done. Let's read people next. Done.
+
+Now, we'll add writing plan and work out. I don't think we'll be updating
+people very often, so I'll skip that for now. To test, I think I'll write to a
+new file and then read it back and then check the result. OK, writing a plan
+out except for the work items, which I'll do next. Done.
 
 I'll implement the save as a specific function call first and then hook up
 when it should be called later.

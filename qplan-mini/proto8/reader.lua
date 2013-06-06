@@ -18,6 +18,7 @@ function construct_objects_from_file(filename, constructor)
 		end
 		cur_line = cur_line + 1
 	end
+	file:close()
 	return result
 end
 
