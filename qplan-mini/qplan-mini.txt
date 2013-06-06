@@ -59,7 +59,10 @@ Prototypes
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
 - Check feasibility of plan [X][X][X][X][X][X]<X><X><><>
-- Find capacity of team with respect to plan [][]
+- Find capacity of team with respect to plan [X][]
+- Support multiple skills in people and plan [][][][]
+- Read/write work, plan, people [X][][][][]
+- Implement shell functions [][][][][]
 
 Proto1: Create qplan files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -256,6 +259,16 @@ should be pretty straightforward.
 After this, we need to go back and add reading/writing of data. We'll also
 need to add some support for the team skills.
 
+Proto7: Support multiple skills in people and plan
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I just want to work out how we'll represent people with multiple skills. We
+should have the default be specified in the people file. The plan should be
+able to override. Let's see if we can figure out things by creating some of
+the files that would be in a database. 
+
+We should start with the spreadsheet that Jen put together for available
+resources. OK, I put a nifty awk script together to convert the tab separated
+file into something I could use. I'll check this in. 
 
 Thoughts
 --------

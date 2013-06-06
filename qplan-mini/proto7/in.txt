@@ -1,0 +1,47 @@
+Andrew		1								Web						
+Aravind	1								Native							
+Artur	1								Native							
+Asa		1														
+Ashit	1										Native					
+Avik			1												Apps	
+Bhargav				1					SET							
+Boyan			1								Apps					
+Cheng	1								Native							
+Corine						1										
+David							1		BB							
+Deepak			1													
+Deepank			1												Apps	
+Efrat						1										
+Ethan			1						Apps							
+Ganesh					1											
+Greg			1												Apps	
+Jayant	1													Native		
+Jennifer					1											
+Jesse						1										
+Jibran						1										
+Joseph		1								SET						
+Josh		1							Web							
+Kiran					1											
+Laukik	1								Native							
+Lew				1					SET							
+Linzhen				1										SET		
+Logan		1								Native						
+Michael	1								Native							
+Michelle			1						Apps							
+Mohammad			1						Apps							
+Nash					1						Native					
+Neb			1							Apps						
+Neeraja							1			BB						
+Niranjan			1						Apps							
+Pdash	1								Native							
+Peter	1								Native							
+Raymond		1														
+Rino					1											
+Sameer			1								Native					
+Siva			1											Apps		
+Spandana							1		BB							
+Srihari	1															
+Sudeep	1										Native					
+Swasti							1				SET					
+William							1		BB							
+Xin	1								Native							
