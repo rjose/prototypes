@@ -58,7 +58,7 @@ Prototypes
 - Write functions for reporting work items, current plan, team stats [X][X][][]
 - Write functions for adding/manipulating work items [X][X][X][X]<X><><><>
 - Write functions for updating plan (ranking, cutline) [X][X][X]<X><X><X>
-- Check feasibility of plan [X][X][X][X][X][X]<X><><><>
+- Check feasibility of plan [X][X][X][X][X][X]<X><X><><>
 - Find capacity of team with respect to plan [][][][]
 
 Proto1: Create qplan files
@@ -237,7 +237,7 @@ skill isn't in the result, we assume it's zero and subtract off the demand.
 
 Aargh. Was making this too complicated. I already have running demand totals.
 All I need to do was to subtract these off from the supply! We're done. Let's
-check this piece in.
+check this piece in. Let's refactor Work.add_estimates and subtract_estimates.
 
 
 It's interesting that there are a couple of design patterns at play here. One

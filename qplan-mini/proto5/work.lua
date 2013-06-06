@@ -89,14 +89,15 @@ function Work.estimate_to_weeks(est_string)
         return scalar * units[unit]
 end
 
-function Work.add_estimates(est1, est2)
-	-- Start by copying est1 into result
+-- TODO: Find the right lisp function name for this and rename
+function apply_op_to_work_arrays(op, a1, a2)
+	-- Start by copying a1 into result
 	local result = {}
-	for k, v in pairs(est1) do result[k] = v end
+	for k, v in pairs(a1) do result[k] = v end
 
-        for skill, num_weeks in pairs(est2) do
+        for skill, num_weeks in pairs(a2) do
                 if result[skill] then
-                        result[skill] = result[skill] + num_weeks
+			result[skill] = op(result[skill], num_weeks)
                 else
                         result[skill] = num_weeks
                 end
@@ -104,19 +105,20 @@ function Work.add_estimates(est1, est2)
         return result
 end
 
-function Work.subtract_estimates(est1, est2)
-	-- Start by copying est1 into result
-	local result = {}
-	for k, v in pairs(est1) do result[k] = v end
+function add_weeks(w1, w2)
+	return w1 + w2
+end
 
-        for skill, num_weeks in pairs(est2) do
-                if result[skill] then
-                        result[skill] = result[skill] - num_weeks
-                else
-                        result[skill] = num_weeks
-                end
-        end
-        return result
+function subtract_weeks(w1, w2)
+	return w1 - w2
+end
+
+function Work.add_estimates(est1, est2)
+	return apply_op_to_work_arrays(add_weeks, est1, est2)
+end
+
+function Work.subtract_estimates(est1, est2)
+	return apply_op_to_work_arrays(subtract_weeks, est1, est2)
 end
 
 
