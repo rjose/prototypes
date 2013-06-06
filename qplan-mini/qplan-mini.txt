@@ -61,7 +61,7 @@ Prototypes
 - Check feasibility of plan [X][X][X][X][X][X]<X><X><><>
 - Find capacity of team with respect to plan [X][]
 - Support multiple skills in people and plan [X][X][X][X]
-- Read/write work, plan, people [][][][][]
+- Read/write work, plan, people [X][][][][]
 - Implement shell functions [][][][][]
 
 Proto1: Create qplan files
@@ -292,6 +292,30 @@ person's skill availability given a number of weeks. Let's check this in.
 The next thing will be to sum a set of people's skills. Let's add this now.
 Done. At this point, we can integrate this stuff into the rest of the
 feasibility prototypes above.
+
+Proto8: Read/write work, plan, people
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This is the last loose end for this qplan shell. I'm thinking that we should
+have a centralized reader/writer that knows how to deal with work and plans.
+Let's make sure we can read files first. I also want to use this as an
+opportunity to think through not having a global work array.
+
+The problem we have is what do we write for multiple work files? Is each one
+associated with a different file? What happens when someone wants to try a
+different scenario? Do we create a new file at that point? I suppose we can
+sidestep the whole issue by assuming a single file and have multiple work
+arrays only for things like testing. The only problem we run into is if
+different people are creating scenarios at the same time. I suppose in that
+case, we could create separate files. We could just use straight merge tools
+to resolve conflicts. Yeah, I think that might work.
+
+OK, let's get back to this. I want to read a plan from file. We'll always
+assume the first two lines are headers. For the time being, we'll only pick
+the first plan. We'll use the string:split function that we already have.
+We'll also assume the filename is called "plan.txt". OK, can read a plan.
+
+I'll implement the save as a specific function call first and then hook up
+when it should be called later.
 
 Thoughts
 --------
