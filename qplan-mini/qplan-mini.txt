@@ -239,7 +239,15 @@ Aargh. Was making this too complicated. I already have running demand totals.
 All I need to do was to subtract these off from the supply! We're done. Let's
 check this piece in. Let's refactor Work.add_estimates and subtract_estimates.
 
+OK, let's wrap this piece up by implementing is_feasible. This will be an
+expensive call, even more expensive when we add the LP piece to this. What I
+want to do is return true/false as well as the available skills. This assumes
+that a cutline is set. Done! Before we go, let's pull out the check for any of
+the skills being < 0 so we can use it in the next prototype. Done.
 
+
+Thoughts
+--------
 It's interesting that there are a couple of design patterns at play here. One
 is that of figuring out an array of work items and then passing them into a
 function. Another is making an assumption about what that array of work items

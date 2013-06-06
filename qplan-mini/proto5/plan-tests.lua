@@ -61,4 +61,13 @@ function TestPlanFeasibility:test_runningSkillsAvailableTotal()
 	end
 end
 
+function TestPlanFeasibility:test_isFeasible()
+	local skills = { ["Native"] = 10, ["Web"] = 8, ["BB"] = 3 }
+	
+	local is_feasible, avail_skills
+	is_feasible, avail_skills = self.plan:is_feasible(skills)
+	assertEquals(is_feasible, false)
+	assertEquals(avail_skills, { ["Native"] = -2, ["Web"] = 2, ["BB"] = 0 })
+end
+
 LuaUnit:run()

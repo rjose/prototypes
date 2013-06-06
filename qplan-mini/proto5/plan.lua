@@ -182,4 +182,24 @@ function Plan.get_running_skills_available(skills, work_items)
 	return result
 end
 
+function is_any_skill_negative(skills)
+	local result = true
+	for skill, avail in pairs(skills) do
+		if avail < 0 then
+			result = false
+			break
+		end
+	end
+	return result
+end
+
+function Plan:is_feasible(skills)
+	local totals = Plan.get_running_skills_available(skills,
+	                                                 self:get_work_above_cutline())
+	
+	-- The last line is the total supply minus demand
+	local bottom_line = totals[#totals]
+	return is_any_skill_negative(bottom_line), bottom_line
+end
+
 return Plan
