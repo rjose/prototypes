@@ -3,7 +3,7 @@ Lua Server
 Rino Jose <rjose@linkedin.com>
 v1, Jun 11, 2013: Initial version
 
-Drafting effort: [][]
+Drafting effort: [X][]
 
 Overview
 --------
@@ -26,8 +26,12 @@ for me. If not, I'll have to drop down to C and add another week to this.
 
 Prototypes
 ----------
-. Echo data [X][][]
-. Write a lua function in C [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/8abf0/lua_server/proto1[
+      Echo data]
+      [X][][]
+. link:https://github.com/rjose/prototypes/tree/d9ac02/lua_server/proto2[
+      Write a lua function in C]
+      [X][X][][]
 . Listen for a connection [][][][][]
 . Establish a connection and echo a response [][][][]
 . Accept an HTTP request [][][][][]
@@ -35,7 +39,7 @@ Prototypes
 . Send a websocket message [][][][][][][][]
 
 Proto1: Echo data
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 Let's start by using the lua socket library and see what it can do. I guess the
 first thing we should do is get a demo of it working. We'll have to install it.
 Here's the link:http://luaforge.net/projects/luasocket/[download page] for it.
@@ -60,6 +64,15 @@ name without the lib prefix so lua can load it. Done. Referring to the
 link:https://github.com/gnustep/gnustep-base/blob/master/Documentation/Makefile.postamble[documentation],
 I created a GNUmakefile.postamble file and added an "after-all" target to
 create the symlink. Looks good.
+
+Proto3: Listen for a connection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alright, let's add some code to listen for a connection and echo something
+back. We'll start with proto2 and copy over stuff from
+link:https://github.com/rjose/prototypes/tree/master/repl/proto10[one of the
+repl prototypes].
+
+I'll create the frame of the function first. 
  
 Thoughts
 --------
