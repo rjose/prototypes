@@ -1,0 +1,54 @@
+Lua Server
+==========
+Rino Jose <rjose@linkedin.com>
+v1, Jun 11, 2013: Initial version
+
+Drafting effort: [][]
+
+Overview
+--------
+The link:https://github.com/rjose/products/tree/b83bd0/qplan/v1[
+commandline shell version of QPlan] is good enough to start using for planning.
+I think the terminal version would work fine as well. However, people do expect
+a web UI, and so this prototype explores the options for doing that. Right now,
+it will be read-only, but if it makes sense, we might add some ability to post
+as well.
+
+Risks
+-----
+I don't know how to accept a web connection request from lua yet. Not sure if
+everything is synchronous? My original plan was to do all of this from C, but if
+I can get this working from Lua, that would make things go faster.
+
+I also want to get websockets running so everything can be driven from the
+commandline shell. Not sure if there's a lua websockets library that can do this
+for me. If not, I'll have to drop down to C and add another week to this.
+
+Prototypes
+----------
+. Echo data [X][][]
+. Listen for a connection [][][][][]
+. Establish a connection and echo a response [][][][]
+. Accept an HTTP request [][][][][]
+. Respond with an HTTP page [][][]
+. Send a websocket message [][][][][][][][]
+
+Proto1: Echo data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's start by using the lua socket library and see what it can do. I guess the
+first thing we should do is get a demo of it working. We'll have to install it.
+Here's the link:http://luaforge.net/projects/luasocket/[download page] for it.
+Wow, this hasn't been updated since 2007. Hopefully it works...Nope. Looks like
+there's a link:https://github.com/diegonehab/luasocket/[github project] for
+this. Let's see if this works. Alright, it seems to have built. Let's look at
+the demo code.
+
+The demo client didn't seem to work. Let's take the sample server code and see
+if we can get it to echo something. Hmmm. This seems a little hard to follow. I
+wonder if I can just port the C version from the
+link:https://github.com/rjose/prototypes/tree/master/repl[repl prototype] and
+hook it up to lua? Let's abandon proto1 and try this next.
+
+Thoughts
+--------
+
