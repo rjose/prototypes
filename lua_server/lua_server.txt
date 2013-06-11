@@ -27,6 +27,7 @@ for me. If not, I'll have to drop down to C and add another week to this.
 Prototypes
 ----------
 . Echo data [X][][]
+. Write a lua function in C [X][X][][]
 . Listen for a connection [][][][][]
 . Establish a connection and echo a response [][][][]
 . Accept an HTTP request [][][][][]
@@ -49,6 +50,17 @@ wonder if I can just port the C version from the
 link:https://github.com/rjose/prototypes/tree/master/repl[repl prototype] and
 hook it up to lua? Let's abandon proto1 and try this next.
 
+Proto2: Write a lua function in C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What we'll need to do here is get the GNUmakefile stuff brought over from the
+repl prototype and then see if we can get the sample lua C integration
+working. We need to build a library. Let's see if we can build a simple
+library. Alright, got something working. One last thing is to symlink to a
+name without the lib prefix so lua can load it. Done. Referring to the
+link:https://github.com/gnustep/gnustep-base/blob/master/Documentation/Makefile.postamble[documentation],
+I created a GNUmakefile.postamble file and added an "after-all" target to
+create the symlink. Looks good.
+ 
 Thoughts
 --------
 
