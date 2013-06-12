@@ -32,7 +32,9 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/d9ac02/lua_server/proto2[
       Write a lua function in C]
       [X][X][][]
-. Listen for a connection [X][][][][]
+. link:https://github.com/rjose/prototypes/tree/5dac2b[
+      Listen for a connection]
+      [X][X][][][]
 . Establish a connection and echo a response [][][][]
 . Accept an HTTP request [][][][][]
 . Respond with an HTTP page [][][]
@@ -84,6 +86,7 @@ OK, the next step is to listen for a request and accept a connection. Let's
 just do the accept and listening from the same thread for now.
 
 At some point, I should try creating the Objective-c version of this.
+
 
 Thoughts
 --------
