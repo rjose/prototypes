@@ -87,6 +87,11 @@ just do the accept and listening from the same thread for now.
 
 At some point, I should try creating the Objective-c version of this.
 
+Proto4: Establish a connection and echo a response
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alright, let's start by echoing the response from the same thread that's
+listening. After that, we'll spin up another thread for serving up the echo.
+
 
 Thoughts
 --------
