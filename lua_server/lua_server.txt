@@ -116,11 +116,8 @@ connections close, we need to NULL them out of the array (maybe we can skip
 this for now). Alright, this works! Let's check in and then add a mutex to
 guard connections. Done. Let's check in.
 
-
-
-
-Thoughts
---------
+Proto6: Respond with an HTTP page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 We need a strategy for sending data to clients. Will this eventually be on the
 C-side or will this always be on lua? My original plan was to do this in C,
 but the effort to rewrite will probably be a couple of weeks.
@@ -144,4 +141,8 @@ OK, so what prototypes would we need to implement for this?
 - Read an html file from lua and add something to it
 - Respond to an HTTP request
 
-Let's fit this into Responde with an HTTP page.
+
+
+Thoughts
+--------
+
