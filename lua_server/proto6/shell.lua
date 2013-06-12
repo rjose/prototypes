@@ -1,3 +1,7 @@
-proto5 = require('proto5')
+proto6 = require('proto6')
 
-proto5.start_listening()
+proto6.start_listening()
+
+function get_home()
+	return "TODO: create an HTML file, load it and return it"
+end

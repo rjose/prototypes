@@ -41,7 +41,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/4e3d8b[
       Broadcast messages to sockets]
       [X][][]
-. Respond with an HTTP page [][][]
+. Respond with an HTTP page [X][][][]
 . Send a websocket message [][][][][][][][]
 
 Proto1: Echo data
@@ -141,7 +141,14 @@ OK, so what prototypes would we need to implement for this?
 - Read an html file from lua and add something to it
 - Respond to an HTTP request
 
+Let's get started. I'll create a sim_client_req call that will call back into
+lua. I'll define a function in the shell.lua file for it to call. We'll just
+return a string for now. Next step will be to read a file in.
 
+We'll need to know which socket a request came in on.
+
+Hmm. I think we need to expose a mutex to lua. Maybe we have 1 big mutex for
+now.
 
 Thoughts
 --------

@@ -126,9 +126,22 @@ static int l_broadcast_message(lua_State *L) {
 		err(1, "Can't unlock connections_mutex");
 	return 0;
 }
+
+static int l_sim_client_req(lua_State *L) {
+	lua_getglobal(L, "get_home");
+	if (lua_pcall(L, 0, 1, 0) != LUA_OK) {
+		fprintf(stderr, "Something went wrong calling get_home\n");
+		return 0;
+	}
+
+	printf("%s\n", lua_tostring(L, -1));
+	return 0;
+}
+
 static const struct luaL_Reg mylib [] = {
 	{"start_listening", l_start_listening},
 	{"broadcast_message", l_broadcast_message},
+	{"sim_client_req", l_sim_client_req},
 	{NULL, NULL}
 };
 
