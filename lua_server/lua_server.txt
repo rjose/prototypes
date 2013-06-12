@@ -32,10 +32,13 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/d9ac02/lua_server/proto2[
       Write a lua function in C]
       [X][X][][]
-. link:https://github.com/rjose/prototypes/tree/5dac2b[
+. link:https://github.com/rjose/prototypes/tree/5dac2b/lua_server/proto3[
       Listen for a connection]
       [X][X][][][]
-. Establish a connection and send responses [X][X][][]
+. link:https://github.com/rjose/prototypes/tree/e1704b/lua_server/protof4[
+      Establish a connection and send responses
+      [X][X][][]
+. Broadcast messages to connections [][][]
 . Respond with an HTTP page [][][]
 . Send a websocket message [][][][][][][][]
 
@@ -99,7 +102,8 @@ Before we leave this prototype, I think we need to demonstrate how we can
 broadcast the same message across all connections. I suppose if we returned
 the sockets back to lua, we could write to them from lua. I don't even think
 we'd need the echo loop. Let's see if this would work. We could also close
-connections from lua.
+connections from lua. Actually, this should be its own protoype. Let's wrap
+this up and add this next.
 
 
 Thoughts
