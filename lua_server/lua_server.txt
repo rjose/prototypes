@@ -38,7 +38,9 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/e1704b/lua_server/protof4[
       Establish a connection and send responses]
       [X][X][][]
-. Broadcast messages to sockets [X][][]
+. link:https://github.com/rjose/prototypes/tree/4e3d8b[
+      Broadcast messages to sockets]
+      [X][][]
 . Respond with an HTTP page [][][]
 . Send a websocket message [][][][][][][][]
 
@@ -115,7 +117,31 @@ this for now). Alright, this works! Let's check in and then add a mutex to
 guard connections. Done. Let's check in.
 
 
+
+
 Thoughts
 --------
 We need a strategy for sending data to clients. Will this eventually be on the
-C-side or will this always be on lua?
+C-side or will this always be on lua? My original plan was to do this in C,
+but the effort to rewrite will probably be a couple of weeks.
+
+The challenge is that we have so much structured data on the lua side that
+we'd have to serialize to send over to C and then deserialize to work with it.
+If everything were implemented in C, we'd have the same problem. Actually, no
+that's not true. We'd have functions in C to manipulate our data. Lua would be
+much narrower. The QPlan shell would be more about calling C functions than it
+would be about creating and manipulating data in the Lua space.
+
+So what do we do about the lua server for now? At a minimum, we'll need a Web
+UI. I suppose we could just have lua construct the web page and any JSON
+responses and have the C functions call into it and return responses. We could
+have lua read in a web page template and then add data to it. This might be
+the easiest thing to do right now.
+
+OK, so what prototypes would we need to implement for this?
+
+- Call a lua function from C
+- Read an html file from lua and add something to it
+- Respond to an HTTP request
+
+Let's fit this into Responde with an HTTP page.
