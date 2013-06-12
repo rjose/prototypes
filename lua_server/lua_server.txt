@@ -35,7 +35,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/5dac2b[
       Listen for a connection]
       [X][X][][][]
-. Establish a connection and echo a response [][][][]
+. Establish a connection and echo a response [X][][][]
 . Accept an HTTP request [][][][][]
 . Respond with an HTTP page [][][]
 . Send a websocket message [][][][][][][][]
@@ -90,7 +90,7 @@ At some point, I should try creating the Objective-c version of this.
 Proto4: Establish a connection and echo a response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alright, let's start by echoing the response from the same thread that's
-listening. After that, we'll spin up another thread for serving up the echo.
+listening. Done. Now, let's spin up another thread for serving up the echo.
 
 
 Thoughts

@@ -38,15 +38,45 @@ write_string(int connfd, const char *string)
 
 static pthread_t listener_thread_id;
 
+static void
+str_echo(int sockfd)
+{
+	ssize_t n;
+	char buf[MAXLINE];
+
+	printf("Echoing data from port %d\n", sockfd);
+
+again:
+	while ( (n = read(sockfd, buf, MAXLINE)) > 0) {
+		Writen(sockfd, buf, n);
+	}
+
+	if (n < 0 && errno == EINTR)
+		goto again;
+	else if (n < 0)
+		err(1, "Problem reading");
+}
+
+
 static void *listener_routine(void *arg)
 {
 	int listenfd, connfd;
 	socklen_t clilen;
 	struct sockaddr_in cliaddr, servaddr;
+        int option = 1;
+	char buf[MAXLINE];
 
 	//lua_State *L = (lua_State*) arg;
 
 	listenfd = socket(AF_INET, SOCK_STREAM, 0);
+
+	/* Reuse port so we don't have to wait before the program can be
+	 * restarted because of the TIME_WAIT state. */
+        if ( setsockopt(listenfd,
+                        SOL_SOCKET,
+                        SO_REUSEADDR,
+                        &option, sizeof(option)) != 0)
+                err(1, "setsockopt failed");
 
 	bzero(&servaddr, sizeof(servaddr));
 	servaddr.sin_family = AF_INET;
@@ -62,7 +92,7 @@ static void *listener_routine(void *arg)
 	while(1) {
 		clilen = sizeof(cliaddr);
 		connfd = accept(listenfd, (SA*) &cliaddr, &clilen);
-		printf("Got connection: %d (and closing it)\n", connfd);
+		str_echo(connfd);
 		close(connfd);
 		//close(listenfd);
 	}
@@ -89,7 +119,7 @@ static const struct luaL_Reg mylib [] = {
 	{NULL, NULL}
 };
 
-int luaopen_proto3(lua_State *L) {
+int luaopen_proto4(lua_State *L) {
 	luaL_newlib(L, mylib);
 	return 1;
 }
