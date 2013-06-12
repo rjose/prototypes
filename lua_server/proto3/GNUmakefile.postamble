@@ -1,5 +1,5 @@
 after-all::
-	ln -s obj/libproto3.so proto3.so
+	ln -sf obj/libproto3.so proto3.so
 
 after-clean::
 	rm proto3.so

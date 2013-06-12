@@ -32,7 +32,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/d9ac02/lua_server/proto2[
       Write a lua function in C]
       [X][X][][]
-. Listen for a connection [][][][][]
+. Listen for a connection [X][][][][]
 . Establish a connection and echo a response [][][][]
 . Accept an HTTP request [][][][][]
 . Respond with an HTTP page [][][]
@@ -72,8 +72,16 @@ back. We'll start with proto2 and copy over stuff from
 link:https://github.com/rjose/prototypes/tree/master/repl/proto10[one of the
 repl prototypes].
 
-I'll create the frame of the function first. 
- 
+I'll create the frame of the function first. Done. Now, I'll create a thread
+that loops and prints out something once per second. Hmmm. Got a segfault. I
+think this is related to the Lua state. Let's go through the lua manual more
+carefully. Alright, got a thread running in a loop. Before we go on, I want to
+understand the pthread_create and pthread_detach interaction. Is there
+anything I need to do to clean up the thread? Nope. Looks like it's cool to
+just exit.
+
+At some point, I should try creating the Objective-c version of this.
+
 Thoughts
 --------
 
