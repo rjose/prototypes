@@ -1,3 +1,3 @@
-proto4 = require('proto4')
+proto5 = require('proto5')
 
-proto4.start_listening()
+proto5.start_listening()

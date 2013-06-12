@@ -36,9 +36,9 @@ Prototypes
       Listen for a connection]
       [X][X][][][]
 . link:https://github.com/rjose/prototypes/tree/e1704b/lua_server/protof4[
-      Establish a connection and send responses
+      Establish a connection and send responses]
       [X][X][][]
-. Broadcast messages to connections [][][]
+. Broadcast messages to sockets [][][]
 . Respond with an HTTP page [][][]
 . Send a websocket message [][][][][][][][]
 
@@ -105,7 +105,17 @@ we'd need the echo loop. Let's see if this would work. We could also close
 connections from lua. Actually, this should be its own protoype. Let's wrap
 this up and add this next.
 
+Proto5: Broadcast messages to sockets
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What I want to do is have the listener thread open connections and store them
+someplace. These connections need to be guarded by a mutex. We'll also need a
+broadcast function that can send a message to all open connections. As
+connections close, we need to NULL them out of the array (maybe we can skip
+this for now). Alright, this works! Let's check in and then add a mutex to
+guard connections.
+
 
 Thoughts
 --------
-
+We need a strategy for sending data to clients. Will this eventually be on the
+C-side or will this always be on lua?

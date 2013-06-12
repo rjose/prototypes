@@ -39,35 +39,8 @@ write_string(int connfd, const char *string)
 static pthread_t listener_thread_id;
 
 #define MAX_CONNECTIONS 10
-static pthread_t connection_threads[MAX_CONNECTIONS];
-static int cur_connection_index = 0;
-
-static void
-str_echo(int sockfd)
-{
-	ssize_t n;
-	char buf[MAXLINE];
-
-	printf("Echoing data from port %d\n", sockfd);
-
-again:
-	while ( (n = read(sockfd, buf, MAXLINE)) > 0) {
-		Writen(sockfd, buf, n);
-	}
-
-	if (n < 0 && errno == EINTR)
-		goto again;
-	else if (n < 0)
-		err(1, "Problem reading");
-}
-
-static void*
-connection_routine(void *arg)
-{
-	int connfd = (int)arg;
-	str_echo(connfd);
-	close(connfd);
-}
+static int connections[MAX_CONNECTIONS];
+static int next_connection_index = 0;
 
 
 static void *listener_routine(void *arg)
@@ -104,15 +77,14 @@ static void *listener_routine(void *arg)
 	while(1) {
 		clilen = sizeof(cliaddr);
 		connfd = accept(listenfd, (SA*) &cliaddr, &clilen);
-		if (cur_connection_index >= MAX_CONNECTIONS)
-			fprintf(stderr, "No more connections\n");
+		if (next_connection_index >= MAX_CONNECTIONS) {
+			fprintf(stderr, "Can't store any more connections\n");
+			close(connfd);
+		}
 		else {
-			if (pthread_create(&connection_threads[cur_connection_index],
-						NULL, connection_routine, (void *)connfd) != 0)
-				fprintf(stderr, "Unable to create listener thread");
-			pthread_detach(connection_threads[cur_connection_index]);
-
-			cur_connection_index++;
+			// TODO: Need to hold the connection mutex
+			connections[next_connection_index] = connfd;
+			next_connection_index++;
 		}
 	}
 	return NULL;
@@ -133,8 +105,17 @@ static int l_start_listening(lua_State *L) {
 	return 0;
 }
 
+static int l_broadcast_message(lua_State *L) {
+	// TODO: Need to hold the connections mutex
+	int i;
+	for (i=0; i < next_connection_index; i++) {
+		write_string(connections[i], "Hello from a broadcast!\n");
+	}
+	return 0;
+}
 static const struct luaL_Reg mylib [] = {
 	{"start_listening", l_start_listening},
+	{"broadcast_message", l_broadcast_message},
 	{NULL, NULL}
 };
 
