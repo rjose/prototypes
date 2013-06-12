@@ -38,7 +38,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/e1704b/lua_server/protof4[
       Establish a connection and send responses]
       [X][X][][]
-. Broadcast messages to sockets [][][]
+. Broadcast messages to sockets [X][][]
 . Respond with an HTTP page [][][]
 . Send a websocket message [][][][][][][][]
 
@@ -112,7 +112,7 @@ someplace. These connections need to be guarded by a mutex. We'll also need a
 broadcast function that can send a message to all open connections. As
 connections close, we need to NULL them out of the array (maybe we can skip
 this for now). Alright, this works! Let's check in and then add a mutex to
-guard connections.
+guard connections. Done. Let's check in.
 
 
 Thoughts

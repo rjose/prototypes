@@ -41,6 +41,7 @@ static pthread_t listener_thread_id;
 #define MAX_CONNECTIONS 10
 static int connections[MAX_CONNECTIONS];
 static int next_connection_index = 0;
+pthread_mutex_t connections_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 
 static void *listener_routine(void *arg)
@@ -82,9 +83,14 @@ static void *listener_routine(void *arg)
 			close(connfd);
 		}
 		else {
-			// TODO: Need to hold the connection mutex
+			if (pthread_mutex_lock(&connections_mutex) != 0)
+				err(1, "Can't lock connections_mutex");
+
 			connections[next_connection_index] = connfd;
 			next_connection_index++;
+
+			if (pthread_mutex_unlock(&connections_mutex) != 0)
+				err(1, "Can't unlock connections_mutex");
 		}
 	}
 	return NULL;
@@ -106,11 +112,18 @@ static int l_start_listening(lua_State *L) {
 }
 
 static int l_broadcast_message(lua_State *L) {
-	// TODO: Need to hold the connections mutex
+	// Lock
+	if (pthread_mutex_lock(&connections_mutex) != 0)
+		err(1, "Can't lock connections_mutex");
 	int i;
+
 	for (i=0; i < next_connection_index; i++) {
 		write_string(connections[i], "Hello from a broadcast!\n");
 	}
+
+	// Unlock
+	if (pthread_mutex_unlock(&connections_mutex) != 0)
+		err(1, "Can't unlock connections_mutex");
 	return 0;
 }
 static const struct luaL_Reg mylib [] = {
