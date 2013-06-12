@@ -80,6 +80,9 @@ understand the pthread_create and pthread_detach interaction. Is there
 anything I need to do to clean up the thread? Nope. Looks like it's cool to
 just exit.
 
+OK, the next step is to listen for a request and accept a connection. Let's
+just do the accept and listening from the same thread for now.
+
 At some point, I should try creating the Objective-c version of this.
 
 Thoughts
