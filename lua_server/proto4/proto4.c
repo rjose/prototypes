@@ -38,6 +38,10 @@ write_string(int connfd, const char *string)
 
 static pthread_t listener_thread_id;
 
+#define MAX_CONNECTIONS 10
+static pthread_t connection_threads[MAX_CONNECTIONS];
+static int cur_connection_index = 0;
+
 static void
 str_echo(int sockfd)
 {
@@ -55,6 +59,14 @@ again:
 		goto again;
 	else if (n < 0)
 		err(1, "Problem reading");
+}
+
+static void*
+connection_routine(void *arg)
+{
+	int connfd = (int)arg;
+	str_echo(connfd);
+	close(connfd);
 }
 
 
@@ -92,9 +104,16 @@ static void *listener_routine(void *arg)
 	while(1) {
 		clilen = sizeof(cliaddr);
 		connfd = accept(listenfd, (SA*) &cliaddr, &clilen);
-		str_echo(connfd);
-		close(connfd);
-		//close(listenfd);
+		if (cur_connection_index >= MAX_CONNECTIONS)
+			fprintf(stderr, "No more connections\n");
+		else {
+			if (pthread_create(&connection_threads[cur_connection_index],
+						NULL, connection_routine, (void *)connfd) != 0)
+				fprintf(stderr, "Unable to create listener thread");
+			pthread_detach(connection_threads[cur_connection_index]);
+
+			cur_connection_index++;
+		}
 	}
 	return NULL;
 }

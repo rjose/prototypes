@@ -35,8 +35,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/5dac2b[
       Listen for a connection]
       [X][X][][][]
-. Establish a connection and echo a response [X][][][]
-. Accept an HTTP request [][][][][]
+. Establish a connection and send responses [X][X][][]
 . Respond with an HTTP page [][][]
 . Send a websocket message [][][][][][][][]
 
@@ -90,7 +89,17 @@ At some point, I should try creating the Objective-c version of this.
 Proto4: Establish a connection and echo a response
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alright, let's start by echoing the response from the same thread that's
-listening. Done. Now, let's spin up another thread for serving up the echo.
+listening. Done. Now, let's spin up another thread for serving up the echo. I
+think I'll want a linked list to do this. Let's start by just having an array
+of threads that could do this (say 10). OK, this is working. It's a tiny bit
+hacky, but it does work. I can telnet into the port multiple times and can get
+separate echoes.
+
+Before we leave this prototype, I think we need to demonstrate how we can
+broadcast the same message across all connections. I suppose if we returned
+the sockets back to lua, we could write to them from lua. I don't even think
+we'd need the echo loop. Let's see if this would work. We could also close
+connections from lua.
 
 
 Thoughts
