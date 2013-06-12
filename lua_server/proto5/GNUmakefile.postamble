@@ -1,0 +1,5 @@
+after-all::
+	ln -sf obj/libproto5.so proto5.so
+
+after-clean::
+	rm proto5.so
