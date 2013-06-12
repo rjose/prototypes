@@ -1,2 +1,5 @@
 after-all::
 	ln -s obj/libmysin.so mysin.so
+
+after-clean::
+	rm mysin.so
