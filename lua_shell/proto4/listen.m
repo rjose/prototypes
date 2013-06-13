@@ -31,9 +31,9 @@
  */
 
 static void
-write_string(int connfd, NSString *string)
+write_string(int connfd, const char *string)
 {
-	Writen(connfd, [string cString], [string cStringLength]);
+	Writen(connfd, string, strlen(string));
 }
 
 /* TODO: Move this to its own function */
@@ -48,16 +48,16 @@ static void err_abort(int status, const char *message)
  * headers.
  */
 static void
-res_send(int connfd, NSString *body)
+res_send(int connfd, const char *body)
 {
-	NSString *content_length =
-		[NSString stringWithFormat:@"Content-Length: %d\r\n",
-		[body cStringLength]];
+	char buf[MAXLINE];
+	snprintf(buf, MAXLINE, "Content-Length: %d\r\n", (int) strlen(body));
+	write_string(connfd, buf);
 
-	write_string(connfd, @"HTTP/1.1 200 OK\r\n");
-	write_string(connfd, content_length);
-	write_string(connfd, @"Content-Type: text/html\r\n");
-	write_string(connfd, @"\r\n");
+	write_string(connfd, "HTTP/1.1 200 OK\r\n");
+	write_string(connfd, buf);
+	write_string(connfd, "Content-Type: text/html\r\n");
+	write_string(connfd, "\r\n");
 	write_string(connfd, body);
 }
 
@@ -66,14 +66,14 @@ handle_http_request(int connfd)
 {
 	char buf[MAXLINE];
 
-	while (readline(connfd, buf, MAXLINE) > 0) {
+	while (my_readline(connfd, buf, MAXLINE) > 0) {
 		if (strcmp(buf, "\r\n") == 0)
 			break;
 		printf("Got: '%s'\n", buf);
 	}
 
 	/* Just send a basic response */
-	res_send(connfd, @"<html><body>Hi</body></html>\r\n");
+	res_send(connfd, "<html><body>Hi</body></html>\r\n");
 }
 
 pthread_t listener_thread_id;
@@ -85,7 +85,7 @@ static void *listen_routine(void *arg)
 	struct sockaddr_in cliaddr, servaddr;
         int option = 1;
 
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	//NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
 	//lua_State *L = (lua_State*) arg;
 
@@ -116,7 +116,7 @@ static void *listen_routine(void *arg)
                 handle_http_request(connfd);
                 close(connfd);
 	}
-	[pool release];
+	//[pool release];
         return NULL;
 }
 

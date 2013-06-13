@@ -102,7 +102,7 @@ again:
 }
 
 ssize_t
-readline(int fd, void *vptr, size_t maxlen)
+my_readline(int fd, void *vptr, size_t maxlen)
 {
 	size_t n, rc;
 	char c, *ptr;
