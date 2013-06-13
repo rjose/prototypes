@@ -15,7 +15,8 @@ Prototypes
 . Add a simple lua repl
 . Create a thread from lua
 . Listen for connections in a thread
-. Incorporate readline into shell
+. Incorporate readline into shell (ABANDONED)
+. Incorporate readline into shell 2 [][][]
 
 Proto1: Start a thread
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -49,8 +50,13 @@ abandon it for now and circle back if it makes sense. It's probably too heavy
 anyways.
 
 
-Proto5: Incorporate readline
+Proto5: Incorporate readline (ABANDONED)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 If this is easy, we'll do it. If not, this should go into its own prototype.
 OK, I abandoned this one, too, but I think I know what's going on now (name
 collision over readline -- it's in tcp_io and in readline (obviously).
+
+Proto6: Incorporate readline into shell 2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alright, let's try this again. This time, we'll go straight C. I'll start by
+building the readline portion.
