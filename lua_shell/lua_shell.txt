@@ -59,4 +59,5 @@ collision over readline -- it's in tcp_io and in readline (obviously).
 Proto6: Incorporate readline into shell 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alright, let's try this again. This time, we'll go straight C. I'll start by
-building the readline portion.
+building the readline portion. OK, this seems to work! Let's try adding
+history next. Done.

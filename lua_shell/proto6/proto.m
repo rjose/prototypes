@@ -45,6 +45,8 @@ static void *repl_routine(void *arg)
 
         while ((line = readline("qplan> ")) != NULL) {
                 error = luaL_loadstring(L, line) || lua_pcall(L, 0, 0, 0);
+		add_history(line);
+		free(line);
 
                 if (error) {
                         fprintf(stderr, "%s\n", lua_tostring(L, -1));
