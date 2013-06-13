@@ -15,4 +15,12 @@ Prototypes
 . Add a simple lua repl
 . Create a thread from lua
 
+Proto1: Start a thread
+~~~~~~~~~~~~~~~~~~~~~~
+Just something to get started
 
+
+Proto2: Add a simple lua repl
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I'll work through the example in the lua manual. The first thing I want to do is
+make sure I can build and link against the lua library.
