@@ -1,0 +1,18 @@
+Lua Shell
+=========
+Rino Jose <rjose@linkedin.com>
+v1, Jun 12, 2013: Initial version
+
+Overview
+--------
+I've been running into issues with lua and pthreads. I think it has something to
+do with how the lua interpreter was built. I'm going to build my own shell that
+sets up things for Objective-C. I'll also make sure it works with the lua repl.
+
+Prototypes
+----------
+. Start a thread
+. Add a simple lua repl
+. Create a thread from lua
+
+
