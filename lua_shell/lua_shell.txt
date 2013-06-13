@@ -14,6 +14,8 @@ Prototypes
 . Start a thread
 . Add a simple lua repl
 . Create a thread from lua
+. Listen for connections in a thread from lua
+. Incorporate readline into shell
 
 Proto1: Start a thread
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -24,3 +26,9 @@ Proto2: Add a simple lua repl
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 I'll work through the example in the lua manual. The first thing I want to do is
 make sure I can build and link against the lua library.
+
+Proto3: Create a thread from lua
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We'll just create a simple thread. This is what we were hung up on last time. Do
+we get anything by moving this into its own module? I guess we'd get
+architectural separation. Maybe we'll do this next.
