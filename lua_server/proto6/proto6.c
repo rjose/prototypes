@@ -31,6 +31,50 @@ static void write_string(int, const char *);
  */
 
 static void
+str_echo(int sockfd)
+{
+	ssize_t n;
+	char buf[MAXLINE];
+
+	printf("Echoing data from port %d\n", sockfd);
+
+again:
+	while ( (n = read(sockfd, buf, MAXLINE)) > 0) {
+		Writen(sockfd, buf, n);
+	}
+
+	if (n < 0 && errno == EINTR)
+		goto again;
+	else if (n < 0)
+		err(1, "Problem reading");
+}
+
+static void
+handle_http_request(lua_State *L, int connfd)
+{
+	char buf[MAXLINE];
+	// TODO: Why doesn't this work?
+	readline(connfd, buf, MAXLINE);
+	str_echo(connfd);
+
+// 	while (readline(connfd, buf, MAXLINE) > 0) {
+// 		if (strcmp(buf, "\r\n") == 0)
+// 			break;
+// 		printf("Got: '%s'\n", buf);
+// 	}
+
+// 	/* Get html to return */
+// 	lua_getglobal(L, "get_home");
+// 	if (lua_pcall(L, 0, 1, 0) != LUA_OK) {
+// 		fprintf(stderr, "Something went wrong calling get_home\n");
+// 		return 0;
+// 	}
+// 
+// 	/* Send response back */
+// 	write_string(connfd, lua_tostring(L, -1));
+}
+
+static void
 write_string(int connfd, const char *string)
 {
 	Writen(connfd, string, strlen(string));
@@ -52,7 +96,7 @@ static void *listener_routine(void *arg)
         int option = 1;
 	char buf[MAXLINE];
 
-	//lua_State *L = (lua_State*) arg;
+	lua_State *L = (lua_State*) arg;
 
 	listenfd = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -91,6 +135,9 @@ static void *listener_routine(void *arg)
 
 			if (pthread_mutex_unlock(&connections_mutex) != 0)
 				err(1, "Can't unlock connections_mutex");
+
+			printf("handle_http_request...\n");
+			handle_http_request(L, connfd);
 		}
 	}
 	return NULL;
@@ -99,12 +146,7 @@ static void *listener_routine(void *arg)
 static int l_start_listening(lua_State *L) {
 	fprintf(stderr, "Accepting connections to 8888\n");
 
-	lua_State *L1 = luaL_newstate();
-
-	if (!L1)
-		luaL_error(L, "Unable to create new state");
-
-	if (pthread_create(&listener_thread_id, NULL, listener_routine, L1) != 0)
+	if (pthread_create(&listener_thread_id, NULL, listener_routine, (void *) L) != 0)
 		fprintf(stderr, "Unable to create listener thread\n");
 
 	pthread_detach(listener_thread_id);

@@ -41,7 +41,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/4e3d8b[
       Broadcast messages to sockets]
       [X][][]
-. Respond with an HTTP page [X][][][]
+. Respond with an HTTP page [X][X][][]
 . Send a websocket message [][][][][][][][]
 
 Proto1: Echo data
@@ -143,13 +143,26 @@ OK, so what prototypes would we need to implement for this?
 
 Let's get started. I'll create a sim_client_req call that will call back into
 lua. I'll define a function in the shell.lua file for it to call. We'll just
-return a string for now. Next step will be to read a file in.
+return a string for now. Next step will be to read a file in. Let's read a
+file in next. Done. I think instead of adding something to the file, we should
+just have an ajax request come from the client and then have something that
+can return JSON back.
+
+Alright. Getting some weird segfaulting. I tried a different angle last night
+and would like to take that direction now. Let's abandon this one.
+
+
+Thoughts
+--------
+OK, the last thing we'll do here is to respond with an HTML file in response
+to an HTTP request. What's the best way to do this? I think I need to step
+back and rethink this. For today, let's just return our sample file and end
+this prototype. I think we need to think about a more complete server
+strategy. I need to sketch out all of the main pieces and then start plugging
+in some empty boxes together.
 
 We'll need to know which socket a request came in on.
 
 Hmm. I think we need to expose a mutex to lua. Maybe we have 1 big mutex for
 now.
-
-Thoughts
---------
 
