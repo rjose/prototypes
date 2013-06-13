@@ -8,6 +8,9 @@
 #include <strings.h>
 #include <unistd.h>
 
+#include <readline/readline.h>
+#include <readline/history.h>
+
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
@@ -25,12 +28,38 @@ static void err_abort(int status, const char *message)
 	exit(status);
 }
 
+static char *line_read = (char *)NULL;
+
+/* Read a string, and return a pointer to it.
+   Returns NULL on EOF. */
+char *
+rl_gets ()
+{
+  /* If the buffer has already been allocated,
+     return the memory to the free pool. */
+  if (line_read)
+    {
+      free (line_read);
+      line_read = (char *)NULL;
+    }
+
+  /* Get a line from the user. */
+  line_read = readline("> ");
+
+  /* If the line has any text in it,
+     save it on the history. */
+  if (line_read)
+    add_history (line_read);
+
+  return (line_read);
+}
 
 static void *repl_routine(void *arg)
 {
         // Lua things
-        char buf[MAXLINE];
+        //char buf[MAXLINE];
         int error;
+        char *buf;
 
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
@@ -39,7 +68,8 @@ static void *repl_routine(void *arg)
         lua_pushcfunction(L, l_listen);
         lua_setglobal(L, "listen");
 
-        while (fgets(buf, sizeof(buf), stdin) != NULL) {
+
+        while ((buf = rl_gets()) != NULL) {
                 error = luaL_loadstring(L, buf) || lua_pcall(L, 0, 0, 0);
 
                 if (error) {
@@ -47,6 +77,15 @@ static void *repl_routine(void *arg)
                         lua_pop(L, 1);
                 }
         }
+
+//         while (fgets(buf, sizeof(buf), stdin) != NULL) {
+//                 error = luaL_loadstring(L, buf) || lua_pcall(L, 0, 0, 0);
+// 
+//                 if (error) {
+//                         fprintf(stderr, "%s\n", lua_tostring(L, -1));
+//                         lua_pop(L, 1);
+//                 }
+//         }
 
         lua_close(L);
         return NULL;

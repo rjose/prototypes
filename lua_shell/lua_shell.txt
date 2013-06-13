@@ -39,3 +39,7 @@ Let's go long on this one and respond to an http request. First, we'll listen
 for and then close connections. Next, we'll copy the handle http function over.
 Done! Well, it's nice to have gotten this working. Hopefully, it will still work
 on the Linux side...
+
+Proto5: Incorporate readline
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+If this is easy, we'll do it. If not, this should go into its own prototype.
