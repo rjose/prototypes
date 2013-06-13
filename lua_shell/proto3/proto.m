@@ -8,9 +8,10 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#import "listen.h"
+
 #define MAXLINE 1024
 
-pthread_t listener_thread_id;
 
 pthread_t repl_thread_id;
 
@@ -20,24 +21,6 @@ static void err_abort(int status, const char *message)
 	exit(status);
 }
 
-static void *listen_routine(void *arg)
-{
-        while(1) {
-                printf("Listening...\n");
-                sleep(2);
-        }
-        return NULL;
-}
-
-static int l_listen(lua_State *L)
-{
-	int status = pthread_create(&listener_thread_id, NULL, listen_routine, NULL);
-	if (status != 0)
-		err_abort(status, "Create thread");
-
-        printf("Created listener thread!\n");
-        return 0;
-}
 
 static void *repl_routine(void *arg)
 {
