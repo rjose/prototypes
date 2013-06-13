@@ -60,4 +60,8 @@ Proto6: Incorporate readline into shell 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Alright, let's try this again. This time, we'll go straight C. I'll start by
 building the readline portion. OK, this seems to work! Let's try adding
-history next. Done.
+history next. Done. Now, let's see if we can add some default tab completions.
+Actually, I wonder if I can just add prime the history. Close, but it doesn't
+tab complete. Alright, I followed along
+link:http://cc.byexamples.com/2008/06/16/gnu-readline-implement-custom-auto-complete/[here]
+to add autocomplete. Seems to work OK. I think we're done.
