@@ -14,7 +14,7 @@ Prototypes
 . Start a thread
 . Add a simple lua repl
 . Create a thread from lua
-. Listen for connections in a thread from lua
+. Listen for connections in a thread
 . Incorporate readline into shell
 
 Proto1: Start a thread
@@ -32,3 +32,10 @@ Proto3: Create a thread from lua
 We'll just create a simple thread. This is what we were hung up on last time. Do
 we get anything by moving this into its own module? I guess we'd get
 architectural separation. Maybe we'll do this next.
+
+Proto4: Listen for connections in a thread
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's go long on this one and respond to an http request. First, we'll listen
+for and then close connections. Next, we'll copy the handle http function over.
+Done! Well, it's nice to have gotten this working. Hopefully, it will still work
+on the Linux side...
