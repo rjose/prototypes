@@ -1,0 +1,32 @@
+Using ncurses
+=============
+Rino Jose <@rjose>
+v1, June 22, 2013: Initial version
+
+Overview
+--------
+I'd like to do less scrolling and have more control over how text is rendered.
+Some of this is putting text into a particular part of the screen. Some of it is
+creating tables consistently. Some of this is highlighting text properly.
+
+Risk
+----
+Not sure if we'll need to do everything from C. Not sure how lua fits into this.
+Should lua be at the top or should it be underneath? I started by wanting lua at
+the top level and then writing C modules for it to call. However, I'm beginning
+to think it should just be a part of the apps that we write.
+
+Prototypes
+----------
+. Go through ncurses tutorial [][][][][][][]
+
+. Embed lua in the app and have an entry area and an output [][][][][][]
+
+. Format a table with ncurses [][][][][]
+
+. Integrate a mocked out qplan into ncurses [][][][][][]
+
+
+Proto1: Go through ncurses tutorial
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
