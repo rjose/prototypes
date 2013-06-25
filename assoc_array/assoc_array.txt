@@ -1,0 +1,45 @@
+AssocArray
+==========
+Rino Jose <@rjose>
+v1, Jun 24, 2013: Initial version
+
+Overview
+--------
+This is a data structure that we'll need as part of QPlan (and probably any
+other app I write in C). I want to be able to init an AssocArray and set values
+on it. I want to be able to get the keys in some order. We should be able to
+specify a compare function for each AssocArray.
+
+It would be useful to have AssocArrays that had arrays of doubles as values.
+
+We need to map a function that takes something like work items and returns
+AssocArrays.
+
+
+Risks
+-----
+Not sure how to be careful about memory management. Not sure how to store arrays
+as AssocArray values. Should we have a specific Array type? Maybe.
+
+Prototypes
+----------
+. Initialize an AssocArray [X][][]
+. Set and get values [][][][]
+. Reduce a list of AssocArrays [][][][]
+. Reduce a list of AssocArrays with Array values [][][][]
+. Map a function over something that returns an AssocArray [][][][]
+
+
+Proto1: Initialize an AssocArray
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Let's start by initializing an AssocArray. That should help flesh out what the
+structs should look like. I'll model some of this after the
+link:http://www.amazon.com/Mastering-Algorithms-with-C-ebook/dp/B0043EWV5Q[Algos
+in C] book. Hmmm...there wasn't much to this part. Oh well. Let's set and get
+some values next.
+
+Proto2: Set and get values
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+What we'll need to do here is initialize an AssocArray and then set some values
+on it. If we can get them back, then great. We should also write the function
+that returns a sorted list of keys.
