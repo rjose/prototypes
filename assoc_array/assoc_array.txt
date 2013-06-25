@@ -36,10 +36,15 @@ Let's start by initializing an AssocArray. That should help flesh out what the
 structs should look like. I'll model some of this after the
 link:http://www.amazon.com/Mastering-Algorithms-with-C-ebook/dp/B0043EWV5Q[Algos
 in C] book. Hmmm...there wasn't much to this part. Oh well. Let's set and get
-some values next.
+some values next. Oh, I forgot that I had to allocate for the capacity. I did
+this in Proto2.
 
 Proto2: Set and get values
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 What we'll need to do here is initialize an AssocArray and then set some values
 on it. If we can get them back, then great. We should also write the function
-that returns a sorted list of keys.
+that returns a sorted list of keys. Should we specify the key and value as
+function arguments, or should we create an AssocArrayElem and pass that in?
+Let's pass in the key and value separately. That way it's symmetrical when we
+retrieve the value. OK, I can set and get values. Let's check in. After that,
+I'll test using realloc.
