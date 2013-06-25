@@ -25,8 +25,8 @@ Prototypes
 ----------
 . Initialize an AssocArray [X][][]
 . Set and get values [X][X][X][X]<X><X>
-. Reduce a list of AssocArrays [X][X][X][X][][]
-. Map a function over something that returns an AssocArray [][][][]
+. Reduce a list of AssocArrays [X][X][X][X][X][X]
+. Apply scale [][][][]
 
 
 Proto1: Initialize an AssocArray
@@ -71,6 +71,19 @@ would be to pass in a pointer to a context that has whatever extra info that's
 needed. This could also store information about how the algorithm is
 proceeding. Let's make this change and then implement the construction of
 running totals.
+
+Alright this works! I wonder if the running total functions are generic enough
+to add to the assoc array file. I believe so. We should pull these over at the
+end.
+
+Proto4: Apply scale
+~~~~~~~~~~~~~~~~~~~
+One thing that should be very useful is applying a scale factor when reducing.
+I'll add this into the context for now. If we specify a suppy of resources and
+a -1 for the scale, we'll get net supply. If we specify supply of resources by
+person and specify -1/13 as the scale, we'll get available people left over a
+quarter. If the context is NULL, I suppose we can default to a scale of 1.
+This only makes sense for the non-running total version.
 
 
 Thougts
