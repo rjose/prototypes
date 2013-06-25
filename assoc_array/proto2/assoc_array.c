@@ -27,6 +27,7 @@ void aa_free(AssocArray *array)
 int aa_set_element(AssocArray *array, const AssocArrayElem *elem)
 {
         AssocArrayElem *e;
+        AssocArrayElem *tmp;
         int i;
 
         for (i=0; i < array->num_elements; i++) {
@@ -43,7 +44,18 @@ int aa_set_element(AssocArray *array, const AssocArrayElem *elem)
         array->elements[array->num_elements] = *elem;
         array->num_elements++;
 
-        // TODO: Handle realloc
+        if (array->num_elements == array->capacity) {
+                array->capacity *= 2;
+                tmp = (AssocArrayElem*)realloc(array->elements,
+                                      sizeof(AssocArrayElem) * array->capacity);
+                if (tmp == NULL) {
+                        // TODO: Log something
+                        return -1;
+                }
+                array->elements = tmp;
+                return 1;
+        }
+
         return 0;
 }
 

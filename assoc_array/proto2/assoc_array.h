@@ -23,7 +23,7 @@ typedef struct AssocArrayElem_ {
 
 
 typedef struct AssocArray_ {
-        int capacity;
+        size_t capacity;
         int num_elements;
         AssocArrayElem *elements;
 

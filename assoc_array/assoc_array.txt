@@ -47,4 +47,4 @@ that returns a sorted list of keys. Should we specify the key and value as
 function arguments, or should we create an AssocArrayElem and pass that in?
 Let's pass in the key and value separately. That way it's symmetrical when we
 retrieve the value. OK, I can set and get values. Let's check in. After that,
-I'll test using realloc.
+I'll test using realloc. Alright, realloc works. Let's check this in.
