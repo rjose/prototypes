@@ -52,6 +52,8 @@ static void test_aa_set_and_get()
         pass(EQ(elem.val.dval, 100.0), "Get realloc'd element");
 
         /* Check that we get NULL for missing element */
+        pass(NULL == aa_get_element(&array, "GARBAGE"),
+                                                    "Return NULL if not found");
 
         END_SET("Test set and get");
 
