@@ -26,7 +26,7 @@ Prototypes
 . Initialize an AssocArray [X][][]
 . Set and get values [X][X][X][X]<X><X>
 . Reduce a list of AssocArrays [X][X][X][X][X][X]
-. Apply scale [][][][]
+. Apply scale [X][][][]
 
 
 Proto1: Initialize an AssocArray
@@ -84,6 +84,9 @@ a -1 for the scale, we'll get net supply. If we specify supply of resources by
 person and specify -1/13 as the scale, we'll get available people left over a
 quarter. If the context is NULL, I suppose we can default to a scale of 1.
 This only makes sense for the non-running total version.
+
+Alright, this is running. Let's pull some code back into the assoc files
+proper (if they're generic enough).
 
 
 Thougts

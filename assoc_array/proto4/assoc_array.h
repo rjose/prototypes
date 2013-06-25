@@ -32,6 +32,14 @@ typedef struct AssocArray_ {
 } AssocArray;
 
 
+/* This is used in the reduce calls */
+typedef struct ReduceContext_ {
+        int num_items;
+        int cur_index;
+        double scale;
+} ReduceContext;
+
+
 /* ============================================================================
  * Public API
  */
@@ -43,7 +51,7 @@ void aa_free(AssocArray *array);
 
 int aa_set_element(AssocArray *array, const AssocArrayElem *elem);
 
-AssocArrayElem *aa_get_element(AssocArray *array, void *key);
+AssocArrayElem *aa_get_element(const AssocArray *array, void *key);
 
 void aa_sort_keys(AssocArray *array);
 
@@ -51,10 +59,17 @@ int aa_reduce(AssocArray *result, const AssocArray **assoc_arrays, size_t n,
            int (*f)(AssocArray *result, const AssocArray *other, void *context),
                                                                  void *context);
 
-
-// TODO: Add functions for reducing a list of AssocArrays
-
 #define aa_element(array, i) (&(array)->elements[i])
+
+int aa_string_compare(const void *k1, const void *k2);
+
+/* Adds result to other by key, storing the result in result. Assuming the
+ * results are doubles. */
+int aa_vector_sum(AssocArray *result, const AssocArray *other, void *context);
+
+/* Computes running totals by key. Values are double arrays. */
+int aa_running_vector_sum(AssocArray *result, const AssocArray *other, 
+                                                                 void *context);
 
 #endif
 
