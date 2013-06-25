@@ -24,7 +24,7 @@ as AssocArray values. Should we have a specific Array type? Maybe.
 Prototypes
 ----------
 . Initialize an AssocArray [X][][]
-. Set and get values [X][X][X][]
+. Set and get values [X][X][X][X]<X><X>
 . Reduce a list of AssocArrays [][][][]
 . Reduce a list of AssocArrays with Array values [][][][]
 . Map a function over something that returns an AssocArray [][][][]
@@ -49,4 +49,5 @@ Let's pass in the key and value separately. That way it's symmetrical when we
 retrieve the value. OK, I can set and get values. Let's check in. After that,
 I'll test using realloc. Alright, realloc works. Let's check this in.
 
-Next, let's get all of the keys in sorted order.
+Next, let's get all of the keys in sorted order. All we'll do is have a function
+that can sort the elements by key. We'll also define a macro to get the element.

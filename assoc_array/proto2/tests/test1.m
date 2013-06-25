@@ -60,11 +60,48 @@ static void test_aa_set_and_get()
         aa_free(&array);
 }
 
-// TODO: Test getting the keys
+static char *get_string_key(AssocArrayElem *elem)
+{
+        return elem->key.sval;
+}
+
+static void test_aa_get_keys()
+{
+        AssocArray array;
+        AssocArrayElem elem;
+        char *key;
+
+        aa_init(&array, 5, compare1);
+        elem.key.sval = "One";
+        aa_set_element(&array, &elem);
+
+        elem.key.sval = "Who";
+        aa_set_element(&array, &elem);
+
+        elem.key.sval = "Two";
+        aa_set_element(&array, &elem);
+
+
+        START_SET("Test get keys");
+
+        key = get_string_key(aa_element(&array, 1));
+        pass(strcmp("Who", key) == 0, "Second key should be correct");
+
+        /* Sort keys */
+        aa_sort_keys(&array);
+
+        key = get_string_key(aa_element(&array, 1));
+        pass(strcmp("Two", key) == 0, "Sorted second key should be correct");
+
+        END_SET("Test get keys");
+
+        aa_free(&array);
+}
 
 int main()
 {
         test_aa_init();
         test_aa_set_and_get();
+        test_aa_get_keys();
         return 0;
 }

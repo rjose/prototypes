@@ -74,3 +74,9 @@ AssocArrayElem *aa_get_element(AssocArray *array, void *key)
 
         return NULL;
 }
+
+void aa_sort_keys(AssocArray *array)
+{
+        qsort(array->elements, array->num_elements, sizeof(AssocArrayElem),
+                                                                array->compare);
+}
