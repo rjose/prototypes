@@ -86,6 +86,11 @@ static void test_aa_reduce()
         free_arrays();
 }
 
+static int destroy_running_totals(AssocArrayElem *elem)
+{
+        free(elem->val.vval);
+}
+
 
 static void test_aa_reduce_with_list_values()
 {
@@ -111,6 +116,7 @@ static void test_aa_reduce_with_list_values()
                 arrays[i] = &m_arrays[i];
 
         aa_init(&result, 5, aa_string_compare);
+        result.destroy = destroy_running_totals;
         aa_reduce(&result, (const AssocArray **)arrays, NUM_ARRAYS,
                                                   aa_running_vector_sum, &context);
 
@@ -134,10 +140,6 @@ static void test_aa_reduce_with_list_values()
         pass(EQ(3, running_totals[2]), "Web sum should be correct 2");
 
         END_SET("Test reduce with list values");
-
-        for (i = 0; i < result.num_elements; i++) {
-                free(aa_element(&result, i)->val.vval);
-        }
 
         free_arrays();
 }

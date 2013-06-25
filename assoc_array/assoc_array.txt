@@ -88,6 +88,9 @@ This only makes sense for the non-running total version.
 Alright, this is running. Let's pull some code back into the assoc files
 proper (if they're generic enough).
 
+Before we go, let's hook up the destroy function and make sure it works
+properly.
+
 
 Thougts
 -------
@@ -95,5 +98,4 @@ Need to review memory management policy. Part of this is when we set an
 element in an AssocArray, we copy pointers over. The caller needs to make sure
 these pointers will stay valid (at least through the life of the call).
 
-We should probably add the string compare function to assoc_array.
 

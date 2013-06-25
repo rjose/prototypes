@@ -19,7 +19,12 @@ int aa_init(AssocArray *array, int capacity,
 
 void aa_free(AssocArray *array)
 {
-        // TODO: If destroy isn't NULL, destroy each elem, too
+        int i;
+        if (array->destroy) {
+                for (i = 0; i < array->num_elements; i++)
+                        array->destroy(array->elements + i);
+        }
+
         free(array->elements);
         memset(array, 0, sizeof(AssocArray));
 }
