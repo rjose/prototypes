@@ -25,7 +25,7 @@ Prototypes
 ----------
 . Initialize an AssocArray [X][][]
 . Set and get values [X][X][X][X]<X><X>
-. Reduce a list of AssocArrays [X][X][][][][]
+. Reduce a list of AssocArrays [X][X][X][X][][]
 . Map a function over something that returns an AssocArray [][][][]
 
 
@@ -64,9 +64,20 @@ we add a new AssocArray element, we'll have to allocate memory for the double
 array as well. The caller should specify (in the reducing function?) what the
 initial values should be.
 
+As I was thinking about implementing this, I realized that I needing some way
+of providing context to the reducing function so it would know how many
+elements to allocate for. What I want is currying, but what might work better
+would be to pass in a pointer to a context that has whatever extra info that's
+needed. This could also store information about how the algorithm is
+proceeding. Let's make this change and then implement the construction of
+running totals.
+
 
 Thougts
 -------
-Need to review memory management policy.
+Need to review memory management policy. Part of this is when we set an
+element in an AssocArray, we copy pointers over. The caller needs to make sure
+these pointers will stay valid (at least through the life of the call).
 
 We should probably add the string compare function to assoc_array.
+

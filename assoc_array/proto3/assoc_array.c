@@ -83,12 +83,13 @@ void aa_sort_keys(AssocArray *array)
                                                                 array->compare);
 }
 
-int aa_reduce(AssocArray *result, const AssocArray *assoc_arrays[], size_t n,
-                         int (*f)(AssocArray *result, const AssocArray *other))
+int aa_reduce(AssocArray *result, const AssocArray **assoc_arrays, size_t n,
+           int (*f)(AssocArray *result, const AssocArray *other, void *context),
+                                                                 void *context)
 {
         int i;
         for (i = 0; i < n; i++) {
-                if (f(result, assoc_arrays[i]) != 0)
+                if (f(result, assoc_arrays[i], context) != 0)
                         return -1;
         }
         return 0;

@@ -48,12 +48,13 @@ AssocArrayElem *aa_get_element(AssocArray *array, void *key);
 void aa_sort_keys(AssocArray *array);
 
 int aa_reduce(AssocArray *result, const AssocArray **assoc_arrays, size_t n,
-                         int (*f)(AssocArray *result, const AssocArray *other));
+           int (*f)(AssocArray *result, const AssocArray *other, void *context),
+                                                                 void *context);
 
 
 // TODO: Add functions for reducing a list of AssocArrays
 
-#define aa_element(array, i) &(array)->elements[i]
+#define aa_element(array, i) (&(array)->elements[i])
 
 #endif
 
