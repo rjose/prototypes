@@ -25,8 +25,7 @@ Prototypes
 ----------
 . Initialize an AssocArray [X][][]
 . Set and get values [X][X][X][X]<X><X>
-. Reduce a list of AssocArrays [][][][]
-. Reduce a list of AssocArrays with Array values [][][][]
+. Reduce a list of AssocArrays [X][X][][][][]
 . Map a function over something that returns an AssocArray [][][][]
 
 
@@ -51,3 +50,23 @@ I'll test using realloc. Alright, realloc works. Let's check this in.
 
 Next, let's get all of the keys in sorted order. All we'll do is have a function
 that can sort the elements by key. We'll also define a macro to get the element.
+
+Proto3: Reduce a list of AssocArrays
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+What we want to do here is take an array of pointers to AssocArrays and apply
+some function to reduce using a starting AssocArray. Users of this would have
+to set up the AssocArray list before calling this. As we iterate through the
+list of AssocArrays, we'll have to add elements as needed. Done!
+
+For the case where the values of the resulting AssocArray are arrays of
+doubles, let's assume that we know the total number of doubles up front. When
+we add a new AssocArray element, we'll have to allocate memory for the double
+array as well. The caller should specify (in the reducing function?) what the
+initial values should be.
+
+
+Thougts
+-------
+Need to review memory management policy.
+
+We should probably add the string compare function to assoc_array.
