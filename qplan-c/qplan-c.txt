@@ -1,7 +1,7 @@
 QPlan C Prototypes
 ==================
 Rino Jose <@rjose>
-v1, Jun 26, 2013: Finished proto2
+v1, Jun 26, 2013: Finished proto3
 
 Drafting effort: [X][]
 
@@ -37,9 +37,12 @@ JSON/HTML and sending it to clients.
 Prototypes
 ----------
 . Rewrite qplan in C (ABANDONED)
-. link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto2[Load a lua file from C]
+. link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto2[
+      Load a lua file from C]
       [X][X]
-. Create multiple lua states and threads [X][][][][][][][]
+. link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto3[
+      Create multiple lua states and threads]
+      [X][X][][][][][][]
 . Hook up handling HTTP requests [][][][][][][]
 . Serve an Ajax response [][][][]
 . Establish a websocket connection [][][][][][]
@@ -79,10 +82,10 @@ function.
 
 OK, let's mess with the main state from the other thread. We'll call the "sc"
 function to change the cutline repeatedly. We'll check what it is in the repl.
-Done! Alright, this looks pretty good.
+Done! Alright, this looks pretty good. One thing I'd like to clean up is
+allowing us to specify the data to load from the commandline. Done!
 
-One thing I'd like to clean up is allowing us to specify the data to load from
-the commandline.
+Wow, that prototype was much easier than I was expecting.
 
 Proto4: Hook up handling HTTP requests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
