@@ -109,6 +109,7 @@ like. I think all of this can happen in the main lua state.
 Let's build up a string for storing all of the request lines. Done. Now, let's
 add a web.handle_request function that we'll call from the handler routine.
 Done. We can return a response now. Let's check in and then send some data.
+Done! Sent the cutline over.
 
 Thoughts
 --------
@@ -119,3 +120,6 @@ be for sending data from the repl. Why couldn't we just do that with a C-coded
 module? I think this might be the way to go.
 
 Figure out how to call a function in a submodule from C.
+
+Need to rewrite shell functions into data only pieces and rendering pieces. It
+would be nice if we could also render the printed output to the web.
