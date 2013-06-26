@@ -1,11 +1,14 @@
 local Web = {}
 
 function Web.handle_request(req_str)
-        -- Write some unit tests to parse this
-        -- GET /favicon.ico HTTP/1.1
+        print(req_str)
+        -- Write some unit tests to parse this:
+        --
+        -- GET / HTTP/1.1
         -- Host: localhost:8888
         -- Connection: keep-alive
-        -- Accept: */*
+        -- Cache-Control: max-age=0
+        -- Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
         -- User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.93 Safari/537.36
         -- Accept-Encoding: gzip,deflate,sdch
         -- Accept-Language: en-US,en;q=0.8
