@@ -7,63 +7,11 @@
 #include <strings.h>
 #include <unistd.h>
 
-#include <readline/readline.h>
-#include <readline/history.h>
-
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
 
 #define MAXLINE 1024
-
-
-char *my_generator(const char*, int);
-static char **my_completion(const char*, int, int);
-char *dupstr(char*);
-void *xmalloc(int);
-
-
-
-static char **my_completion(const char *text, int start, int end)
-{
-	char **matches;
-	matches = (char **)NULL;
-
-	if (start == 0)
-		matches = rl_completion_matches((char*)text, &my_generator);
-	else
-		rl_bind_key('\t', rl_abort);
-
-	return matches;
-}
-
-char *my_generator(const char *text, int state)
-{
-	static char *cmd[] = {"rbt()", "rrt()", "pw()", NULL};
-	static int list_index, len;
-	char *name;
-
-	if (!state) {
-		list_index = 0;
-		len = strlen(text);
-	}
-
-	while ((name = cmd[list_index++])) {
-		if (strncmp(name, text, len) == 0)
-			return dupstr(name);
-	}
-	return (char*) NULL;
-}
-
-char *dupstr(char *s)
-{
-	char *r;
-	// TODO: Check the result of this
-	r = (char*) malloc((strlen(s) + 1));
-	strcpy(r, s);
-	return r;
-}
-
 
 pthread_t repl_thread_id;
 
@@ -76,10 +24,8 @@ static void err_abort(int status, const char *message)
 
 static void *repl_routine(void *arg)
 {
-	char *line;
+        char buf[MAXLINE];
         int error;
-
-	rl_attempted_completion_function = my_completion;
 
         lua_State *L = luaL_newstate();
         luaL_openlibs(L);
@@ -93,18 +39,18 @@ static void *repl_routine(void *arg)
                 luaL_error(L, "Problem requiring shell functions: %s",
                                 lua_tostring(L, -1));
 
-
-        while ((line = readline("qplan> ")) != NULL) {
-		rl_bind_key('\t', rl_complete);
-
-                error = luaL_loadstring(L, line) || lua_pcall(L, 0, 0, 0);
-		add_history(line);
-		free(line);
+        /*
+         * REPL
+         */
+        printf("qplan> ");
+        while (fgets(buf, sizeof(buf), stdin) != NULL) {
+                error = luaL_loadstring(L, buf) || lua_pcall(L, 0, 0, 0);
 
                 if (error) {
                         fprintf(stderr, "%s\n", lua_tostring(L, -1));
                         lua_pop(L, 1);
                 }
+                printf("qplan> ");
         }
 
         lua_close(L);
@@ -115,7 +61,6 @@ static void *repl_routine(void *arg)
 
 int main(int argc, char *argv[])
 {
-	// Generic to work with pthread functions
 	void *thread_result;
 	int status;
 

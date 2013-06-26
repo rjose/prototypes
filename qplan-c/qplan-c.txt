@@ -54,15 +54,13 @@ as a starting point for this. Let's see if I can get this working before lunch
 
 OK, was able to load data from files in a submodule. I had to set a
 "package.path" in the shell_functions.lua file. Let's check this in (sans
-data).
+data). Alright, let's try building part of the lua_shell prototype. Done! I
+was able to load the shell functions from the custom repl. Let's see if we can
+load these automatically. Done!
 
-Alright, let's try building part of the lua_shell prototype. Done! I was able
-to load the shell functions from the custom repl. Let's see if we can load
-these automatically. Done!
-
-TODO: Clean up the file
-TODO: Add tests
-
+Now, let's clean up the file and then mark this prototype as done. This has
+lots of stuff from readline in it. I don't need that for now, and it's just
+cluttering up the code. Let's remove this first.
 
 
 
