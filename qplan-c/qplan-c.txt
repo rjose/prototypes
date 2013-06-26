@@ -1,9 +1,9 @@
 QPlan C Prototypes
 ==================
 Rino Jose <@rjose>
-v1, Jun 26, 2013: Initial version
+v1, Jun 26, 2013: Finished proto2
 
-Drafting effort: [][]
+Drafting effort: [X][]
 
 Overview
 --------
@@ -36,13 +36,15 @@ JSON/HTML and sending it to clients.
 
 Prototypes
 ----------
-. Load a lua file from C [X][]
+. Rewrite qplan in C (ABANDONED)
+. link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto2[Load a lua file from C]
+      [X][X]
 . Create multiple lua states and threads [][][][][][][][]
 . Simulate web requests and repl concurrency [][][][][][]
 . Serve an Ajax response [][][]
 
 
-Proto1: Load a lua file from C
+Proto2: Load a lua file from C
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This should be pretty straightforward. I think I'll start by copying all of
 the v2 code into a subdirectory of the prototype. I'll try to load it from the
