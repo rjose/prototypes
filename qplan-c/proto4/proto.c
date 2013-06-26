@@ -138,7 +138,9 @@ static void *handle_request_routine(void *arg)
         request_string[req_len] = '\0';
 
         lock_main(req_context->context);
-        lua_getglobal(L_main, "handle_request");
+        lua_getglobal(L_main, "web");
+        lua_pushstring(L_main, "handle_request");
+        lua_gettable(L_main, -2);
         lua_pushlstring(L_main, request_string, req_len);
         if (lua_pcall(L_main, 1, 1, 0) != LUA_OK)
                 luaL_error(L_main, "Problem calling lua function: %s",
