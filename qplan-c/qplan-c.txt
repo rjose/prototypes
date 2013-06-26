@@ -1,84 +1,63 @@
-QPlan C
-=======
+QPlan C Prototypes
+==================
 Rino Jose <@rjose>
-v1, Jun 25, 2013: Initial version
+v1, Jun 26, 2013: Initial version
 
+Drafting effort: [][]
 
 Overview
 --------
-TODO: Revise this so it looks like a prototype
-The v3 will be implemented in C. We will develop this in such a way that it is
-multithreaded and is built to handle web requests. A lua repl will be available.
-Its interface will be the same as for v1 and v2, but the underlying QPlan code
-will be written in C and exposed to lua through the interop.
+The point of these prototypes is to try out pieces of the CLS (commandline
+server) architecture for QPlan. The app logic should be entirely in lua files.
+This enables us to have high flexibility when working within a domain. It also
+lets us rapidly prototype and tweak the behavior of the app. These files
+should be self-contained and runnable using a standard lua interpreter.
 
-We'll add support for generating and parsing JSON. This will be the main way to
-communicate information across the lua boundary (for complex structures). This
-is also required for the web interface.
+The production version of the app should be written in C. This will consist of
+a main module that starts a lua repl and loads all of the app logic files
+described above. It customizes the repl commandline a little as well. The
+behavior of this app should be equivalent to the version run through the lua
+interpreter. However, the production version will also compile in other
+modules that are written in C/Lua.
 
-Implementation Strategy
------------------------
-We'll start by bringing over the unit tests one-by-one and running them through
-gnustep-tests. Here's the sequence:
+One module might be a web module that can listen/accept/handle web requests.
+The lua portions are specific to that module and should be self contained. In
+this case, we might have lua code to do regex matching on routes and do some
+of the more flexible string interpretation/manipulation. This module will have
+its own lua state separate from the repl lua state and run in its own thread.
+Both lua states will be guarded by their own mutex. The locking order should
+be main repl first followed by modules in alphabetical order.
 
-- test_work
-- test_plan
-- test_person
-- test_select
-- test_triage
-- test_reports
-- test_feasibility
-- test_read
-- test write
+Risks
+-----
+There are risks around having multiple lua states and threads. I haven't done
+this before. Other risks are figuring out how to best convert app data into
+JSON/HTML and sending it to clients.
 
-In bringing these tests over, we may decide to dramatically change them or even
-drop them altogether.
+Prototypes
+----------
+. Load a lua file from C [][]
+. Create multiple lua states and threads [][][][][][][][]
+. Simulate web requests and repl concurrency [][][][][][]
+. Serve an Ajax response [][][]
 
-Design Choices
-~~~~~~~~~~~~~~
-For the tag-like structures, we'll use linked lists instead of hashes. The
-number of items is relatively small (probably 3 to 5 items in most cases), so I
-think this will be fine.
 
-Details
+Proto1: Load a lua file from C
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This should be pretty straightforward. I think I'll start by copying all of
+the v2 code into a subdirectory of the prototype. I'll try to load it from the
+working directory via a standard lua interpreter and then write a proto.c file
+that does this from C. I'll use the
+link:https://github.com/rjose/prototypes/tree/master/lua_shell/proto6[lua_shell:proto6]
+as a starting point for this. Let's see if I can get this working before lunch
+:-)
+
+OK, was able to load data from files in a submodule. I had to set a
+"package.path" in the shell_functions.lua file. Let's check this in (sans
+data).
+
+
+
+
+Thougts
 -------
-
-.Port test_work [X][X][X][X][X][X][X][X][X][X]
-Alright, the first thing we'll do is get the shell of the test running via
-gnustep-tests. Done. I got part of the work init function coded up. Before I go
-on, I want to implement generic tag parsing. For this, we want to split on ","
-to get the pairs, and then split each pair on ":".
-
-I'll code up storing the tag values and then walk through both this and the
-Tag_free function in gdb. Done! Alright, let's code up the work test
-functions now. We'll need to define a structure and a function to build a work
-item. Done. I also added the ability to translate estimates into weeks. Now,
-let's start store the week estimates in the estimate tags as they're created.
-Done. 
-
-Alright, I spent some time working through some
-link:https://github.com/rjose/prototypes/tree/master/assoc_array/proto4[AssocArray
-prototypes]. I'll bring that code over and use it for the rest of the work
-tests. I think I'll also use this to replace the tag linked lists with
-AssocArrays. What's the best way to proceed? Maybe I should change the tests
-first and then work backwards.
-
-The last part of porting the test_work.lua over is summing demand. Because we'll
-be filtering and rearranging work, I think it would be best to pass in an array
-of pointers to work items and sum number of them.
-
-Thoughts
---------
-I should bring the assoc array tests over, too.
-
-I need to get rid of tag values. It's just confusing. We should just store the
-text of the tag, not any of the values.
-
-I think we need to get rid of Tags. They're just making things too complicated.
-I need to think about how to handle the estimate tags. Having two sets of them
-is bad.
-
-I need to do a memory management audit and come up with some guidelines. I need
-to do some general cleanup as well. One other thing is that all of this really
-should have been part of a prototype directory. I'll set one up and then copy
-this over.
