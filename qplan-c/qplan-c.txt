@@ -39,9 +39,10 @@ Prototypes
 . Rewrite qplan in C (ABANDONED)
 . link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto2[Load a lua file from C]
       [X][X]
-. Create multiple lua states and threads [][][][][][][][]
-. Simulate web requests and repl concurrency [][][][][][]
-. Serve an Ajax response [][][]
+. Create multiple lua states and threads [X][][][][][][][]
+. Hook up handling HTTP requests [][][][][][][]
+. Serve an Ajax response [][][][]
+. Establish a websocket connection [][][][][][]
 
 
 Proto2: Load a lua file from C
@@ -65,6 +66,31 @@ lots of stuff from readline in it. I don't need that for now, and it's just
 cluttering up the code. Let's remove this first.
 
 
+Proto3: Create multiple lua states and threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We should create the lua states and associated mutexes in the main function
+and then pass them to the threads. One thread should be thre REPL. The second
+thread should just do a sleep/loop and print out some message. We'll need to
+make sure the REPL thread locks both mutexes before doing an operation and
+then unlocks both mutexes afterwards. We should create a structure that
+contains pointers to the states and the mutexes. We'll create a web module
+thread automatically, but in the real version, we'll start this via a lua
+function.
 
-Thougts
--------
+OK, let's mess with the main state from the other thread. We'll call the "sc"
+function to change the cutline repeatedly. We'll check what it is in the repl.
+Done! Alright, this looks pretty good.
+
+One thing I'd like to clean up is allowing us to specify the data to load from
+the commandline.
+
+Proto4: Hook up handling HTTP requests
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+First step is to port over the work from the serve_http prototypes. TODO:
+Figure out which one!
+
+
+
+Thoughts
+--------
+We could do a check that the mutexes were locked in the right order.
