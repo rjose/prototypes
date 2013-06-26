@@ -5,6 +5,9 @@ Work = require('work')
 Reader = require('reader')
 Writer = require('writer')
 func = require('functional')
+web = require('web')
+
+handle_request = web.handle_request
 
 require('string_utils')
 

@@ -43,7 +43,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto3[
       Create multiple lua states and threads]
       [X][X][][][][][][]
-. Hook up handling HTTP requests [X][][][][][][]
+. Hook up handling HTTP requests [X][X][X][][][][]
 . Serve an Ajax response [][][][]
 . Establish a websocket connection [][][][][][]
 
@@ -100,7 +100,22 @@ the port. Done. Let's free the memory we're allocating next. Done!
 Alright, now let's bring over the tcp_io code and actually get the request and
 send a response. Done! Let's check in.
 
+The next step is to feed the request into lua and have lua generate the
+appropriate response. There will be app-specific pieces and generic pieces.
+We'll write everything as app-specific for now. We should also be able to
+construct some unit tests in lua once we understand what the requests look
+like. I think all of this can happen in the main lua state.
+
+Let's build up a string for storing all of the request lines. Done. Now, let's
+add a web.handle_request function that we'll call from the handler routine.
+Done. We can return a response now. Let's check in and then send some data.
 
 Thoughts
 --------
 We could do a check that the mutexes were locked in the right order.
+
+Would we ever need to use the web state? I was originally thinking this would
+be for sending data from the repl. Why couldn't we just do that with a C-coded
+module? I think this might be the way to go.
+
+Figure out how to call a function in a submodule from C.

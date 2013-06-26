@@ -96,28 +96,61 @@ static void *repl_routine(void *arg)
 
 static void *handle_request_routine(void *arg)
 {
-	char buf[MAXLINE];
         WebHandlerContext *req_context = (WebHandlerContext *)arg;
+        char *request_string;
+	char buf[MAXLINE];
         int connfd = req_context->connfd;
+        int cur_len;
+        int str_capacity;
+        int req_len = 0;
+        lua_State *L_main = req_context->context->main_lua_state;
+        int i;
+        int res_len;
+        char *tmp;
+        char *res_str;
+
+        if ((request_string = malloc(sizeof(char) * MAXLINE)) == NULL)
+                err_abort(-1, "Couldn't allocate memory");
+        str_capacity = MAXLINE;
 
 
         if (pthread_detach(pthread_self()) != 0)
                 err_abort(-1, "Couldn't detach thread");
 
         // TODO: Need a timeout for malformed requests
-	while (my_readline(connfd, buf, MAXLINE) > 0) {
-                // TODO: Use lua to parse this data
+	while ((cur_len = my_readline(connfd, buf, MAXLINE)) > 0) {
 		if (strcmp(buf, "\r\n") == 0)
 			break;
+
+                /*
+                 * Build request string
+                 */
+                if ((req_len + cur_len) >= str_capacity) {
+                        if ((request_string = realloc(request_string,
+                            sizeof(char) * (str_capacity + MAXLINE))) == NULL)
+                                err_abort(-1, "Couldn't realloc memory");
+
+                        str_capacity += MAXLINE;
+                }
+                for (i = 0; i < cur_len; i++)
+                        request_string[req_len++] = buf[i];
 	}
+        request_string[req_len] = '\0';
 
+        lock_main(req_context->context);
+        lua_getglobal(L_main, "handle_request");
+        lua_pushlstring(L_main, request_string, req_len);
+        if (lua_pcall(L_main, 1, 1, 0) != LUA_OK)
+                luaL_error(L_main, "Problem calling lua function: %s",
+                                lua_tostring(L_main, -1));
+        /* Copy result string */
+        tmp = lua_tolstring(L_main, -1, &res_len);
+        if ((res_str = (char *)malloc(sizeof(char)*res_len)) == NULL)
+                err_abort(-1, "Couldn't allocate memory");
+        strncpy(res_str, tmp, res_len);
+        unlock_main(req_context->context);
 
-        // TODO: Use lua to construct a response
-	my_writen(connfd, "HTTP/1.1 200 OK\r\n", 17);
-	my_writen(connfd, "Content-Length: 28\r\n", 20);
-	my_writen(connfd, "Content-Type: text/html\r\n", 25);
-	my_writen(connfd, "\r\n", 2);
-	my_writen(connfd, "<html><body>Hi</body></html>\r\n", 30);
+        my_writen(connfd, res_str, res_len);
 
         close(connfd);
         free(req_context);
