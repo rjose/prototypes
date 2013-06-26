@@ -95,7 +95,10 @@ link:https://github.com/rjose/prototypes/blob/master/serve_http/proto4/proto4.m[
 prototypes]. I think it might be simpler to create a new thread per request.
 We can start with that. OK, I have something that compiles. Let's try curling
 it and seeing if we see the request. It works! Before we go on, let's reuse
-the port
+the port. Done. Let's free the memory we're allocating next. Done!
+
+Alright, now let's bring over the tcp_io code and actually get the request and
+send a response. Done! Let's check in.
 
 
 Thoughts

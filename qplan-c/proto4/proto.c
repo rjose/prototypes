@@ -15,6 +15,8 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#include "tcp_io.h"
+
 #define SA struct sockaddr
 #define LISTENQ 1024
 #define MAXLINE 1024
@@ -94,14 +96,31 @@ static void *repl_routine(void *arg)
 
 static void *handle_request_routine(void *arg)
 {
+	char buf[MAXLINE];
         WebHandlerContext *req_context = (WebHandlerContext *)arg;
+        int connfd = req_context->connfd;
+
+
         if (pthread_detach(pthread_self()) != 0)
                 err_abort(-1, "Couldn't detach thread");
 
-        // TODO: Handle q request here
-        printf("Got a request!\n");
+        // TODO: Need a timeout for malformed requests
+	while (my_readline(connfd, buf, MAXLINE) > 0) {
+                // TODO: Use lua to parse this data
+		if (strcmp(buf, "\r\n") == 0)
+			break;
+	}
 
-        close(req_context->connfd);
+
+        // TODO: Use lua to construct a response
+	my_writen(connfd, "HTTP/1.1 200 OK\r\n", 17);
+	my_writen(connfd, "Content-Length: 28\r\n", 20);
+	my_writen(connfd, "Content-Type: text/html\r\n", 25);
+	my_writen(connfd, "\r\n", 2);
+	my_writen(connfd, "<html><body>Hi</body></html>\r\n", 30);
+
+        close(connfd);
+        free(req_context);
         return NULL;
 }
 
