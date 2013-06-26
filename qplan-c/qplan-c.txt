@@ -43,7 +43,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/master/qplan-c/proto3[
       Create multiple lua states and threads]
       [X][X][][][][][][]
-. Hook up handling HTTP requests [][][][][][][]
+. Hook up handling HTTP requests [X][][][][][][]
 . Serve an Ajax response [][][][]
 . Establish a websocket connection [][][][][][]
 
@@ -87,12 +87,15 @@ allowing us to specify the data to load from the commandline. Done!
 
 Wow, that prototype was much easier than I was expecting.
 
+
 Proto4: Hook up handling HTTP requests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 First step is to port over the work from one of the
 link:https://github.com/rjose/prototypes/blob/master/serve_http/proto4/proto4.m[serve_http
 prototypes]. I think it might be simpler to create a new thread per request.
-We can start with that.
+We can start with that. OK, I have something that compiles. Let's try curling
+it and seeing if we see the request. It works! Before we go on, let's reuse
+the port
 
 
 Thoughts
