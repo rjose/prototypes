@@ -37,7 +37,7 @@ int aa_set_element(AssocArray *array, const AssocArrayElem *elem)
 
         for (i=0; i < array->num_elements; i++) {
                 e = array->elements + i;
-                if (array->compare(e->key.vval, elem->key.vval) == 0) {
+                if (array->compare(e, elem) == 0) {
                         // TODO: Think about who should free previous
                         // element's memory
                         *e = *elem;
@@ -70,11 +70,13 @@ int aa_set_element(AssocArray *array, const AssocArrayElem *elem)
 AssocArrayElem *aa_get_element(const AssocArray *array, void *key)
 {
         AssocArrayElem *e;
+        AssocArrayElem tmp;
+        tmp.key.vval = key;
         int i;
 
         for (i=0; i < array->num_elements; i++) {
                 e = array->elements + i;
-                if (array->compare(e->key.vval, key) == 0) {
+                if (array->compare(e, &tmp) == 0) {
                         return e;
                 }
         }
@@ -102,7 +104,10 @@ int aa_reduce(AssocArray *result, const AssocArray **assoc_arrays, size_t n,
 
 int aa_string_compare(const void *k1, const void *k2)
 {
-        return strcmp((const char *)k1, (const char *)k2);
+        AssocArrayElem *key1 = (AssocArrayElem *)k1;
+        AssocArrayElem *key2 = (AssocArrayElem *)k2;
+
+        return strcmp(key1->key.sval, key2->key.sval);
 }
 
 

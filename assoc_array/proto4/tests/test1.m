@@ -89,6 +89,7 @@ static void test_aa_reduce()
 static int destroy_running_totals(AssocArrayElem *elem)
 {
         free(elem->val.vval);
+        return 0;
 }
 
 
