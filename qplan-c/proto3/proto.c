@@ -111,13 +111,21 @@ static void *web_routine(void *arg)
 
 int main(int argc, char *argv[])
 {
+        int version;
 	void *thread_result;
-	int status;
+	long status;
         pthread_mutex_t main_mutex = PTHREAD_MUTEX_INITIALIZER;
         pthread_mutex_t web_mutex = PTHREAD_MUTEX_INITIALIZER;
 
         pthread_t repl_thread_id;
         pthread_t web_thread_id;
+
+        if (argc < 2) {
+                printf("Usage: qplan <version>\n");
+                return 1;
+        }
+
+        version = strtol(argv[1], NULL, 0);
 
         /*
          * Create lua states
@@ -137,9 +145,9 @@ int main(int argc, char *argv[])
                 luaL_error(L_main, "Problem requiring shell functions: %s",
                                 lua_tostring(L_main, -1));
 
-        /* TODO: specify this from the commandline args */
+        /* Load version specified from commandline */
         lua_getglobal(L_main, "s");
-        lua_pushnumber(L_main, 8);
+        lua_pushnumber(L_main, version);
         if (lua_pcall(L_main, 1, 0, 0) != LUA_OK)
                 luaL_error(L_main, "Problem calling lua function: %s",
                                 lua_tostring(L_main, -1));

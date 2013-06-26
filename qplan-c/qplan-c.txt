@@ -86,9 +86,10 @@ the commandline.
 
 Proto4: Hook up handling HTTP requests
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-First step is to port over the work from the serve_http prototypes. TODO:
-Figure out which one!
-
+First step is to port over the work from one of the
+link:https://github.com/rjose/prototypes/blob/master/serve_http/proto4/proto4.m[serve_http
+prototypes]. I think it might be simpler to create a new thread per request.
+We can start with that.
 
 
 Thoughts
