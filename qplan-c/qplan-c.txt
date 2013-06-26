@@ -36,7 +36,7 @@ JSON/HTML and sending it to clients.
 
 Prototypes
 ----------
-. Load a lua file from C [][]
+. Load a lua file from C [X][]
 . Create multiple lua states and threads [][][][][][][][]
 . Simulate web requests and repl concurrency [][][][][][]
 . Serve an Ajax response [][][]
@@ -55,6 +55,13 @@ as a starting point for this. Let's see if I can get this working before lunch
 OK, was able to load data from files in a submodule. I had to set a
 "package.path" in the shell_functions.lua file. Let's check this in (sans
 data).
+
+Alright, let's try building part of the lua_shell prototype. Done! I was able
+to load the shell functions from the custom repl. Let's see if we can load
+these automatically. Done!
+
+TODO: Clean up the file
+TODO: Add tests
 
 
 
