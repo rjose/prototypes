@@ -39,7 +39,7 @@ function TestParseRequest:setUp()
         tmp[#tmp+1] = "GET / HTTP/1.1"
         tmp[#tmp+1] = "Host: localhost:8888"
         tmp[#tmp+1] = 'Cookie: name="Borvo"; auth="123"'
-        self.request_string_w_route = table.concat(tmp, "\r\n")
+        self.request_string_w_cookies = table.concat(tmp, "\r\n")
 end
 
 
@@ -47,5 +47,31 @@ function TestParseRequest:test_parse_simple_request()
         local req = RequestParser.parse_request(self.request_string)
         assertEquals(req.method, "GET")
         assertEquals(req.request_target, "/")
+        assertEquals(req.headers['host'], "localhost:8888")
 end
 
+
+function TestParseRequest:test_request_with_route()
+        local req = RequestParser.parse_request(self.request_string_w_route)
+        assertEquals(req.method, "GET")
+        assertEquals(req.request_target, "/app/web/rrt")
+end
+
+
+function TestParseRequest:test_request_with_query()
+        local req = RequestParser.parse_request(self.request_string_w_query)
+        assertEquals(req.method, "GET")
+        assertEquals(req.request_target, "/app/web/rbt?triage=1&track=sop")
+        assertEquals(req.qparams.triage, {"1"})
+        assertEquals(req.qparams.track, {"sop"})
+end
+
+
+function TestParseRequest:test_request_with_cookies()
+        local req = RequestParser.parse_request(self.request_string_w_cookies)
+        assertEquals(req.method, "GET")
+        assertEquals(req.request_target, "/")
+        assertEquals(req.headers.cookie, 'name="Borvo"; auth="123"')
+        assertEquals(req.cookies['name'], "Borvo")
+        assertEquals(req.cookies['auth'], "123")
+end

@@ -19,7 +19,7 @@ sketched out on 6/28/2013.
 
 Prototypes
 ----------
-. Parse requests [X][X][][]
+. Parse requests [X][X][X][]
 . Route requests [][][][]
 . Construct responses [][][][][][]
 
@@ -37,7 +37,12 @@ request function that takes a string and returns a table whose fields are the
 elements of the request. All fields are lowercase.
 
 Alright, let's add some tests for this. I want to parse valid requests, handle
-invalid request, parse query strings, and cookies. 
+invalid request, parse query strings, and cookies. For query strings, a
+parameter can be repeated. For this reason, we'll have the values of the
+parsed query params be arrays. We should be able to implement the query params
+and cookies in the next pomodoro. We should parse the request target into
+pieces up front. Alright, can parse the query params. Let's go to cookies
+next.
 
 Proto2: Route requests
 ~~~~~~~~~~~~~~~~~~~~~~
