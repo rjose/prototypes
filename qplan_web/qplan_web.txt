@@ -22,7 +22,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/master/qplan_web/proto1[
       Parse requests]
       [X][X][X][X]
-. Route requests [X][X][][][]
+. Route requests [X][X][X][][]
 . Construct responses [][][][][][]
 
 
@@ -57,7 +57,13 @@ through.
 
 Let's start by implementing the static handler. This should serve files from a
 "public" directory. The path should be used to look up resources. Alright, I'm
-able to get the index.html file. Next up, let's try getting a css file.
+able to get the index.html file. Next up, let's try getting a css file. OK,
+can serve javascript and generic HTML files.
+
+Next up is routing to an app handler. I don't think we need an API handler
+(data API, that is) because everything will ultimately be in spreadsheets.
+This is where people should go to get data. We *will* need an app handler to
+support our various apps.
 
 Proto3: Construct responses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

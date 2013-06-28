@@ -12,7 +12,7 @@ function construct_response(code, content_type, content)
         local tmp = {}
         tmp[#tmp+1] = string.format("HTTP/1.1 %d %s", code, phrases[code])
         tmp[#tmp+1] = string.format("Content-Length: %d", content:len())
-        tmp[#tmp+1] = string.format("Content-Type: text/html", content_type)
+        tmp[#tmp+1] = string.format("Content-Type: %s", content_type)
         tmp[#tmp+1] = ""
         tmp[#tmp+1] = content
         return table.concat(tmp, "\r\n")
@@ -25,7 +25,6 @@ function static_file_router(req)
         local content_type = "text/html"
         local path_pieces = req.path_pieces
 
-        -- Look for index.html
         if (#req.path_pieces == 1 and req.path_pieces[1] == '') then
                 path_pieces = {"", "index.html"}
         elseif req.path_pieces[2] == 'css' then
@@ -48,7 +47,29 @@ function static_file_router(req)
         return result
 end
 
-RequestRouter.routers = {static_file_router}
+function app_router(req)
+        -- Need something like "/app/web/rbt"
+        if #req.path_pieces < 3 then
+                return nil
+        end
+
+        if req.path_pieces[2] ~= "app" then
+                return nil
+        end
+
+        -- NOTE: This is where we'll actually need to hook into qplan UI code
+        local content_type = "application/json"
+        local content = [[{
+                "track_names": ["T1", "T2", "T3"]
+        }
+        ]]
+
+        result = construct_response(200, content_type, content)
+        return result
+end
+
+-- Set up routers
+RequestRouter.routers = {app_router, static_file_router}
 
 function RequestRouter.route_request(req)
         local result
