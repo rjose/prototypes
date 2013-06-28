@@ -1,0 +1,57 @@
+QPlan Web Prototypes
+====================
+Rino Jose <@rjose>
+v1, Jun 28, 2013: Initial version
+
+Drafting effort: [X][]
+
+Overview
+--------
+What we want to do here is develop the generic QPlan web module. This should
+provide facilities for listening for web requests, spinning up threads to
+handle them, parsing requests, and constructing responses by accessing the
+qplan app logic.
+
+We want to use this as an opportunity to divide the current qplan code into
+well-defined pieces and establish some conventions for what functions can be
+called by which piece. This will fit into the "wheel" architecture that I
+sketched out on 6/28/2013.
+
+Prototypes
+----------
+. Parse requests [X][X][][]
+. Route requests [][][][]
+. Construct responses [][][][][][]
+
+
+Proto1: Parse requests
+~~~~~~~~~~~~~~~~~~~~~~
+We'll have reqests for a root page and requests that hit JSON endpoints.
+That's all I want to handle right now. If we can do this, then we'll unblock
+web development.
+
+Let's start by taking a request string that we get from Chrome and seeing if
+we can parse it. I'm just going to hack this up to start. Afterwards, I'll
+move this to a test. OK, here's what I'm thinking. We should have a parse
+request function that takes a string and returns a table whose fields are the
+elements of the request. All fields are lowercase.
+
+Alright, let's add some tests for this. I want to parse valid requests, handle
+invalid request, parse query strings, and cookies. 
+
+Proto2: Route requests
+~~~~~~~~~~~~~~~~~~~~~~
+The point of this is to look at parsed request info and decide which function
+to call to generate a response.
+
+Proto3: Construct responses
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Here, we'll build functions that can take a request and then access the QPlan
+app logic layer to generate a response. We'll need some mechanism for
+rendering JSON. We may want to follow a rack-like architecture and allow
+responses to be chained. That might be getting a little fancy, but I don't
+think there's any harm in looking at it this way to start.
+
+
+Thoughts
+--------
