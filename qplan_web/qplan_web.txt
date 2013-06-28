@@ -21,8 +21,8 @@ Prototypes
 ----------
 . link:https://github.com/rjose/prototypes/tree/master/qplan_web/proto1[
       Parse requests]
-      [X][X][X][]
-. Route requests [][][][]
+      [X][X][X][X]
+. Route requests [X][X][][][]
 . Construct responses [][][][][][]
 
 
@@ -49,7 +49,15 @@ next.
 Proto2: Route requests
 ~~~~~~~~~~~~~~~~~~~~~~
 The point of this is to look at parsed request info and decide which function
-to call to generate a response.
+to call to generate a response. In proto1, we've parsed out the path pieces as
+part of the query param parsing. What we want to do is decide whether to make
+an app call of some kind or a static request. I wonder if we should have a
+series of filters. If any of them returns true, then we'll stop passing them
+through.
+
+Let's start by implementing the static handler. This should serve files from a
+"public" directory. The path should be used to look up resources. Alright, I'm
+able to get the index.html file. Next up, let's try getting a css file.
 
 Proto3: Construct responses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~

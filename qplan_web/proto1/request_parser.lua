@@ -48,7 +48,7 @@ function RequestParser.parse_request(req_str)
         end
         result.headers = headers
 
-        -- Parse query params
+        -- Parse out path pieces and query params
         local qparams_pieces = result.request_target:split("?")
         result.path_pieces = qparams_pieces[1]:split("/")
 
