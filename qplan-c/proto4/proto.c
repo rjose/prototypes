@@ -145,11 +145,13 @@ static void *handle_request_routine(void *arg)
         if (lua_pcall(L_main, 1, 1, 0) != LUA_OK)
                 luaL_error(L_main, "Problem calling lua function: %s",
                                 lua_tostring(L_main, -1));
+        // TODO: free request_string at some point
         /* Copy result string */
         tmp = lua_tolstring(L_main, -1, &res_len);
         if ((res_str = (char *)malloc(sizeof(char)*res_len)) == NULL)
                 err_abort(-1, "Couldn't allocate memory");
         strncpy(res_str, tmp, res_len);
+        lua_pop(L_main, 1);
         unlock_main(req_context->context);
 
         my_writen(connfd, res_str, res_len);
