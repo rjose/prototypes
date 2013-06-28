@@ -1,7 +1,7 @@
 QPlan Web Prototypes
 ====================
 Rino Jose <@rjose>
-v1, Jun 28, 2013: Initial version
+v1, Jun 28, 2013: Finished parsing requests
 
 Drafting effort: [X][]
 
@@ -19,7 +19,9 @@ sketched out on 6/28/2013.
 
 Prototypes
 ----------
-. Parse requests [X][X][X][]
+. link:https://github.com/rjose/prototypes/tree/master/qplan_web/proto1[
+      Parse requests]
+      [X][X][X][]
 . Route requests [][][][]
 . Construct responses [][][][][][]
 
