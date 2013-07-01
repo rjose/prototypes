@@ -1,0 +1,149 @@
+QPlan Lang Prototypes
+=====================
+Rino Jose <@rjose>
+v1, Jun 29, 2013: Initial version
+
+Overview
+--------
+Currently, we're just using a lua shell for our commandline interface. It's
+fine, but it could be much more efficient. Not sure if we need a specific
+language or if we just need something that works better at the commandline. I
+don't want to have to use parentheses. That kind of eliminates anything
+lisp-like. I want functional elements. It would be nice if we could show the
+current filters automatically (this isn't necessarily part of the language, but
+it could be part of the prompt). I'm thinking we should use something like a
+modified shell syntax.
+
+Details
+~~~~~~~
+Everything should be pipable. We could set a namespace within each pipe using
+something like "filter:"
+
+.....
+qplan> w | filter: ac + tri 1 1.5 + tra sop | bt | s
+qplan> w | filter: ac + tri 1 1.5 + tra sop | report: by track + s
+.....
+
+User defined variables are all caps.
+
+.....
+qplan> deflast WSOP
+.....
+
+Should be able to use "subtraction" to remove parts of the pipe.
+
+.....
+qplan> WSOP - 1
+.....
+
+We should be able to pipe data through the shell:
+
+.....
+qplan> WSOP -1 | !planify.sh 
+.....
+
+However, this will convert the stream into straight text.
+
+What about substituting parts of the pipe?
+
+.....
+qplan> WSOP s/tra sop/tra tab/
+qplan> WSOP s/$2/filter: bc + tri 1 1.5 + tra sop/
+.....
+
+What about substituting within a part of a pipe?
+
+.....
+qplan> WSOP s/$2.-1/filter: tra tab/
+qplan> WSOP s/$2.-1/filter: tra tab/ - 1
+.....
+
+Can use parens for grouping.
+
+Can gather results:
+
+.....
+qplan> WSOP + WTAB + WAUS | report: s
+.....
+
+What about mapping? I think we should be define mappings over work items.
+
+.....
+qplan> map .name + .estppl + .tags Track (WSOP WTAB WAUS) | ws: raw
+.....
+
+What about generic definition?
+
+.....
+qplan> def WALL (WSOP WTAB WAUS)
+.....
+
+Should be able to execute raw lua:
+
+.....
+qplan> l: print("Howdy")
+.....
+
+Should be able to generate websocket broadcasts:
+
+.....
+qplan> WSOP | ws: pie
+qplan> WSOP | select .tag Track + .estppl | ws: pie
+qplan> WSOP | select .estppl | ws: pie
+qplan> WSOP | select .tag Track + .estppl | ws: stack
+.....
+
+All data is sent to websocket so people can expand data as needed.
+
+
+
+Risks
+-----
+
+Prototypes
+----------
+. Create a lexer for QPlan [X][][][]
+. Create a parser for QPlan [][][][][]
+. Redesign QPlan to hook into language [][][][][][][][]
+
+
+Proto1: Create a lexer for QPlan 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+We'll use flex for this. What are the tokens? Let's examine a few examples above
+and see what stands out.
+
+- USER_FUNCTION_CALL: These are things like "w", "ac", "tri 1 1.5", "tra sop".
+  Functions may be work item sources, or filters, or reports.
+
+- PIPE: This is a "|" character. It sends the output from the left to the input
+  on the right.
+
+- PLUS: This is the "+" character. It's used to join similar functions together.
+  For example, it can join work item sources or it can join filters.
+
+- NAMESPACE: This looks like "filter:" in the text. The namespace would just be
+  "filter".
+
+- KEYWORD: Things like "def", "map", "s", "select"
+
+- USER_VARS: Things like "WSOP". These are all caps.
+
+- SLASH: this is the "/" character. It's used for defining substitutions
+
+- DOLLAR_VAR: This refers to a piece of a piped experssion. It looks like
+  "$2.-1"
+
+- MINUS: This is the "-" charcter. It's used to remove parts of a pipeline
+  starting from the end.
+
+- INTEGER: Just a number.
+
+- SHELL_CALL: Something like "!workify.sh"
+
+- LUA_CALL: Something like "l: print('Howdy')"
+
+- FIELD_SELECTOR: Something like ".tag Track" or ".estppl"
+
+- L_PAREN: "("
+
+- R_PAREN: ")"
