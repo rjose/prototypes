@@ -17,9 +17,17 @@ body {
 /* ============================================================================
  * Navigation
  */
+#main-heading {
+        position: fixed;
+        top: 10px;
+        margin: 0;
+        padding: 0;
+}
+
 #main-nav {
         position: fixed;
         z-index: 10;
+        margin-top: 60px;
 }
 
 #main-nav ul {
@@ -49,7 +57,7 @@ body {
 #track-selector {
         width: 235px;
         position: fixed;
-        margin-top: 50px;
+        margin-top: 70px;
 }
 
 #track-selector ul {
@@ -99,6 +107,7 @@ body {
 #main-content h3 {
         margin-top: 2em;
 }
+
 
 
 /* ============================================================================
