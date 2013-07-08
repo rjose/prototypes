@@ -1,7 +1,7 @@
 Web Layout Prototypes
 -====================
 Rino Jose <@rjose>
-v1, July 8, 2013: Finished proto 2
+v1, July 8, 2013: Finished proto 3
 
 Drafting effort: [][]
 
@@ -19,7 +19,9 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/cc0c7/web_layout/proto2[
       Add triage control and overview]
       [X][X][][][]
-. Add work details [X][X][]
+. link:https://github.com/rjose/prototypes/tree/a20e3/web_layout/proto3[
+      Add work details]
+      [X][X][]
 . Add track selector [][][]
 
 
