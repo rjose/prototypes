@@ -157,6 +157,10 @@ td.understaffed-true {
         font-weight: bold;
 }
 
+tr.net-left td {
+        border-top: 4px double #333;
+}
+
 
 /* ============================================================================
  * Work details table
