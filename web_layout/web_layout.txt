@@ -1,7 +1,7 @@
 Web Layout Prototypes
 -====================
 Rino Jose <@rjose>
-v1, July 8, 2013: Starting over
+v1, July 8, 2013: Added two column layout
 
 Drafting effort: [][]
 
@@ -13,7 +13,9 @@ setting up navigation elements.
 
 Prototypes
 ----------
-. Create positioned two column layout [X][X][X][][]
+. link:https://github.com/rjose/prototypes/tree/0ee1d/web_layout/proto1[
+      Create positioned two column layout]
+      [X][X][X][][]
 . Add triage control [][][]
 . Add Overview table [][][]
 . Add work details [][][]
