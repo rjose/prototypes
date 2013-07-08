@@ -1,0 +1,110 @@
+/* ============================================================================
+ * Body-wide styling
+ */
+body {
+        font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace
+}
+
+/*
+ * Wrapper for centering content
+ */
+.wrapper {
+        width: 940px;
+        margin: 0 auto 0 auto;
+        position: relative;
+}
+
+/* ============================================================================
+ * Navigation
+ */
+#main-nav {
+        position: fixed;
+        z-index: 10;
+}
+
+#main-nav ul {
+        list-style: none;
+        padding: 0px;
+        width: 940px;
+}
+
+#main-nav li {
+        display: inline-block;
+}
+
+#main-nav li a {
+        text-decoration: none;
+        padding: 0.7em 1em;
+        width: 8em;
+
+        background-color: #444;
+        border-right: 1px dotted white;
+        color: #CCC;
+}
+
+#track-selector {
+        width: 235px;
+        position: fixed;
+        border: 1px dotted red;
+        margin-top: 50px;
+}
+
+
+/* ============================================================================
+ * Main content
+ */
+#main-content section {
+        position: absolute;
+        top: 0;
+        border: 1px dotted red;
+        margin-top: 50px;
+}
+
+#main {
+        left: 235px;
+        width: 705px;
+        padding-left: 1em;
+}
+
+/* ============================================================================
+ * Slider
+ */
+
+#triage-slider span {
+        display: inline-block;
+        vertical-align: middle;
+}
+
+#triage-slider input {
+        vertical-align: middle;
+        display: inline-block;
+}
+
+/* ============================================================================
+ * Overview table
+ */
+
+table.stats {
+        border-collapse: collapse;
+}
+
+.stats th.col-head {
+        width: 6em;
+        text-align: center;
+}
+
+.stats th.row-head {
+        text-align: right;
+        padding-right: 0.5em;
+}
+
+.stats td {
+        text-align: center;
+        border: 1px solid gray;
+        height: 1.5em;
+} 
+
+td.understaffed-true {
+        color: red;
+        font-weight: bold;
+}
