@@ -19,7 +19,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/cc0c7/web_layout/proto2[
       Add triage control and overview]
       [X][X][][][]
-. Add work details [][][]
+. Add work details [X][X][]
 . Add track selector [][][]
 
 
@@ -56,7 +56,8 @@ Proto3: Add work details
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Next up is adding the work details. Let's just show rank, track, item, and
 estimates. We'll also show the cutline and the feasible range. Let's get some
-phony data in place and start styling.
+phony data in place and start styling. OK, initial styling is done. Let's add
+the feasible range. Done. Let's check in.
 
 Thoughts
 --------

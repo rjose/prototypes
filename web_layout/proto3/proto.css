@@ -75,6 +75,10 @@ body {
  * Slider
  */
 
+#triage-slider {
+        margin-bottom: 2em;
+}
+
 #triage-slider span {
         display: inline-block;
         vertical-align: middle;
@@ -135,6 +139,10 @@ table.work-details {
         width: 3em;
 }
 
+.work-details .field-triage {
+        width: 2em;
+}
+
 .work-details .field-track {
         width: 5em;
 }
@@ -146,3 +154,6 @@ table.work-details {
 .work-details .field-estimates {
 }
 
+.feasible-false td {
+        color: red;
+}
