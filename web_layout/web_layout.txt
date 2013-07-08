@@ -1,0 +1,34 @@
+Web Layout Prototypes
+-====================
+Rino Jose <@rjose>
+v1, July 8, 2013: Starting over
+
+Drafting effort: [][]
+
+Overview
+--------
+I want to understand the options for doing web layout. I want to explore
+floating layouts and grid layouts. I want to understand positioning and
+setting up navigation elements.
+
+Prototypes
+----------
+. Create positioned two column layout [][][]
+. Create grid-based two column layout [][][][]
+. Add top navigation [][][][]
+
+
+Proto1: Create floating two column layout
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This will basically follow what's laid out in the CSS Anthology book. I'll add
+outlines so I can see the blocks. I'll have a section for the track selector
+and one for the main content. From the w3.org site on
+link:http://www.w3.org/wiki/HTML_structural_elements#.3Csection.3E[structural
+tags], they say that one valid use for divs is for grouping areas of content
+for styling.
+
+Alright, I got something working where I positioned the sections. Let's check
+this in.
+
+Thoughts
+--------
