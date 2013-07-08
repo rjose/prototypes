@@ -42,11 +42,37 @@ body {
         color: #CCC;
 }
 
+#main-nav li.selected a {
+        background-color: blue;
+}
+
 #track-selector {
         width: 235px;
         position: fixed;
-        border: 1px dotted red;
         margin-top: 50px;
+}
+
+#track-selector ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        width: 215px;
+}
+
+#track-selector li {
+        background-color: #444;
+        color: #CCC;
+        height: 2em;
+}
+
+#track-selector span {
+        display: block;
+        padding: 0.5em;
+        border: 1px dotted #CCC;
+}
+
+#track-selector li.selected {
+        background-color: blue;
 }
 
 
@@ -56,14 +82,18 @@ body {
 #main {
         left: 235px;
         width: 705px;
-        padding-left: 1em;
+        padding: 1em;
 }
 
 #main-content section {
         position: absolute;
         top: 0;
-        border: 1px dotted red;
-        margin-top: 50px;
+        border: 1px dotted gray;
+}
+
+#main-content h2 {
+        padding: 0;
+        margin: 0;
 }
 
 #main-content h3 {

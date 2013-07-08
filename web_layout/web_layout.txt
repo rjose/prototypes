@@ -61,5 +61,13 @@ estimates. We'll also show the cutline and the feasible range. Let's get some
 phony data in place and start styling. OK, initial styling is done. Let's add
 the feasible range. Done. Let's check in.
 
+Proto4: Add track selector
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+The next step is to add a track selector control. I need to highlight the
+selected control, too. OK, it looks ok. Let's move back to qplan/v4 and try to
+code it up.
+
 Thoughts
 --------
+- Can we have the work/staff + track selection be done by a primary
+  controller?
