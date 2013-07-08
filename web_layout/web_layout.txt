@@ -16,7 +16,7 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/0ee1d/web_layout/proto1[
       Create positioned two column layout]
       [X][X][X][][]
-. Add triage control [][][]
+. Add triage control [X][][]
 . Add Overview table [][][]
 . Add work details [][][]
 . Add track selector [][][]
@@ -37,6 +37,12 @@ OK, I added topline navigation.
 
 Let's add some bogus content and verify that the sticky menu works. Looks
 good. Let's check in.
+
+Proto2: Add triage control
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+There's a range control that I want to use. It would be nice if I could add
+labels for each triage level, too. Adding labels looks like some work.
+Instead, I'll just show the value after the triage slider.
 
 Thoughts
 --------
