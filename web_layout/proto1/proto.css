@@ -8,18 +8,43 @@ body {
         position: relative;
 }
 
-#track-selector {
+#main-nav {
+        position: fixed;
+}
+
+#main-nav ul {
+        list-style: none;
+        padding: 0px;
+}
+
+#main-nav li {
+        display: inline-block;
+}
+
+#main-nav li a {
+        text-decoration: none;
+        padding: 0.7em 1em;
+        width: 8em;
+
+        background-color: #444;
+        border-right: 1px dotted white;
+        color: #CCC;
+}
+
+
+#main-content section {
         position: absolute;
         top: 0;
-        left: 0;
-        width: 300px;
         border: 1px dotted red;
+        margin-top: 50px;
+}
+
+#track-selector {
+        left: 0;
+        width: 235px;
 }
 
 #main {
-        position: absolute;
-        top: 0;
-        left: 300px;
-        width: 640px;
-        border: 1px dotted red;
+        left: 235px;
+        width: 705px;
 }

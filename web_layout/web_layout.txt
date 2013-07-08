@@ -28,7 +28,8 @@ tags], they say that one valid use for divs is for grouping areas of content
 for styling.
 
 Alright, I got something working where I positioned the sections. Let's check
-this in.
+this in. OK, let's add a topline navigation. I guess I can position this, too.
+OK, I added topline navigation.
 
 Thoughts
 --------
