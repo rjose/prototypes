@@ -75,6 +75,14 @@ rendering JSON. We may want to follow a rack-like architecture and allow
 responses to be chained. That might be getting a little fancy, but I don't
 think there's any harm in looking at it this way to start.
 
+We're going to want to take the shell functions and web-ify them and then
+rewrite them to use the same data collection parts. I'd like to start by
+copying all of the files from
+link:https://github.com/rjose/products/tree/master/qplan/v2[qplan v2] over.
+
+The main C routine should set up what we set up in shell, shell_functions, and
+the various app UIs.
+
 
 Thoughts
 --------
