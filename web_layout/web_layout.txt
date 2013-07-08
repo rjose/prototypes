@@ -13,7 +13,7 @@ setting up navigation elements.
 
 Prototypes
 ----------
-. Create positioned two column layout [][][]
+. Create positioned two column layout [X][X][X]
 . Create grid-based two column layout [][][][]
 . Add top navigation [][][][]
 
@@ -30,6 +30,9 @@ for styling.
 Alright, I got something working where I positioned the sections. Let's check
 this in. OK, let's add a topline navigation. I guess I can position this, too.
 OK, I added topline navigation.
+
+Let's add some bogus content and verify that the sticky menu works. Looks
+good. Let's check in.
 
 Thoughts
 --------
