@@ -1,7 +1,7 @@
 Web Layout Prototypes
 -====================
 Rino Jose <@rjose>
-v1, July 8, 2013: Added two column layout
+v1, July 8, 2013: Finished proto 2
 
 Drafting effort: [][]
 
