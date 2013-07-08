@@ -13,9 +13,11 @@ setting up navigation elements.
 
 Prototypes
 ----------
-. Create positioned two column layout [X][X][X]
-. Create grid-based two column layout [][][][]
-. Add top navigation [][][][]
+. Create positioned two column layout [X][X][X][][]
+. Add triage control [][][]
+. Add Overview table [][][]
+. Add work details [][][]
+. Add track selector [][][]
 
 
 Proto1: Create floating two column layout
