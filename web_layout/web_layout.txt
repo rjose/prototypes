@@ -16,7 +16,9 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/0ee1d/web_layout/proto1[
       Create positioned two column layout]
       [X][X][X][][]
-. Add triage control and overview [X][X][][][]
+. link:https://github.com/rjose/prototypes/tree/cc0c7/web_layout/proto2[
+      Add triage control and overview]
+      [X][X][][][]
 . Add work details [][][]
 . Add track selector [][][]
 
@@ -48,6 +50,13 @@ available and net. Let's style the table next. Done.
 
 Before we go, let's style what happens when net left is less than or equal to
 zero.
+
+
+Proto3: Add work details
+~~~~~~~~~~~~~~~~~~~~~~~~
+Next up is adding the work details. Let's just show rank, track, item, and
+estimates. We'll also show the cutline and the feasible range. Let's get some
+phony data in place and start styling.
 
 Thoughts
 --------
