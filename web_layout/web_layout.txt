@@ -22,7 +22,8 @@ Prototypes
 . link:https://github.com/rjose/prototypes/tree/a20e3/web_layout/proto3[
       Add work details]
       [X][X][]
-. Add track selector [][][]
+. Add track selector [X][][]
+. Add staff column [][][][]
 
 
 Proto1: Create floating two column layout
@@ -66,6 +67,13 @@ Proto4: Add track selector
 The next step is to add a track selector control. I need to highlight the
 selected control, too. OK, it looks ok. Let's move back to qplan/v4 and try to
 code it up.
+
+Proto5: Add staff column
+~~~~~~~~~~~~~~~~~~~~~~~~
+What I want to do here is try adding a narrow third column to the layout to
+display staff. We may want to increase the total width of the content. I'll
+start with the qplan/v4 version that's working right now and add some mocked
+content. I should do this in a way that's easy to add and remove.
 
 Thoughts
 --------
