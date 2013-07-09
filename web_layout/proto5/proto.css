@@ -9,7 +9,6 @@ body {
  * Wrapper for centering content
  */
 .wrapper {
-        width: 940px;
         margin: 0 auto 0 auto;
         position: relative;
 }
@@ -22,36 +21,6 @@ body {
         top: 10px;
         margin: 0;
         padding: 0;
-}
-
-#main-nav {
-        position: fixed;
-        z-index: 10;
-        margin-top: 60px;
-}
-
-#main-nav ul {
-        list-style: none;
-        padding: 0px;
-        width: 940px;
-}
-
-#main-nav li {
-        display: inline-block;
-}
-
-#main-nav li a {
-        text-decoration: none;
-        padding: 0.7em 1em;
-        width: 8em;
-
-        background-color: #444;
-        border-right: 1px dotted white;
-        color: #CCC;
-}
-
-#main-nav li.selected a {
-        background-color: blue;
 }
 
 #track-selector {
@@ -113,6 +82,14 @@ body {
 }
 
 
+/* ============================================================================
+ * Staff content
+ */
+#staff {
+        left: 973px;
+        width: 235px;
+        padding: 1em;
+}
 
 /* ============================================================================
  * Slider

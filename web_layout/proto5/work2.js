@@ -17,9 +17,14 @@ function get_mocked_data() {
                 {rank: 22, triage: 2, track: 'Track Alpha', name: 'Something to do', estimate: 'Apps: Q, Native: 3S, Web: M'}
         ];
 
+        result.staff = {};
+        result.staff['Apps'] = ["Someone", "Someone Else", "Other"];
+        result.staff['Native'] = ["Another", "Other"];
+
         return result;
 }
 
+// TODO: Change this to a QPlanCtrl
 function WorkCtrl($scope, $http) {
         $scope.default_track = "All";
         $scope.tracks = [$scope.default_track];
@@ -40,6 +45,7 @@ function WorkCtrl($scope, $http) {
                 $scope.tracks = data.tracks;
                 $scope.staffing_stats = data.staffing_stats;
                 $scope.work_items = data.work_items;
+                $scope.staff = data.staff;
 //                $http.get('/app/web/work?triage=' + $scope.triage + "&track=" + $scope.selected_track).then(
 //                                function(res) {
 //                                        console.log("TODO: Handle the query args");
