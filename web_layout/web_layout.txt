@@ -73,13 +73,14 @@ Proto5: Add staff column
 What I want to do here is try adding a narrow third column to the layout to
 display staff. We may want to increase the total width of the content. I'll
 start with the qplan/v4 version that's working right now and add some mocked
-content. I should do this in a way that's easy to add and remove. Done.
+content. I should do this in a way that's easy to add and remove. Done.  Let's
+add some staff data next. Done.
 
-Let's add some staff data next.
-
-I need to rewrite my person awk script to add assignments.
+While we're here, let's highlight the current triage items. Done.
 
 Thoughts
 --------
 - Can we have the work/staff + track selection be done by a primary
   controller?
+- I need to rewrite my person awk script to add assignments.
+

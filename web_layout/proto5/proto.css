@@ -181,3 +181,7 @@ table.work-details {
 .feasible-false td {
         color: red;
 }
+
+.in-triage-true td:first-child {
+        border-left: 7px solid blue;
+} 
