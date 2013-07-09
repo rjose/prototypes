@@ -1,7 +1,7 @@
 Web Layout Prototypes
 -====================
 Rino Jose <@rjose>
-v1, July 8, 2013: Finished proto 3
+v1, July 8, 2013: Finished proto 5
 
 Drafting effort: [][]
 
@@ -23,7 +23,9 @@ Prototypes
       Add work details]
       [X][X][]
 . Add track selector [X][][]
-. Add staff column [][][][]
+. link:https://github.com/rjose/prototypes/tree/9c5729/web_layout/proto5[
+      Add staff column]
+      [X][][][]
 
 
 Proto1: Create floating two column layout
