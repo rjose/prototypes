@@ -1,0 +1,72 @@
+Verse Protos
+============
+Rino Jose <@rjose>
+v1, June 20, 2013: Initial version
+
+Overview
+--------
+The purpose of these prototypes is to explore some of the thoughts laid out in
+the link:https://github.com/rjose/product-specs/blob/master/verse.txt[verse
+specs]. Verse refers to a set of tools that interact with each other through
+well-defined, but informal interaces. Data comes from spreadsheets and goes
+back to spreadsheets. Every tool in Verse works for a short time and then
+stops. Long term storage is in other systems (Google Docs, JIRA, etc.)
+
+Risk
+----
+One risk is how will all of these tools fit together. I think the best thing
+to do here is to prototype a vertical slice through all of the tools. The
+intent will be to identify interfaces.
+
+Another risk is how the transient nature of the tools impacts things like a
+Tracker, a Scheduler, and a Work Combine which need to be running (at least
+seemingly) continuously.
+
+Protos
+------
+. Vertical Slice: Value to work schedule
+  [X][][][][][][]
+
+. Field a production issue
+  [][][][]][]
+
+. Generate a work list
+  [][][][][]
+
+. Notify someone that a dependency has been met
+  [][][][][]
+
+. Recompute product dashboard
+  [][][][][]
+
+
+Proto1: Vertical slice: value to work schedule
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+I want to create a bunch of miniature tools that can interact with each other.
+We'll need a way to read in data and maybe compute new data. We'll also need
+to simulate external systems like JIRA.
+
+So how will this work? Let's start with some high level goals. I think there
+are goals and targets. I'll have to revise this again later.
+
+We'll need to bring over our object and functional files. Let's start with a
+proto1.lua file and then break things out when they make sense.
+
+
+
+Thoughts
+--------
+We need to figure out how to handle multiple teams' data. We need to apply
+some hierarchy to highlight what's important. For the "Align/Value" piece,
+the first part is setting the goals and the objectives and tying these
+together. This provides guidance for the product teams. Another part of this
+is resolving conflicts across product teams. There are two main levers:
+reassigning people or moving work out of the current quarter. The summary view
+needs to show this and help make the decision.
+
+One summary view is to show all triaged 1s that are unresourced by team/track.
+Another view is showing skill shortages by team/track. This can also provide
+guidance for hiring. The data for this should come from individual tools that
+are running on different machines. These machines should communicate with the
+main machine via websockets. There should be a URL to get to each machine from
+the main high level view.
