@@ -1,0 +1,32 @@
+Base64 Functions
+================
+Rino Jose <@rjose>
+v1, July 10, 2013: Initial version
+
+Overview
+--------
+We need some functions for doing base64 encoding and decoding.
+
+Prototypes
+----------
+. Use openssl [][][]
+
+
+Proto1: Use openssl
+~~~~~~~~~~~~~~~~~~~
+I'm going to basically port the functions that from
+link:http://doctrina.org/Base64-With-OpenSSL-C-API.html[here]. I'll do a
+little renaming. I'll test this by comparing against running openssl from the
+commandline. For example:
+
+----
+$ echo "Hello" | openssl base64
+SGVsbG8K
+----
+
+Here's how to decode:
+
+----
+$ echo "SGVsbG8K" | openssl base64 -d
+Hello
+----
