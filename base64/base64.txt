@@ -43,3 +43,12 @@ Proto3: Write it from scratch
 Alright, let's go to the link:http://tools.ietf.org/html/rfc3548[spec] and see
 if we can code it up simply. We need a function/table where we can look up the
 character associated with an octet. I suppose a straight array is fastest.
+Alright, I got the encoding to work. Let's look at decoding next.
+
+To decode something, I think we should almost work backwards. We should see how
+many padding bytes we have. That will be needed to figure out how big the result
+array should be. Because we'll be decoding a regular string, it should be NUL
+terminated, so we won't need to pass in an explicit length. I should sketch out
+how we'll construct the 8-bit bytes.
+
+We need to test the decoding part more carefully to handle bad input.

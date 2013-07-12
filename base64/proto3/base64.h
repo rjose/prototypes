@@ -5,6 +5,6 @@
 #include <stdint.h>
 
 int base64_encode(char **dst, const uint8_t *src, size_t len);
-int base64_decode(char **dst, const char *b64_src);
+int base64_decode(uint8_t **dst, const char *src, size_t *data_len);
 
 #endif
