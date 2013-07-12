@@ -35,4 +35,11 @@ Proto2: Use C function
 ~~~~~~~~~~~~~~~~~~~~~~
 Let's try using some C functions that someone posted on stack overflow:
 link:http://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c[How
-do I base64 encode in C?]
+do I base64 encode in C?]. Kinda worked but didn't.
+
+
+Proto3: Write it from scratch
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alright, let's go to the link:http://tools.ietf.org/html/rfc3548[spec] and see
+if we can code it up simply. We need a function/table where we can look up the
+character associated with an octet. I suppose a straight array is fastest.
