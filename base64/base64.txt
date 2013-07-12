@@ -30,3 +30,9 @@ Here's how to decode:
 $ echo "SGVsbG8K" | openssl base64 -d
 Hello
 ----
+
+Proto2: Use C function
+~~~~~~~~~~~~~~~~~~~~~~
+Let's try using some C functions that someone posted on stack overflow:
+link:http://stackoverflow.com/questions/342409/how-do-i-base64-encode-decode-in-c[How
+do I base64 encode in C?]
