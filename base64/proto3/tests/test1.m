@@ -22,9 +22,18 @@ int main()
         pass(0 == strcmp(base64Output, "FPucA9l+"), "Encode data");
         free(base64Output);
 
+        base64_encode(&base64Output, data, 5);
+        pass(0 == strcmp(base64Output, "FPucA9k="), "Encode data");
+        free(base64Output);
+
+        base64_encode(&base64Output, data, 4);
+        pass(0 == strcmp(base64Output, "FPucAw=="), "Encode data");
+        free(base64Output);
+
         base64_encode(&base64Output, "Hello", 5);
         pass(0 == strcmp(base64Output, "SGVsbG8="), "Encode hello");
         free(base64Output);
+
 //
 //        if (base64Output)
 //                free(base64Output);
