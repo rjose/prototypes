@@ -5,6 +5,11 @@
 
 #define PADDING '='
 
+/* ============================================================================
+ * Static declarations
+ */
+static int char_to_data(char c, uint8_t *data);
+
 const static char digits64[] =
              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -111,7 +116,8 @@ int base64_encode(char **dst, const uint8_t *src, size_t len)
         return 0;
 }
 
-int char_to_data(char c, uint8_t *data)
+
+static int char_to_data(char c, uint8_t *data)
 {
         if (c >= 'A' && c <= 'Z')
                 *data = c - 'A';
@@ -137,8 +143,16 @@ int base64_decode(uint8_t **dst, const char *src, size_t *data_len)
         size_t src_len;
         uint8_t cur, leftover;
         uint8_t *result;
-        int return_code = -1;
 
+        /*
+         * First, we have to figure out how much memory we need and then
+         * allocate enough for the result.
+         *
+         * We start by looking at the src length. Because each byte in src has 6
+         * bits of data, to figure out the number of 8-bit bytes we need, we
+         * multiply the src length by 6 and then divide by 8. After that, we
+         * subtract off a byte for each padding byte in src.
+         */
         src_len = strlen(src);
         if (src_len == 0)
                 goto error;
@@ -153,6 +167,38 @@ int base64_decode(uint8_t **dst, const char *src, size_t *data_len)
         if ((result = (uint8_t *)malloc(res_len)) == NULL)
                 exit(-1);
         
+        /*
+         * Next, we decode the data.
+         *
+         * We'll decode byte-by-byte until we reach the end of src or hit a
+         * PADDING char. If anything goes wrong, we bail out. Note that the
+         * first 2 bits of each src byte are 0 since only 6 bits are used per
+         * src byte.
+         *
+         * There are 4 cases that cycle:
+         *
+         *   Case 0:
+         *   -------
+         *   This is the beginning of the cycle. All we can do is upshift the
+         *   6-bits of data in anticipation of future steps.
+         *
+         *   Case 1:
+         *   -------
+         *   We combine the bits from Case 0 with the first 2 data bits of
+         *   the current byte. The remaining 4 bits are upshifted for later.
+         *
+         *   Case 2:
+         *   -------
+         *   We take the 4 bits from Case 1 and combine with the first 4 data
+         *   bits of the current byte. The remaining 2 bits are upshifted for
+         *   later.
+         *
+         *   Case 3:
+         *   -------
+         *   Here, we combine the 2 bits from Case 2 with the 6 bits of the
+         *   current byte. There are no leftover bits at this point.
+         *
+         */
         res_index = 0;
         for (i = 0; i < src_len; i++) {
                 if (src[i] == PADDING)
@@ -182,20 +228,30 @@ int base64_decode(uint8_t **dst, const char *src, size_t *data_len)
                                 break;
                 }
         }
+
+        /*
+         * Any leftover bits are ready to be stored.
+         */
         if (leftover)
                 result[res_index++] = leftover;
 
+        /*
+         * Since we're constructing binary data, we have to let the caller know
+         * how many bytes are in the result.
+         */
         if (data_len)
                 *data_len = res_len;
 
+        /*
+         * Finally, we can return the result.
+         */
         *dst = result;
-
-        return_code = 0;
+        return 0;
 
 error:
         if (result)
                 free(result);
 
-        return return_code;
+        return -1;
 }
 
